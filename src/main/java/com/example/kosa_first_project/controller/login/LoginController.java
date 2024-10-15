@@ -1,14 +1,13 @@
-package com.example.kosa_first_project.controller;
+package com.example.kosa_first_project.controller.login;
 
 import org.springframework.ui.Model;
-import com.example.kosa_first_project.domain.UserDTO;
+import com.example.kosa_first_project.domain.login.UserDTO;
 import jakarta.servlet.http.HttpSession;
-import mybatis.dao.LoginMapper;
+import mybatis.dao.login.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
