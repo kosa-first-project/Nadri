@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신청자 정보</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+        .profile {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn.inactive {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile">
+    <h1>신청자 정보</h1>
+    <img id="profilePicture" src="" alt="프로필 사진">
+    <h2 id="nickname">닉네임: </h2>
+    <p id="name">이름: </p>
+    <p id="phone">전화번호: </p>
+    <p id="email">이메일: </p>
+    <p id="message">전달사항: </p>
+    
+    <div class="buttons" id="buttonContainer">
+        <!-- 버튼들이 여기에 동적으로 추가됩니다. -->
+    </div>
+</div>
+
+<script>
+    // 데모 데이터
+    const demoData = {
+        profilePicture: 'https://via.placeholder.com/100',
+        nickname: '사용자123',
+        name: '홍길동',
+        phone: '010-1234-5678',
+        email: 'example@example.com',
+        message: '이 신청자는 추가 정보가 필요합니다.',
+        status: '접수중'
+    };
+
+    // 신청자 정보를 화면에 출력하는 함수
+    function displayApplicantInfo(data) {
+        document.getElementById('profilePicture').src = data.profilePicture;
+        document.getElementById('nickname').textContent = `닉네임: ${data.nickname}`;
+        document.getElementById('name').textContent = `이름: ${data.name}`;
+        document.getElementById('phone').textContent = `전화번호: ${data.phone}`;
+        document.getElementById('email').textContent = `이메일: ${data.email}`;
+        document.getElementById('message').textContent = `전달사항: ${data.message}`;
+
+        // 버튼 렌더링
+        renderButtons(data.status);
+    }
+
+    const buttonConfig = {
+        '접수중': [
+            { text: '수락', active: true },
+            { text: '거절', active: true },
+            { text: '닫기', active: true },
+        ],
+        '수락': [
+            { text: '거절', active: true },
+            { text: '완료', active: true },
+            { text: '닫기', active: true },
+            { text: '초기화', active: true },
+        ],
+        '거절': [
+            { text: '수락', active: true },
+            { text: '닫기', active: true },
+            { text: '초기화', active: true },
+        ],
+        '완료': [
+            { text: '닫기', active: true },
+            { text: '완료취소', active: true },
+        ],
+        '접수취소': [
+            { text: '닫기', active: true },
+        ]
+    };
+
+    function renderButtons(status) {
+        const buttonContainer = document.getElementById('buttonContainer');
+        buttonContainer.innerHTML = ''; // 기존 버튼 제거
+
+        buttonConfig[status].forEach(button => {
+            const btn = document.createElement('button');
+            btn.textContent = button.text;
+            btn.className = `btn ${button.active ? 'active' : 'inactive'}`;
+            btn.disabled = !button.active; // 버튼 비활성화 설정
+            buttonContainer.appendChild(btn);
+        });
+    }
+
+    // 페이지 로드 시 데모 데이터 출력
+    window.onload = function() {
+        displayApplicantInfo(demoData);
+    };
+</script>
+
+</body>
+</html>
