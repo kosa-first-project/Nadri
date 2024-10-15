@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세 페이지</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        .container img {
+            width: 100%;
+            border-radius: 15px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .container h2 {
+            margin: 10px 0;
+            font-size: 28px;
+            color: #007bff;
+        }
+        .container p {
+            margin: 5px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .details {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            flex: 1;
+            margin: 0 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .button.cancel {
+            background-color: #f44336;
+        }
+        .button.cancel:hover {
+            background-color: #d32f2f;
+        }
+        @media (max-width: 600px) {
+            .button-container {
+                flex-direction: column;
+            }
+            .button {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="detailCard">
+    <img id="detailImage" src="https://via.placeholder.com/600x300" alt="상세 이미지">
+    <h2 id="detailTitle">제목: 예시 제목</h2>
+    <p id="detailRegion">지역: 예시 지역</p>
+    <p id="detailCapacity">수용 인원: 50</p>
+    <p id="detailPrice">금액: 100,000 원</p>
+    <p id="detailRating">평점: 4.5</p>
+    <p id="detailNickname">닉네임: 사용자123</p>
+    <div class="details">
+        <h4>상세 내역</h4>
+        <p id="detailDescription">여기에 상세한 내용이 들어갑니다. 이 항목은 사용자가 제공한 서비스에 대한 추가 정보입니다.</p>
+    </div>
+    <div class="button-container">
+        <button class="button">신청하기</button>
+        <button class="button cancel" onclick="window.history.back();">취소</button>
+    </div>
+</div>
+
+<script>
+    // 예시 데이터 (실제 데이터로 교체)
+    const detailData = {
+        title: "아름다운 숙소",
+        region: "서울",
+        capacity: 4,
+        price: "150,000 원",
+        rating: 4.8,
+        nickname: "여행가",
+        image: "https://via.placeholder.com/600x300",
+        description: "이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다.이 숙소는 아름다운 경관과 함께 편안한 휴식을 제공합니다. 다양한 시설과 친절한 서비스로 최고의 경험을 제공합니다."
+    };
+
+    // 데이터 삽입 함수
+    function populateDetails(data) {
+        document.getElementById('detailTitle').innerText = `제목: ${data.title}`;
+        document.getElementById('detailRegion').innerText = `지역: ${data.region}`;
+        document.getElementById('detailCapacity').innerText = `수용 인원: ${data.capacity}`;
+        document.getElementById('detailPrice').innerText = `금액: ${data.price}`;
+        document.getElementById('detailRating').innerText = `평점: ${data.rating}`;
+        document.getElementById('detailNickname').innerText = `닉네임: ${data.nickname}`;
+        document.getElementById('detailImage').src = data.image;
+        document.getElementById('detailDescription').innerText = data.description;
+    }
+
+    // 페이지 로드 시 데이터 삽입
+    window.onload = () => {
+        populateDetails(detailData);
+    };
+</script>
+
+</body>
+</html>
