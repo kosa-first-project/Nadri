@@ -1,6 +1,6 @@
-package mybatis.dao;
+package mybatis.dao.login;
 
-import com.example.kosa_first_project.domain.UserDTO;
+import com.example.kosa_first_project.domain.login.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
