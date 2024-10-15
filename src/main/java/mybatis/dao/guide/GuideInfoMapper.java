@@ -6,9 +6,8 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface GuideMapper {
+public interface GuideInfoMapper {
 
-    public interface GuideInfoMapper {
 
         @Insert("INSERT INTO guide_info (" +
                 "user_id, city, town, village, name, title, career, capacity, text, " +
@@ -78,6 +77,6 @@ public interface GuideMapper {
 
         @Delete("DELETE FROM guide_info WHERE id = #{id}")
         void deleteGuideInfo(int id);
-    }
+
 
 }
