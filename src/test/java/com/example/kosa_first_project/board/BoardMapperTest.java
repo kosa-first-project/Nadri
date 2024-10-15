@@ -32,7 +32,7 @@ public class BoardMapperTest {
     @Transactional // 삽입이 됐는지 확인 후 rollback
     void boardSave() {
         BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setUser_id(userSave());
+        //boardDTO.setUser_id(userSave());
         boardDTO.setTitle("제목");
         boardDTO.setContext("내용");
         boardDTO.setImage("첫번째 이미지");
