@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 //@ExtendWith(SpringExtension.class)
 @SpringBootTest //단위테스트 클래스로 역할 함에 있어서 내부적으로 처리되도록
 public class GuideMapperTest {
@@ -29,26 +31,33 @@ public class GuideMapperTest {
         @Autowired
         private GuideMapper.GuideInfoMapper guideInfoMapper;
 
-        @Test
-        public void testInsertGuideInfo() {
-            GuideInfoDTO guideInfo = new GuideInfoDTO();
-            guideInfo.setCity("Seoul");
-            guideInfo.setTown("Gangnam");
-            guideInfo.setVillage("Yeoksam");
-            guideInfo.setName("John Doe");
-            guideInfo.setTitle("Professional Tour Guide");
-            guideInfo.setCareer("5 years");
-            guideInfo.setCapacity(10);
-            guideInfo.setText("Welcome to my tour!");
-            guideInfo.setWeekdayPrice(1000);
-            guideInfo.setWeekendPrice(1500);
-            guideInfo.setBoardRating(4.5);
-            guideInfo.setLikeCount(100);
-            guideInfo.setState("ACTIVE");
+    @Test
+    public void testInsertGuideInfo() {
+        GuideInfoDTO guideInfo = new GuideInfoDTO();
+        guideInfo.setUserId("user5");
+        guideInfo.setCity("Seoul");
+        guideInfo.setTown("Gangnam");
+        guideInfo.setVillage("Yeoksam");
+        guideInfo.setName("John Doe");
+        guideInfo.setTitle("Professional Tour Guide");
+        guideInfo.setCareer("5 years");
+        guideInfo.setCapacity(10);
+        guideInfo.setText("Welcome to my tour!");
+        guideInfo.setWeekdayPrice(1000);
+        guideInfo.setWeekendPrice(1500);
+        guideInfo.setBoardRating(4.5);
+        guideInfo.setLikeCount(100);
+        guideInfo.setState("activate");
 
-            guideInfoMapper.insertGuideInfo(guideInfo);
-            //assertNotNull(guideInfoMapper.getGuideInfoById(guideInfo.getId()));
-        }
+        guideInfoMapper.insertGuideInfo(guideInfo);
+
+        // ID가 생성되었는지 확인
+        assertNotNull(guideInfo.getId());
+
+        // 데이터베이스에서 확인
+        GuideInfoDTO fetchedGuideInfo = guideInfoMapper.getGuideInfoById(guideInfo.getId());
+        assertNotNull(fetchedGuideInfo);
+    }
 
         @Test
         public void testGetGuideInfoById() {
@@ -65,7 +74,7 @@ public class GuideMapperTest {
 
         @Test
         public void testUpdateGuideInfo() {
-            GuideInfoDTO guideInfo = guideInfoMapper.getGuideInfoById(1);
+            GuideInfoDTO guideInfo = guideInfoMapper.getGuideInfoById(4);
             guideInfo.setName("Jane Doe");
             guideInfoMapper.updateGuideInfo(guideInfo);
 
@@ -75,7 +84,7 @@ public class GuideMapperTest {
 
         @Test
         public void testDeleteGuideInfo() {
-            guideInfoMapper.deleteGuideInfo(1);
+            guideInfoMapper.deleteGuideInfo(3);
             //assertNull(guideInfoMapper.getGuideInfoById(1));
         }
 }

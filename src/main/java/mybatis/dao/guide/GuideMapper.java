@@ -11,10 +11,10 @@ public interface GuideMapper {
     public interface GuideInfoMapper {
 
         @Insert("INSERT INTO guide_info (" +
-                "city, town, village, name, title, career, capacity, text, " +
+                "user_id, city, town, village, name, title, career, capacity, text, " +
                 "weekday_price, weekend_price, board_rating, like_count, state" +
                 ") VALUES (" +
-                "#{city}, #{town}, #{village}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
+                "#{user_id}, #{city}, #{town}, #{village}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
                 "#{weekdayPrice}, #{weekendPrice}, #{boardRating}, #{likeCount}, #{state}" +
                 ")")
         void insertGuideInfo(GuideInfoDTO guideInfo);
