@@ -1,8 +1,8 @@
-package com.example.kosa_first_project.controller;
+package com.example.kosa_first_project.controller.board;
 
-import com.example.kosa_first_project.domain.BoardDTO;
+import com.example.kosa_first_project.domain.board.BoardDTO;
 import lombok.extern.slf4j.Slf4j;
-import mybatis.dao.BoardMapper;
+import mybatis.dao.board.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
