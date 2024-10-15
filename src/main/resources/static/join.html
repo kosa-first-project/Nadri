@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        input {
+            border: none;
+            border-bottom: 3px solid #ccc;
+            border-radius: 2px;
+            width: 100%;
+            padding: 10px 5px;
+            margin: 10px 0;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-bottom: 3px solid #007bff;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="login">
+    <h2>회원가입</h2>
+    <div>이름</div>
+    <input type="text" id="joinName" placeholder="한글" required>
+    <div>이메일</div>
+    <input type="text" id="joinID" placeholder="한글, 영문, 숫자" required>
+    <div>아이디</div>
+    <input type="text" id="joinEmail" placeholder="한글, 영문, 숫자" required>
+    <div>비밀번호</div>
+    <input type="password" id="joinPass1" placeholder="영문, 숫자, 특수문자" required>
+    <div>비밀번호 확인</div>
+    <input type="password" id="joinPASS2" placeholder="영문, 숫자, 특수문자" required>
+    <input type="submit" value="회원가입">
+</div>
+</body>
+</html>
