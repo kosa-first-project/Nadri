@@ -1,4 +1,4 @@
-package com.example.kosa_first_project;
+package com.example.kosa_first_project.login;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

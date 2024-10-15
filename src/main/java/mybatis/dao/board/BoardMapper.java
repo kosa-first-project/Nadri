@@ -1,6 +1,6 @@
-package mybatis.dao;
+package mybatis.dao.board;
 
-import com.example.kosa_first_project.domain.BoardDTO;
+import com.example.kosa_first_project.domain.board.BoardDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

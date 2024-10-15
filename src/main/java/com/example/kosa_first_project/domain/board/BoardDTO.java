@@ -1,4 +1,4 @@
-package com.example.kosa_first_project.domain;
+package com.example.kosa_first_project.domain.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

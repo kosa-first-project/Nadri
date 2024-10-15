@@ -1,7 +1,7 @@
-package com.example.kosa_first_project;
+package com.example.kosa_first_project.board;
 
-import com.example.kosa_first_project.domain.BoardDTO;
-import mybatis.dao.BoardMapper;
+import com.example.kosa_first_project.domain.board.BoardDTO;
+import mybatis.dao.board.BoardMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
