@@ -4,7 +4,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class TravlerInfoDTO {
+public class TravelerInfoDTO {
 
     private int id;
     private int guideId;
