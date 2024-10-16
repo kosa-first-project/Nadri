@@ -12,11 +12,25 @@ public interface GuideUnavailableTimeMapper {
                 "VALUES (#{guideId}, #{userId}, #{unavailableStartDate}, #{unavailableEndDate})")
         void insertGuideUnavailableTime(GuideUnavailableTimeDTO unavailableTime);
 
-        @Select("SELECT * FROM guide_unavailable_time WHERE id = #{id}")
+        @Select("SELECT " +
+                "id AS guideUnavailableTimeId, " +
+                "guide_id AS guideId, " +
+                "user_id AS userId, " +
+                "unavailable_start_date AS unavailableStartDate, " +
+                "unavailable_end_date AS unavailableEndDate " +
+                "FROM guide_unavailable_time " +
+                "WHERE id = #{id}")
         GuideUnavailableTimeDTO getGuideUnavailableTimeById(int id);
 
-        @Select("SELECT * FROM guide_unavailable_time")
+        @Select("SELECT " +
+                "id AS guideUnavailableTimeId, " +
+                "guide_id AS guideId, " +
+                "user_id AS userId, " +
+                "unavailable_start_date AS unavailableStartDate, " +
+                "unavailable_end_date AS unavailableEndDate " +
+                "FROM guide_unavailable_time")
         List<GuideUnavailableTimeDTO> getAllGuideUnavailableTimes();
+
 
         @Update("UPDATE guide_unavailable_time SET guide_id = #{guideId}, user_id = #{userId}, " +
                 "unavailable_start_date = #{unavailableStartDate}, unavailable_end_date = #{unavailableEndDate} " +
