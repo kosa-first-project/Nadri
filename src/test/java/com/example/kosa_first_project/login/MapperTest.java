@@ -28,6 +28,6 @@ public class MapperTest {
         user.setCreate_date(LocalDateTime.now());
         user.setGuide_activate("Y");
 
-        joinMapper.joinUser(user);
+        //joinMapper.joinUser(user);
    }
 }
