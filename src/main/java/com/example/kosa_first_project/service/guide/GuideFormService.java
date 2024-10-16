@@ -3,6 +3,7 @@ package com.example.kosa_first_project.service.guide;
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
 import com.example.kosa_first_project.domain.guide.GuideUnavailableTimeDTO;
 import mybatis.dao.guide.GuideInfoMapper;
+import mybatis.dao.guide.GuideUnavailableTimeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,8 @@ public class GuideFormService {
 
     @Autowired
     private GuideInfoMapper guideInfoMapper;
+    @Autowired
+    private GuideUnavailableTimeMapper guideUnavailableTimeMapper;
 
     public void saveGuideInfo(GuideInfoDTO guideInfoDTO) {
         // Guide 정보 저장
