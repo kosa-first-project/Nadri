@@ -1,3 +1,4 @@
+/*
 package com.example.kosa_first_project.domain.board;
 
 import lombok.Getter;
@@ -11,3 +12,4 @@ public class PageDTO {
 	private int endNum;
 	private int countNum;
 }
+*/

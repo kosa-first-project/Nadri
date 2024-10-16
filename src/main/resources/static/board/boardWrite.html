@@ -8,12 +8,14 @@
 <body>
 <h2>게시글을 남겨주세요</h2>
 <hr>
-<form method = "post" action = "/boardSave">
+<form method = "post" action = "boardSave">
+    <input type ="text" name ="user_id" placeholder="아이디를 입력하세요" required><br>
     <input type ="text" name ="title" placeholder="제목을 입력하세요" required><br>
     <textarea cols="35" rows="10" name ="context" placeholder="내용을 입력하세요" required></textarea><br>
+    <input type ="text" name ="image" placeholder="사진을 입력하세요" required><br>
     <input type ="text" name ="rating" placeholder="평점을 입력하세요" required><br>
     <input type = "submit" value = "등록">
-    <input type = "button" value = "취소" onclick="location.href = 'visitorMain.html'">
+    <input type = "button" value = "취소" onclick="location.href = 'board'">
 </form>
 </body>
 </html>
