@@ -1,7 +1,7 @@
 package com.example.kosa_first_project.controller.login;
 
 import org.springframework.ui.Model;
-import com.example.kosa_first_project.domain.login.UserDTO;
+import com.example.kosa_first_project.domain.login.LoginUserDTO;
 import jakarta.servlet.http.HttpSession;
 import mybatis.dao.login.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
     @Autowired
-    private LoginMapper dao;
+    private LoginMapper loginDao;
 
 
     @PostMapping( "/login-controller")
@@ -24,7 +24,7 @@ public class LoginController {
                         HttpSession session,
                         Model model) {
 
-        UserDTO dto = dao.login(id, pass);
+        LoginUserDTO dto = loginDao.login(id, pass);
         // 로그인 시도
         if (dto == null) {
             // 로그인 실패
