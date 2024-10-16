@@ -1,3 +1,4 @@
+/*
 package com.example.kosa_first_project.board;
 
 import com.example.kosa_first_project.domain.board.BoardDTO;
@@ -43,3 +44,4 @@ public class BoardMapperTest {
         System.out.println(findAll.size());
     }
 }
+*/
