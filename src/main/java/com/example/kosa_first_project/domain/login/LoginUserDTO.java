@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class LoginUserDTO {
 
         private String id;
 
