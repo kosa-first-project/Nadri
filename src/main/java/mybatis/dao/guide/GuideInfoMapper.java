@@ -13,9 +13,10 @@ public interface GuideInfoMapper {
                 "user_id, city, town, village, name, title, career, capacity, text, " +
                 "weekday_price, weekend_price, board_rating, like_count, state" +
                 ") VALUES (" +
-                "#{user_id}, #{city}, #{town}, #{village}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
+                "#{userId}, #{city}, #{town}, #{village}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
                 "#{weekdayPrice}, #{weekendPrice}, #{boardRating}, #{likeCount}, #{state}" +
                 ")")
+        @Options(useGeneratedKeys = true, keyProperty = "id")
         void insertGuideInfo(GuideInfoDTO guideInfo);
 
         @Select("SELECT " +

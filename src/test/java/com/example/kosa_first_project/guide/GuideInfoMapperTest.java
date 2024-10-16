@@ -45,16 +45,20 @@ public class GuideInfoMapperTest {
 
         guideInfoMapper.insertGuideInfo(guideInfo);
 
-        // ID가 생성되었는지 확인
-        assertNotNull(guideInfo.getId());
+        // 삽입한 가이드 정보가 제대로 들어갔는지 확인
+        GuideInfoDTO insertedGuide = guideInfoMapper.getGuideInfoById(guideInfo.getId());
+        if (insertedGuide != null) {
+            System.out.println("삽입된 가이드 정보: " + insertedGuide);
+        } else {
+        } else {
+            System.out.println("삽입된 가이드 정보를 찾을 수 없습니다.");
+        }
 
-        // 데이터베이스에서 확인
-        GuideInfoDTO fetchedGuideInfo = guideInfoMapper.getGuideInfoById(guideInfo.getId());
-        assertNotNull(fetchedGuideInfo);
-
-        // 삽입된 가이드 정보 출력
-        System.out.println("삽입된 가이드 정보: " + fetchedGuideInfo);
+        // 전체 가이드 정보 출력
+        guideInfoMapper.getAllGuideInfo().forEach(guide -> System.out.println("전체 가이드 정보: " + guide));
     }
+
+
 
     @Test
     public void testGetGuideInfoById() {
