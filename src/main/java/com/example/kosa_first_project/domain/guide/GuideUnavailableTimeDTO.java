@@ -4,13 +4,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class GuideUnavableTimeDTO {
+public class GuideUnavailableTimeDTO {
 
     private int id;
     private String guideId;
     private String userId;
-    private LocalDateTime unavaiableStartDate;
-    private LocalDateTime unavaiableEndDate;
+    private LocalDateTime unavailableStartDate;
+    private LocalDateTime unavailableEndDate;
 
 
 }
