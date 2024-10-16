@@ -1,6 +1,7 @@
 package com.example.kosa_first_project.controller.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
+import com.example.kosa_first_project.domain.guide.GuideUnavailableTimeDTO;
 import com.example.kosa_first_project.service.guide.GuideFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,20 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/guideForm")
 public class GuideFormController {
 
     @Autowired
-    private GuideFormService guideFromService;
+    private GuideFormService guideFormService;
 
 
-    @PostMapping("/guides")
-    public String saveGuide(@ModelAttribute GuideInfoDTO guideInfoDTO, Model model) {
-        // Save the guide information to the database using guideDTO
-
-        return "redirect:/guide_list.html";
+    @PostMapping("/guideForm")
+    public ResponseEntity<String> saveGuide(@RequestBody GuideInfoDTO guideInfoDTO, @RequestBody GuideUnavailableTimeDTO guideUnavailableTimeDTO) {
+        guideFormService.saveGuideInfo(guideInfoDTO);
+        return ResponseEntity.ok("Guide info saved successfully."); // JSON 응답
     }
-
+}
 
     /*
     @PostMapping("/guides")
@@ -43,4 +42,3 @@ public class GuideFormController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving guide");
         }
     }*/
-}
