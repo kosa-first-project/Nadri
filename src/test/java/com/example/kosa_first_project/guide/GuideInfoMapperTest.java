@@ -50,7 +50,6 @@ public class GuideInfoMapperTest {
         if (insertedGuide != null) {
             System.out.println("삽입된 가이드 정보: " + insertedGuide);
         } else {
-        } else {
             System.out.println("삽입된 가이드 정보를 찾을 수 없습니다.");
         }
 
