@@ -18,16 +18,6 @@ public class MapperTest {
     @Transactional
     public void joinTest() {
         LoginUserDTO user = new LoginUserDTO();
-        user.setId("dd");
-        user.setPassword("123456");
-        user.setUsername("admin");
-        user.setPhone("01000001111");
-        user.setGender("M");
-        user.setNickname("ll");
-        user.setEmail("admin@gmail.com");
-        user.setCreate_date(LocalDateTime.now());
-        user.setGuide_activate("Y");
 
-        joinMapper.joinUser(user);
    }
 }

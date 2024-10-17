@@ -1,32 +1,68 @@
 package com.example.kosa_first_project.controller.login;
 
-import org.springframework.ui.Model; // org.springframework.ui.Model을 사용해야 함
 import com.example.kosa_first_project.domain.login.JoinUserDTO;
 import mybatis.dao.login.JoinMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Controller // Controller 어노테이션 추가
 public class JoinController {
-
     @Autowired
     private JoinMapper joinDao;
 
+   /* @Transactional
     @PostMapping("/join-controller")
-    public String join(@ModelAttribute JoinUserDTO joinUserDTO, Model model) {
-        // 데이터베이스에 회원 가입 처리 로직 추가 필요
-        joinDao.save(joinUserDTO); // 예시: 사용자 정보를 DB에 저장
+    public String join(@RequestParam String id,
+                       @RequestParam String password,
+                       @RequestParam String password2,
+                       @RequestParam String username,
+                       @RequestParam String phone,
+                       @RequestParam String gender,
+                       @RequestParam String nickname,
+                       @RequestParam String email,
+                       @RequestParam String guide_activate) {
 
-        // 가입 완료 후 완료 페이지로 리다이렉트
-        return "redirect:/joinComplete";
-    }
+        if (password.equals(password2)){
+            JoinUserDTO joinUserDTO = new JoinUserDTO();
+            joinUserDTO.setId(id);
+            joinUserDTO.setPassword(password);
+            joinUserDTO.setUsername(username);
+            joinUserDTO.setPhone(phone);
+            joinUserDTO.setGender(gender);
+            joinUserDTO.setNickname(nickname);
+            joinUserDTO.setEmail(email);
+            joinUserDTO.setGuide_activate(guide_activate);
+            joinUserDTO.setCreate_date(LocalDateTime.now());
+            joinDao.save(joinUserDTO);
+            return "redirect:/joinComplete";
+        }
+        else{
+            return "redirect:/joinFail";
+        }
+    }*/
+   @Transactional
+   @PostMapping("/join-controller")
+   public String join(JoinUserDTO joinUserDTO) {
+       if (joinUserDTO.getPassword().equals(joinUserDTO.getPasswordCheck())) {
+           joinUserDTO.setCreate_date(LocalDateTime.now());
+           joinDao.save(joinUserDTO);
+           return "redirect:/joinComplete";
+       } else {
+           return "redirect:/joinFail";
+       }
+   }
 
     @GetMapping("/joinComplete")
     public String joinComplete() {
-        return "complete"; // complete.html로 이동
+        return "complete";
     }
-}
+    @GetMapping("/joinFail")
+    public String joinFail() {
+        return "login";
+    }
 
+}

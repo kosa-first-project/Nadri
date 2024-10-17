@@ -1,7 +1,6 @@
 package mybatis.dao.login;
 
 import com.example.kosa_first_project.domain.login.JoinUserDTO;
-import com.example.kosa_first_project.domain.login.LoginUserDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +13,7 @@ public interface JoinMapper {
        //     + "#{create_date}), #{guide_activate})")
     @Insert("INSERT INTO user (id, password, username, phone, gender, nickname, email, create_date, guide_activate) " +
             "VALUES (#{id}, #{password}, #{username}, #{phone}, #{gender}, #{nickname}, #{email}, #{create_date}, #{guide_activate})")
-    public boolean save(JoinUserDTO joinUserDTO);
+    void save(JoinUserDTO joinUserDTO);
+
+    //public boolean save(String id, String password, String password2, String username, String phone, String gender, String nickname, String email, String guideActivate);
 }
