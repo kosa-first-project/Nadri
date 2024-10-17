@@ -1,11 +1,13 @@
 package com.example.kosa_first_project.domain.guide;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class GuideInfoDTO {
 
 
-    private int id;
+    private int guideInfoId;
     private String userId;
     private String city;
     private String town;
@@ -19,7 +21,10 @@ public class GuideInfoDTO {
     private int weekendPrice;
     private double boardRating;
     private int likeCount;
-    private String state;
+    private String guideInfoState;
 
+
+    // 불가능 기간 리스트를 포함
+    private List<GuideUnavailableTimeDTO> unavailableDates;
 
 }

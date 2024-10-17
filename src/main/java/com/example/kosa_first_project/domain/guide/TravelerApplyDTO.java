@@ -6,14 +6,14 @@ import java.time.LocalDateTime;
 @Data
 public class TravelerApplyDTO {
 
-    private int id;
-    private int travelerId;
-    private int guideId;
+    private int travelerApplyId;
+    private int travelerInfoId;
+    private int guideInfoId;
     private LocalDateTime applyTime;
     private LocalDateTime acceptTime;
     private LocalDateTime cancelTime;
     private LocalDateTime doneTime;
-    private String state;
+    private String travelerApplyState;
 
 
 }
