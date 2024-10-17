@@ -1,29 +1,36 @@
 package com.example.kosa_first_project.controller.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
-import com.example.kosa_first_project.domain.guide.GuideUnavailableTimeDTO;
 import com.example.kosa_first_project.service.guide.GuideFormService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
-
-@RestController
+@Controller
 public class GuideFormController {
 
     @Autowired
     private GuideFormService guideFormService;
 
-
-    //GET으로 잘못들어왔는지 TEST
     @GetMapping("/guideForm")
     public String showGuideForm() {
         return "guide_form"; // 뷰의 이름 반환 (HTML 페이지)
     }
 
-
     @PostMapping("/guideForm")
-    public ResponseEntity<String> saveGuideForm(@ModelAttribute GuideInfoDTO guideInfoDTO) {
+    public String saveGuideForm(@ModelAttribute GuideInfoDTO guideInfoDTO) {
+
+        // 나중에 세션에서 UserID 가져와야 함.
+        guideInfoDTO.setUserId("user1");
+        guideInfoDTO.setGuideInfoState("activate");
+
+        guideFormService.saveGuideInfo(guideInfoDTO);
+
+        return "guide/guide_card"; // 페이지 이동
+    }
+}
 
         /*
         //나중에 세션에서 UserID 가져와야 함.
@@ -31,15 +38,8 @@ public class GuideFormController {
         String userId = auth.getName(); // 사용자 ID (또는 다른 정보를 가져올 수 있음)
         guideInfoDTO.setUserId(userId);
         */
-        System.out.println(guideInfoDTO);
 
-        guideInfoDTO.setUserId("user1");
-        guideInfoDTO.setGuideInfoState("activate");
 
-        guideFormService.saveGuideInfo(guideInfoDTO);
-        return ResponseEntity.ok("Guide info saved successfully.");
-    }
-}
 
     /*
     @PostMapping("/guides")
