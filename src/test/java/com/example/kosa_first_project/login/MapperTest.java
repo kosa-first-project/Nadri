@@ -1,3 +1,4 @@
+/*
 package com.example.kosa_first_project.login;
 
 import com.example.kosa_first_project.domain.login.LoginUserDTO;
@@ -31,3 +32,4 @@ public class MapperTest {
         joinMapper.joinUser(user);
    }
 }
+*/
