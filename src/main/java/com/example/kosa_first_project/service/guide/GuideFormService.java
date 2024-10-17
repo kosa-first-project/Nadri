@@ -35,8 +35,9 @@ public class GuideFormService {
         // 불가능 기간 저장 (있을 경우)
         if (guideInfoDTO.getUnavailableDates() != null) {
             guideInfoDTO.getUnavailableDates().forEach(unavailableTime -> {
+                // GuideInfo의 ID를 설정
                 unavailableTime.setGuideInfoId(guideInfoDTO.getGuideInfoId());
-                guideUnavailableTimeMapper.insertGuideUnavailableTime(unavailableTime);
+                guideUnavailableTimeMapper.insertGuideUnavailableTimeNoUserId(unavailableTime);
             });
         }
     }

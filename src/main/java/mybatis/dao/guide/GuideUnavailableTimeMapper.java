@@ -6,10 +6,16 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 @Mapper
 public interface GuideUnavailableTimeMapper {
-
+        //전체 칼럼
         @Insert("INSERT INTO guide_unavailable_time (guide_id, user_id, unavailable_start_date, unavailable_end_date) " +
                 "VALUES (#{guideId}, #{userId}, #{unavailableStartDate}, #{unavailableEndDate})")
         void insertGuideUnavailableTime(GuideUnavailableTimeDTO unavailableTime);
+
+        //userid 칼럼 제외
+        @Insert("INSERT INTO guide_unavailable_time (guide_id, user_id, unavailable_start_date, unavailable_end_date) " +
+                "VALUES (#{guideId}, #{userId}, #{unavailableStartDate}, #{unavailableEndDate})")
+        void insertGuideUnavailableTimeNoUserId(GuideUnavailableTimeDTO unavailableTime);
+
 
         @Select("SELECT " +
                 "guide_unavailable_time_id AS guideUnavailableTimeId, " +
