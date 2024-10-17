@@ -8,20 +8,19 @@ import java.util.List;
 @Mapper
 public interface GuideInfoMapper {
 
-
         @Insert("INSERT INTO guide_info (" +
-                "user_info_id, city, town, village, name, title, career, capacity, text, " +
+                "user_id, city, town, village, name, title, career, capacity, text, " +
                 "weekday_price, weekend_price, board_rating, like_count, guide_info_state" +
                 ") VALUES (" +
-                "#{userInfoId}, #{city}, #{town}, #{village}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
+                "#{userId}, #{city}, #{town}, #{village}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
                 "#{weekdayPrice}, #{weekendPrice}, #{boardRating}, #{likeCount}, #{guideInfoState}" +
                 ")")
-        @Options(useGeneratedKeys = true, keyProperty = "id")
+        @Options(useGeneratedKeys = true, keyProperty = "guideInfoId")
         void insertGuideInfo(GuideInfoDTO guideInfo);
 
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
-                "user_info_id AS userInfoId, " +
+                "user_id AS userId, " +
                 "city, " +
                 "town, " +
                 "village, " +
@@ -37,11 +36,11 @@ public interface GuideInfoMapper {
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
                 "WHERE guide_info_id = #{guideInfoId}")
-        GuideInfoDTO getGuideInfoById(int id);
+        GuideInfoDTO getGuideInfoById(int guideInfoId);
 
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
-                "user_info_id AS userInfoId, " +
+                "user_id AS userId, " +
                 "city, " +
                 "town, " +
                 "village, " +
@@ -59,8 +58,8 @@ public interface GuideInfoMapper {
         List<GuideInfoDTO> getAllGuideInfo();
 
         @Update("UPDATE guide_info SET " +
-                "guide_info_id AS guideInfoId, " +
-                "user_info_id AS userInfoId, " +
+                "user_id = #{userId}, " +
+                "city = #{city}, " +
                 "town = #{town}, " +
                 "village = #{village}, " +
                 "name = #{name}, " +
@@ -72,12 +71,10 @@ public interface GuideInfoMapper {
                 "weekend_price = #{weekendPrice}, " +
                 "board_rating = #{boardRating}, " +
                 "like_count = #{likeCount}, " +
-                "guide_info_state AS guideInfoState " +
+                "guide_info_state = #{guideInfoState} " +
                 "WHERE guide_info_id = #{guideInfoId}")
         void updateGuideInfo(GuideInfoDTO guideInfo);
 
         @Delete("DELETE FROM guide_info WHERE guide_info_id = #{guideInfoId}")
-        void deleteGuideInfo(int id);
-
-
+        void deleteGuideInfo(int guideInfoId);
 }
