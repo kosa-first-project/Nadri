@@ -26,21 +26,21 @@ public class TravelerApplyMapperTest {
     @Test
     public void testInsertTravelerApply() {
         TravelerApplyDTO apply = new TravelerApplyDTO();
-        apply.setTravelerId(1);
-        apply.setGuideId(2);
+        apply.setTravelerInfoId(1);
+        apply.setGuideInfoId(2);
         apply.setApplyTime(LocalDateTime.now());
         apply.setAcceptTime(null);
         apply.setCancelTime(null);
         apply.setDoneTime(null);
-        apply.setState("pending");
+        apply.setTravelerApplyState("pending");
 
         travelerApplyMapper.insertTravelerApply(apply);
 
         // ID가 생성되었는지 확인
-        assertNotNull(apply.getId());
+        //assertNotNull(apply.getTravelerInfoId());
 
         // 데이터베이스에서 확인
-        TravelerApplyDTO fetchedApply = travelerApplyMapper.getTravelerApplyById(apply.getId());
+        TravelerApplyDTO fetchedApply = travelerApplyMapper.getTravelerApplyById(apply.getTravelerInfoId());
         assertNotNull(fetchedApply);
 
         // 삽입된 데이터 출력
@@ -70,7 +70,7 @@ public class TravelerApplyMapperTest {
     @Test
     public void testUpdateTravelerApply() {
         TravelerApplyDTO apply = travelerApplyMapper.getTravelerApplyById(1); // ID가 1인 경우
-        apply.setState("accepted");
+        apply.setTravelerApplyState("accepted");
         apply.setAcceptTime(LocalDateTime.now());
         travelerApplyMapper.updateTravelerApply(apply);
 

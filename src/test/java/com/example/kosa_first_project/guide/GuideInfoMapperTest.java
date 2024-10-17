@@ -41,12 +41,12 @@ public class GuideInfoMapperTest {
         guideInfo.setWeekendPrice(1500);
         guideInfo.setBoardRating(4.5);
         guideInfo.setLikeCount(100);
-        guideInfo.setState("activate");
+        guideInfo.setGuideInfoState("activate");
 
         guideInfoMapper.insertGuideInfo(guideInfo);
 
         // 삽입한 가이드 정보가 제대로 들어갔는지 확인
-        GuideInfoDTO insertedGuide = guideInfoMapper.getGuideInfoById(guideInfo.getId());
+        GuideInfoDTO insertedGuide = guideInfoMapper.getGuideInfoById(guideInfo.getGuideInfoId());
         if (insertedGuide != null) {
             System.out.println("삽입된 가이드 정보: " + insertedGuide);
         } else {
