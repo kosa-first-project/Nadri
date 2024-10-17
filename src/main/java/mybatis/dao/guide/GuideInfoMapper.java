@@ -34,8 +34,6 @@ public interface GuideInfoMapper {
 
 
 
-
-
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
                 "user_id AS userId, " +
@@ -56,6 +54,8 @@ public interface GuideInfoMapper {
                 "WHERE guide_info_id = #{guideInfoId}")
         GuideInfoDTO getGuideInfoById(int guideInfoId);
 
+
+
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
                 "user_id AS userId, " +
@@ -75,6 +75,8 @@ public interface GuideInfoMapper {
                 "FROM guide_info")
         List<GuideInfoDTO> getAllGuideInfo();
 
+        /*
+        //전체 칼럼 Update
         @Update("UPDATE guide_info SET " +
                 "user_id = #{userId}, " +
                 "city = #{city}, " +
@@ -89,6 +91,20 @@ public interface GuideInfoMapper {
                 "weekend_price = #{weekendPrice}, " +
                 "board_rating = #{boardRating}, " +
                 "like_count = #{likeCount}, " +
+                "guide_info_state = #{guideInfoState} " +
+                "WHERE guide_info_id = #{guideInfoId}")
+        void updateGuideInfo(GuideInfoDTO guideInfo);
+        */
+
+        //실질적으로 사용하는 칼럼만 Update
+        @Update("UPDATE guide_info SET " +
+                "city = #{city}, " +
+                "name = #{name}, " +
+                "title = #{title}, " +
+                "career = #{career}, " +
+                "capacity = #{capacity}, " +
+                "text = #{text}, " +
+                "weekday_price = #{weekdayPrice}, " +
                 "guide_info_state = #{guideInfoState} " +
                 "WHERE guide_info_id = #{guideInfoId}")
         void updateGuideInfo(GuideInfoDTO guideInfo);
