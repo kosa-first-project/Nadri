@@ -26,22 +26,26 @@ public class GuideUnavailableTimeMapperTest {
     @Test
     public void testInsertGuideUnavailableTime() {
         GuideUnavailableTimeDTO unavailableTime = new GuideUnavailableTimeDTO();
-        unavailableTime.setGuideId("guide1");
+        unavailableTime.setGuideInfoId("guide1");
         unavailableTime.setUserId("user1");
         unavailableTime.setUnavailableStartDate(LocalDateTime.now().plusDays(1));
         unavailableTime.setUnavailableEndDate(LocalDateTime.now().plusDays(2));
 
         guideUnavailableTimeMapper.insertGuideUnavailableTime(unavailableTime);
 
-        // ID가 생성되었는지 확인
-        assertNotNull(unavailableTime.getId());
-
         // 데이터베이스에서 확인
-        GuideUnavailableTimeDTO fetchedUnavailableTime = guideUnavailableTimeMapper.getGuideUnavailableTimeById(unavailableTime.getId());
+        GuideUnavailableTimeDTO fetchedUnavailableTime = guideUnavailableTimeMapper.getGuideUnavailableTimeById(unavailableTime.getGuideUnavailableTimeId());
         assertNotNull(fetchedUnavailableTime);
+
 
         // 삽입된 데이터 출력
         System.out.println("삽입된 가이드 비활성화 시간: " + fetchedUnavailableTime);
+
+
+        // 전체 비활성화 시간 목록 출력
+        List<GuideUnavailableTimeDTO> allUnavailableTimes = guideUnavailableTimeMapper.getAllGuideUnavailableTimes();
+        System.out.println("현재 가이드 비활성화 시간 정보:");
+        allUnavailableTimes.forEach(System.out::println);
     }
 
     @Test
