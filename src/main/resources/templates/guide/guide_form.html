@@ -75,8 +75,8 @@
                 <input type="text" id="title" name="title" required>
             </div>
             <div class="form-group">
-                <label for="region">지역:</label>
-                <select id="region" name="region" required>
+                <label for="city">지역:</label>
+                <select id="city" name="city" required>
                     <option value="서울">서울</option>
                     <option value="부산">부산</option>
                     <option value="대구">대구</option>
@@ -94,8 +94,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="experience">경력:</label>
-                <input type="text" id="experience" name="experience" required>
+                <label for="career">경력:</label>
+                <input type="text" id="career" name="career" required>
             </div>
             <div class="form-group">
                 <label for="price">금액 (일별):</label>
@@ -110,18 +110,18 @@
                 <h4>불가능 기간</h4>
                 <div class="form-group">
                     <label for="unavailableStartDate1">시작일:</label>
-                    <input type="date" id="unavailableStartDate1" name="unavailableDates[0].startDate">
+                    <input type="date" id="unavailableStartDate1" name="unavailableStartDate[0]">
                 </div>
                 <div class="form-group">
                     <label for="unavailableEndDate1">종료일:</label>
-                    <input type="date" id="unavailableEndDate1" name="unavailableDates[0].endDate">
+                    <input type="date" id="unavailableEndDate1" name="unavailableEndDate[0]">
                 </div>
             </div>
             <button type="button" onclick="addUnavailableDate()">+ 추가하기</button>
             <br><br>
             <div class="form-group">
-                <label for="description1">홍보글 작성:</label>
-                <textarea id="description1" name="description" rows="5"></textarea>
+                <label for="text">홍보글 작성:</label>
+                <textarea id="text" name="text" rows="5"></textarea>
             </div>
         </div>
 
@@ -144,11 +144,11 @@
             <h4>불가능 기간 ${unavailableCount}</h4>
             <div class="form-group">
                 <label for="unavailableStartDate${unavailableCount}">시작일:</label>
-                <input type="date" id="unavailableStartDate${unavailableCount}" name="unavailableDates[${unavailableCount - 1}].startDate">
+                <input type="date" id="unavailableStartDate${unavailableCount}" name="unavailableStartDate[${unavailableCount - 1}]">
             </div>
             <div class="form-group">
                 <label for="unavailableEndDate${unavailableCount}">종료일:</label>
-                <input type="date" id="unavailableEndDate${unavailableCount}" name="unavailableDates[${unavailableCount - 1}].endDate">
+                <input type="date" id="unavailableEndDate${unavailableCount}" name="unavailableEndDate[${unavailableCount - 1}]">
             </div>
         `;
 

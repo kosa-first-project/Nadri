@@ -20,8 +20,22 @@ public class GuideFormController {
     public String showGuideForm() {
         return "guide_form"; // 뷰의 이름 반환 (HTML 페이지)
     }
+
+
     @PostMapping("/guideForm")
     public ResponseEntity<String> saveGuideForm(@ModelAttribute GuideInfoDTO guideInfoDTO) {
+
+        /*
+        //나중에 세션에서 UserID 가져와야 함.
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userId = auth.getName(); // 사용자 ID (또는 다른 정보를 가져올 수 있음)
+        guideInfoDTO.setUserId(userId);
+        */
+        System.out.println(guideInfoDTO);
+
+        guideInfoDTO.setUserId("user1");
+        guideInfoDTO.setGuideInfoState("activate");
+
         guideFormService.saveGuideInfo(guideInfoDTO);
         return ResponseEntity.ok("Guide info saved successfully.");
     }

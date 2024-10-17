@@ -7,7 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface GuideInfoMapper {
-
+        /*
+        //전체 칼럼 Insert
         @Insert("INSERT INTO guide_info (" +
                 "user_id, city, town, village, name, title, career, capacity, text, " +
                 "weekday_price, weekend_price, board_rating, like_count, guide_info_state" +
@@ -17,6 +18,23 @@ public interface GuideInfoMapper {
                 ")")
         @Options(useGeneratedKeys = true, keyProperty = "guideInfoId")
         void insertGuideInfo(GuideInfoDTO guideInfo);
+        */
+
+        //실질적으로 사용하는 칼럼만 Insert
+        @Insert("INSERT INTO guide_info (" +
+                "user_id, city, name, title, career, capacity, text, " +
+                "weekday_price, guide_info_state" +
+                ") VALUES (" +
+                "#{userId}, #{city}, #{name}, #{title}, #{career}, #{capacity}, #{text}, " +
+                "#{weekdayPrice}, #{guideInfoState}" +
+                ")")
+        @Options(useGeneratedKeys = true, keyProperty = "guideInfoId")
+        void insertGuideInfo(GuideInfoDTO guideInfo);
+
+
+
+
+
 
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
