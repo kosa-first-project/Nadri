@@ -1,62 +1,49 @@
 package com.example.kosa_first_project.controller.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
-import com.example.kosa_first_project.service.guide.GuideFormService;
+import com.example.kosa_first_project.service.guide.MyPageGuideListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/guides")
 public class MyPageGuideListController {
 
     @Autowired
-    private GuideFormService guideFormService;
+    private MyPageGuideListService guideListService;
 
-    @GetMapping("/myPageGuideList")
-    public String showGuideForm() {
-        return "guide_form"; // 뷰의 이름 반환 (HTML 페이지)
+    @GetMapping
+    public ResponseEntity<List<GuideInfoDTO>> getAllGuides() {
+        List<GuideInfoDTO> guides = guideListService.getAllGuides();
+        return new ResponseEntity<>(guides, HttpStatus.OK);
     }
 
-    @PostMapping("/myPageGuideList")
-    public String saveGuideForm(@ModelAttribute GuideInfoDTO guideInfoDTO) {
+    @GetMapping("/{id}")
+    public ResponseEntity<GuideInfoDTO> getGuideById(@PathVariable int id) {
+        GuideInfoDTO guide = guideListService.getGuideById(id);
+        return new ResponseEntity<>(guide, HttpStatus.OK);
+    }
 
-        // 나중에 세션에서 UserID 가져와야 함.
-        guideInfoDTO.setUserId("user1");
-        guideInfoDTO.setGuideInfoState("activate");
+    @PostMapping
+    public ResponseEntity<Void> addGuide(@RequestBody GuideInfoDTO guideInfo) {
+        guideListService.addGuide(guideInfo);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-        guideFormService.saveGuideInfo(guideInfoDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateGuide(@PathVariable int id, @RequestBody GuideInfoDTO guideInfo) {
+        guideInfo.setGuideInfoId(id); // ID 설정
+        guideListService.updateGuide(guideInfo);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-        //return "redirect:/guide/guide_card"; // 리다이렉트 : 파일이 static 아래에 있어야함
-        return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGuide(@PathVariable int id) {
+        guideListService.deleteGuide(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-
-        /*
-        //나중에 세션에서 UserID 가져와야 함.
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userId = auth.getName(); // 사용자 ID (또는 다른 정보를 가져올 수 있음)
-        guideInfoDTO.setUserId(userId);
-        */
-
-
-
-    /*
-    @PostMapping("/guides")
-    public String addGuide(@RequestBody GuideInfoDTO guideinfoDTO) {
-        guideFromService.saveGuideInfo(guideinfoDTO);
-        return "가이드 정보가 저장되었습니다.";
-    }*/
-
-
-    /*
-    @PostMapping
-    public ResponseEntity<String> addGuide(@RequestBody GuideInfoDTO guideinfoDTO) {
-        try {
-            guideFromService.saveGuideInfo(guideinfoDTO);
-            return ResponseEntity.ok("Guide saved successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving guide");
-        }
-    }*/

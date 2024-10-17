@@ -146,18 +146,18 @@
 
     <table>
         <thead>
-            <tr>
-                <th>제목</th>
-                <th>지역</th>
-                <th>경력</th>
-                <th>금액</th>
-                <th>수용인원</th>
-                <th>상태</th>
-                <th>상세보기</th>
-            </tr>
+        <tr>
+            <th>제목</th>
+            <th>지역</th>
+            <th>경력</th>
+            <th>금액</th>
+            <th>수용인원</th>
+            <th>상태</th>
+            <th>상세보기</th>
+        </tr>
         </thead>
         <tbody id="tableBody">
-            <!-- 자바스크립트로 데이터가 동적으로 추가됩니다. -->
+        <!-- 자바스크립트로 데이터가 동적으로 추가됩니다. -->
         </tbody>
     </table>
 
@@ -171,47 +171,55 @@
 </div>
 
 <script>
-    const totalItems = 1000; // 총 항목 수
     const itemsPerPage = 10;  // 페이지당 항목 수
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
     let currentPage = 1;
-    let currentButtonStart = 1;
 
-    function renderTable() {
+    async function fetchGuideData() {
+        try {
+            const response = await fetch('/api/guides'); // API 엔드포인트 예시
+            const data = await response.json();
+            renderTable(data);
+        } catch (error) {
+            console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        }
+    }
+
+    function renderTable(guideInfos) {
         const tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = ""; // 테이블 초기화
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
 
-        for (let i = start; i < end && i < totalItems; i++) {
+        for (let i = start; i < end && i < guideInfos.length; i++) {
+            const guide = guideInfos[i];
             const row = `<tr>
-                            <td>가이드 요청 ${i + 1}</td>
-                            <td>지역 ${i % 10}</td>
-                            <td>${i % 5}년</td>
-                            <td>${(i % 100) + 100}만원</td>
-                            <td>${(i % 5) + 1}명</td>
+                            <td>${guide.title}</td>
+                            <td>${guide.region}</td>
+                            <td>${guide.experience}년</td>
+                            <td>${guide.amount}만원</td>
+                            <td>${guide.capacity}명</td>
                             <td class="toggle">
-                                <input type="checkbox" id="toggle${i + 1}" ${i % 2 === 0 ? 'checked' : ''}>
-                                <label class="toggle-label" for="toggle${i + 1}"></label>
+                                <input type="checkbox" id="toggle${guide.id}" ${guide.state === 'on' ? 'checked' : ''}>
+                                <label class="toggle-label" for="toggle${guide.id}"></label>
+                                <span class="toggle-status">${guide.state}</span>
                             </td>
                             <td>
-                                <button class="button" onclick="viewDetails(${i + 1})">상세보기</button>
+                                <button class="button" onclick="viewDetails(${guide.id})">상세보기</button>
                             </td>
                         </tr>`;
             tableBody.innerHTML += row;
         }
 
-        renderPagination();
+        renderPagination(guideInfos.length);
+        attachToggleListeners();
     }
 
-    function renderPagination() {
+    function renderPagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
         const pageButtons = document.getElementById("pageButtons");
         pageButtons.innerHTML = ""; // 페이지 버튼 초기화
 
-        const startPage = Math.floor((currentButtonStart - 1) / 10) * 10 + 1;
-        const endPage = Math.min(startPage + 9, totalPages);
-
-        for (let i = startPage; i <= endPage; i++) {
+        for (let i = 1; i <= totalPages; i++) {
             const button = `<button class="button" onclick="goToPage(${i})">${i}</button>`;
             pageButtons.innerHTML += button;
         }
@@ -219,42 +227,44 @@
 
     function goToPage(page) {
         currentPage = page;
-        renderTable();
+        fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
     function nextPage() {
-        if (currentButtonStart + 10 <= totalPages) {
-            currentButtonStart += 10;
-        }
-        currentPage = Math.min(currentPage + 1, totalPages);
-        renderTable();
+        currentPage++;
+        fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
     function previousPage() {
-        if (currentButtonStart > 1) {
-            currentButtonStart -= 10;
-        }
-        currentPage = Math.max(currentPage - 1, 1);
-        renderTable();
+        currentPage--;
+        fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
     function goToFirstPage() {
         currentPage = 1;
-        currentButtonStart = 1;
-        renderTable();
+        fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
     function goToLastPage() {
-        currentPage = totalPages;
-        currentButtonStart = Math.floor((totalPages - 1) / 10) * 10 + 1;
-        renderTable();
+        // 마지막 페이지로 이동하는 로직 필요 (totalPages를 별도로 가져와야 함)
+        fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
     function viewDetails(id) {
         alert(`가이드 요청 ${id}의 상세 정보를 확인합니다.`);
+        window.location.href = '/guide/details/' + id; // 상세 정보 페이지로 이동
     }
 
-    renderTable(); // 초기 테이블 렌더링
+    function attachToggleListeners() {
+        document.querySelectorAll('.toggle input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const statusLabel = this.nextElementSibling.nextElementSibling; // 상태 표시
+                statusLabel.textContent = this.checked ? 'on' : 'off'; // 상태 업데이트
+            });
+        });
+    }
+
+    fetchGuideData(); // 초기 데이터 가져오기
 </script>
 
 </body>
