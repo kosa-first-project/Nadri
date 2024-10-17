@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 @Data
 public class TravelerInfoDTO {
 
-    private int id;
+    private int travelerInfoId;
     private int guideInfoId;
     private String userId;
     private LocalDateTime startDate;
