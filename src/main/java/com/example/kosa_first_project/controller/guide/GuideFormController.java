@@ -28,8 +28,8 @@ public class GuideFormController {
 
         guideFormService.saveGuideInfo(guideInfoDTO);
 
-        //return "redirect:/guide/guide_card"; // 리다이렉트 : 파일이 static 아래에 있어야함
-        return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
+        return "redirect:/guide/guide_card"; // 리다이렉트 : 파일이 static 아래에 있어야함
+        //return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
     }
 }
 
