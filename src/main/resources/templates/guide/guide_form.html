@@ -127,7 +127,7 @@
 
         <div class="button-group" style="margin-top: 20px;">
             <button type="submit">저장하기</button>
-            <button type="button" onclick="closeForm()">닫기</button>
+            <button type="button" onclick="window.location.href='/guide_card.html';">닫기</button>
         </div>
     </form>
 </div>
@@ -155,15 +155,6 @@
         container.appendChild(dateSection);
     }
 
-    function closeForm() {
-        <!--
-            const form = document.getElementById('guideForm');
-            form.action = '/guide_card.html';
-            form.submit();
-            -->
-
-        window.location.href = '/guide_card.html';
-    }
 </script>
 
 </body>
