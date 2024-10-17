@@ -5,7 +5,7 @@ import lombok.Data;
 public class GuideInfoDTO {
 
 
-    private int id;
+    private int guideInfoId;
     private String userId;
     private String city;
     private String town;
@@ -19,7 +19,7 @@ public class GuideInfoDTO {
     private int weekendPrice;
     private double boardRating;
     private int likeCount;
-    private String state;
+    private String guideInfoState;
 
 
 }

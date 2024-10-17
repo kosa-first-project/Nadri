@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 @Data
 public class GuideUnavailableTimeDTO {
 
-    private int id;
-    private String guideId;
+    private int guideUnavailableTimeId;
+    private String guideInfoId;
     private String userId;
     private LocalDateTime unavailableStartDate;
     private LocalDateTime unavailableEndDate;
