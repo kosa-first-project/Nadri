@@ -16,7 +16,7 @@ public class GuideFormController {
 
     @GetMapping("/guideForm")
     public String showGuideForm() {
-        return "guide_form"; // 뷰의 이름 반환 (HTML 페이지)
+        return "guide/guide_form"; // 뷰의 이름 반환 (HTML 페이지)
     }
 
     @PostMapping("/guideForm")
