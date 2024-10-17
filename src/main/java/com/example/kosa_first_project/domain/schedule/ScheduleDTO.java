@@ -1,14 +1,17 @@
 package com.example.kosa_first_project.domain.schedule;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleDTO {
-    private List<ScheduleDateDTO> schedule;
+    private String title;
+    private List<ScheduleBlockDTO> scheduleList;
 }

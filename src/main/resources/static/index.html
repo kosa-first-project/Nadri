@@ -103,12 +103,49 @@
                                             <a class="dropdown-item" href="elements.html">Elements</a>
                                         </div>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="create_Schedule.html">Contact</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle"
+                                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            여행 계획
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                            <a class="dropdown-item" href="create_Schedule.html">여행 계획 수정하기</a>
+                                            <a class="dropdown-item" href="show_Schedules.html">내 여행 계획 리스트 보기</a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
-                            <a href="#" class="btn_1 d-none d-lg-block">book now</a>
+                            <a href="create_Schedule.html" class="btn_1 d-none d-lg-block" onclick="createNewSchedule()">새 여행 계획 만들기</a>
+                            <script>
+                                function createNewSchedule() {
+                                    let title;
+
+                                    // Continuously ask for a title until a valid input or the user cancels
+                                    while (true) {
+                                        title = prompt("여행 계획 제목을 입력하세요.");
+
+                                        // If the user cancels or leaves the prompt empty, break the loop
+                                        if (!title) {
+                                            alert("여행 계획 생성이 취소되었습니다.");
+                                            break;
+                                        }
+
+                                        // Confirm with the user if they want to proceed with the provided title
+                                        const check = confirm(`"${title}" 제목의 일정을 생성하시겠습니까?`);
+
+                                        // If the user confirms, handle the creation of the new schedule
+                                        if (check) {
+                                            const scheduleTitle = sessionStorage.setItem("scheduleTitle", title);
+                                            alert(`"${title}" 제목의 일정이 생성되었습니다.`);
+                                            console.log(scheduleTitle + "asdf");
+                                            break;
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                }
+                            </script>
                         </nav>
                     </div>
                 </div>
