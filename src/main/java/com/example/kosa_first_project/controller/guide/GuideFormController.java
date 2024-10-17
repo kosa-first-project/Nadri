@@ -4,9 +4,7 @@ import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
 import com.example.kosa_first_project.domain.guide.GuideUnavailableTimeDTO;
 import com.example.kosa_first_project.service.guide.GuideFormService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,10 +15,15 @@ public class GuideFormController {
     private GuideFormService guideFormService;
 
 
+    //GET으로 잘못들어왔는지 TEST
+    @GetMapping("/guideForm")
+    public String showGuideForm() {
+        return "guide_form"; // 뷰의 이름 반환 (HTML 페이지)
+    }
     @PostMapping("/guideForm")
-    public ResponseEntity<String> saveGuide(@RequestBody GuideInfoDTO guideInfoDTO, @RequestBody GuideUnavailableTimeDTO guideUnavailableTimeDTO) {
+    public ResponseEntity<String> saveGuideForm(@ModelAttribute GuideInfoDTO guideInfoDTO) {
         guideFormService.saveGuideInfo(guideInfoDTO);
-        return ResponseEntity.ok("Guide info saved successfully."); // JSON 응답
+        return ResponseEntity.ok("Guide info saved successfully.");
     }
 }
 

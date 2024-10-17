@@ -18,15 +18,26 @@ public class GuideFormService {
     private GuideUnavailableTimeMapper guideUnavailableTimeMapper;
 
     public void saveGuideInfo(GuideInfoDTO guideInfoDTO) {
+        /*
         // Guide 정보 저장
         guideInfoMapper.insertGuideInfo(guideInfoDTO);
 
-        /*
-        // Unavailable dates 저장
-        if (guideInfoDTO.getUnavailableStartDates() != null) {
-            for (UnavailableDateDTO date : guideInfoDTO.getUnavailableDates()) {
-                guideInfoMapper.insertUnavailableDate(guideInfoDTO.getId(), date);
-            }
+        // Guide 불가능 시간 저장
+        if (guideUnavailableTimeDTO.getUnavailableStartDate() != null && guideUnavailableTimeDTO.getUnavailableEndDate() != null) {
+            guideUnavailableTimeMapper.insertGuideUnavailableTime(guideUnavailableTimeDTO);
+            //guideInfoMapper.insertUnavailableDate(guideInfoDTO.getId(), date);
         }*/
+
+
+        // GuideInfo 저장
+        guideInfoMapper.insertGuideInfo(guideInfoDTO);
+
+        // 불가능 기간 저장 (있을 경우)
+        if (guideInfoDTO.getUnavailableDates() != null) {
+            guideInfoDTO.getUnavailableDates().forEach(unavailableTime -> {
+                unavailableTime.setGuideInfoId(guideInfoDTO.getGuideInfoId());
+                guideUnavailableTimeMapper.insertGuideUnavailableTime(unavailableTime);
+            });
+        }
     }
 }

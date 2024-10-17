@@ -156,9 +156,13 @@
     }
 
     function closeForm() {
-        const form = document.getElementById('guideForm');
-        form.action = '/guide_list.html';
-        form.submit();
+        <!--
+            const form = document.getElementById('guideForm');
+            form.action = '/guide_card.html';
+            form.submit();
+            -->
+
+        window.location.href = '/guide_card.html';
     }
 </script>
 
