@@ -93,42 +93,12 @@
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" href="create_Schedule.html">여행 계획 세우기</a>
                                         <a class="dropdown-item" href="create_Schedule.html">여행 계획 수정하기</a>
-                                        <a class="dropdown-item" href="show_Schedules.html">내 여행 계획 리스트 보기</a>
+                                        <a class="dropdown-item" href="create_Schedule.html">내 여행 계획 리스트 보기</a>
                                     </div>
                                 </li>
                             </ul>
-                            <a href="create_Schedule.html" class="btn_1 d-none d-lg-block" onclick="createNewSchedule()">새 여행 계획 만들기</a>
-
-                            <script>
-                                function createNewSchedule() {
-                                    let title;
-
-                                    // Continuously ask for a title until a valid input or the user cancels
-                                    while (true) {
-                                        title = prompt("여행 계획 제목을 입력하세요.");
-
-                                        // If the user cancels or leaves the prompt empty, break the loop
-                                        if (!title) {
-                                            alert("여행 계획 생성이 취소되었습니다.");
-                                            break;
-                                        }
-
-                                        // Confirm with the user if they want to proceed with the provided title
-                                        const check = confirm(`"${title}" 제목의 일정을 생성하시겠습니까?`);
-
-                                        // If the user confirms, handle the creation of the new schedule
-                                        if (check) {
-                                            const scheduleTitle = sessionStorage.setItem("scheduleTitle", title);
-                                            alert(`"${title}" 제목의 일정이 생성되었습니다.`);
-                                            console.log(scheduleTitle + "asdf");
-                                            break;
-                                        } else {
-                                            break;
-                                        }
-                                    }
-                                }
-                            </script>
                         </div>
+                        <a href="#" class="btn_1 d-none d-lg-block">book now</a>
                     </nav>
                 </div>
             </div>
@@ -165,7 +135,7 @@
             </div>
 
             <div class="col-lg-6">
-                <form class="form-contact contact_form" method="post" id="scheduleForm" action="/schedule/Create" novalidate="novalidate">
+                <form class="form-contact contact_form" method="post" id="scheduleForm" novalidate="novalidate">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -198,103 +168,18 @@
                             </div>
                         </div>
                     </div>
-                        <div class="form-group mt-3">
-                            <button type="submit" class="button button-contactForm btn_1" >일정 생성</button>
-                        </div>
+                    <form method="post" action="/schedule/Create"></form>
                     <div class="form-group mt-3">
-                        <button type="submit" class="button button-contactForm btn_1">계획서 제출</button>
+                        <button type="submit" class="button button-contactForm btn_1" >일정 생성</button>
                     </div>
                 </form>
-            </div>
-            <div class="col-lg-6">
-                <div class="input-group mb-3">
-                    <input id="searchedElem" type="text" class="form-control" placeholder='ex) 경복궁'
-                           onkeypress="if(event.key === 'Enter') searchKeyword();">
-                    <div class="input-group-append">
-                        <button onclick ="searchKeyword()" class="btn" type="button"><i class="ti-search"></i></button>
-                    </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="button button-contactForm btn_1">계획서 제출</button>
                 </div>
-                <!-- Map container -->
-                <div id="map" style="width:100%;height:400px;"></div>
-                <script>
-                    var infowindow = new kakao.maps.InfoWindow({zIndex: 1});
-                    var markers = []; // 마커를 저장할 배열 초기화
+                </form>
+            </div>
+            <div class="col-lg-4">
 
-                    var mapContainer = document.getElementById("map");
-                    var mapOption = {
-                        center: new kakao.maps.LatLng(36.98818056, 127.9281444), // 기본 지도 중심 좌표
-                        level: 12, // 지도 줌 레벨
-                    };
-
-                    // 지도를 생성합니다
-                    var map = new kakao.maps.Map(mapContainer, mapOption);
-
-                    // 장소 검색 객체를 생성합니다
-                    var ps = new kakao.maps.services.Places();
-
-                    // 검색 버튼 클릭 또는 Enter 키 입력 시 호출되는 함수
-                    function searchKeyword() {
-                        const keyword = document.getElementById("searchedElem").value;
-
-                        // 기존 마커를 모두 제거합니다
-                        removeMarkers();
-
-                        // 검색어가 있는 경우 장소 검색을 수행합니다
-                        if (keyword) {
-                            ps.keywordSearch(keyword, placesSearchCB);
-                        } else {
-                            alert("검색어를 입력해주세요.");
-                        }
-                    }
-
-                    // 기존 마커를 모두 제거하는 함수
-                    function removeMarkers() {
-                        for (var i = 0; i < markers.length; i++) {
-                            markers[i].setMap(null); // 마커를 지도에서 제거
-                        }
-                        markers = []; // 마커 배열을 초기화
-                    }
-
-                    // 장소 검색 완료 후 호출되는 콜백 함수
-                    function placesSearchCB(data, status, pagination) {
-                        if (status === kakao.maps.services.Status.OK) {
-                            var bounds = new kakao.maps.LatLngBounds();
-
-                            // 검색된 장소마다 마커를 표시합니다
-                            for (var i = 0; i < data.length; i++) {
-                                displayMarker(data[i]);
-                                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-                            }
-
-                            // 검색된 장소를 모두 포함하도록 지도 범위를 조정합니다
-                            map.setBounds(bounds);
-                        } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-                            alert("검색 결과가 없습니다.");
-                        } else if (status === kakao.maps.services.Status.ERROR) {
-                            alert("검색 중 오류가 발생했습니다.");
-                        }
-                    }
-
-                    // 지도에 마커를 표시하는 함수
-                    function displayMarker(place) {
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: new kakao.maps.LatLng(place.y, place.x),
-                        });
-
-                        // 생성된 마커를 markers 배열에 추가합니다
-                        markers.push(marker);
-
-                        // 마커 클릭 이벤트를 등록합니다
-                        kakao.maps.event.addListener(marker, "click", function () {
-                            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>");
-                            infowindow.open(map, marker);
-
-                            // 마커 클릭 시 해당 장소명을 목적지(destination) 입력 필드에 설정합니다
-                            document.getElementById("destination").value = place.place_name;
-                        });
-                    }
-                </script>
             </div>
         </div>
     </div>
