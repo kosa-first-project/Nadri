@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+    <style>
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container input {
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>게시글 목록</h1>
+게시판 총 <span th:text="${cntBoard}">0</span> 개
+<table>
+    <thead>
+    <tr>
+        <th class="one wide">번호</th>
+        <th class="ten wide">글제목</th>
+        <th class="two wide">작성자</th>
+        <th class="three wide">작성일</th>
+        <th class="four wide">평점</th>
+        <!--<th class="four wide">조회수</th>-->
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="board : ${boardList}">
+        <td><span th:text="${board.id}">1</span></td>
+        <td><a th:href="@{/board/{id}(id=${board.id})}"><span th:text="${board.title}">제목</span></a></td>
+        <td><span th:text="${board.user_id}">작성자</span></td>
+        <td><span th:text="${board.write_date}">작성일</span></td>
+        <td><span th:text="${board.rating}">평점</span></td>
+<!--        <td><span th:text="${board.hit}">조회수</span></td>-->
+    </tr>
+    </tbody>
+</table>
+
+<input type="button" value="글 작성" th:onclick="|location.href='@{board/write}'|" /><br/><br/>
+
+<!-- 페이징 처리 시작 -->
+<div class="col-sm-12 col-md-7" style="margin: auto">
+    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+        <div class="paging">
+            <div th:if="${paginate != null}">
+
+                <!-- 이전 페이지 링크 -->
+                <div th:if="${paginate.nationBegin > 1}"> <!--페이지가 1보다 크면-->
+                    <a th:href="@{${paginate.params}(${paginate.pageName}=${paginate.nationBegin - 1})}" page="${paginate.nationBegin - 1}" class="prev">이전</a>
+                </div>
+                <div th:if="${paginate.nationBegin <= 1}"> <!--페이지가 1보다 작거나 같으면-->
+                    <a href="#" onclick="return false" class="prev">이전</a>
+                </div>
+
+                <!-- 페이지 번호 링크 -->
+                <span th:each="pageNum : ${#numbers.sequence(paginate.nationBegin, paginate.nationClose)}">
+                    <span th:if="${pageNum == paginate.pageNo}">
+                        <strong class="current" th:text="${pageNum}">1</strong>
+                    </span>
+                    <span th:if="${pageNum != paginate.pageNo}">
+                        <a th:href="@{${paginate.params}(${paginate.pageName}=${pageNum})}" th:text="${pageNum}">1</a>
+                    </span>
+                </span>
+
+                <!-- 다음 페이지 링크 -->
+                <div th:if="${paginate.nationClose < paginate.totalPage}">
+                    <a th:href="@{${paginate.params}(${paginate.pageName}=${paginate.nationClose + 1})}" page="${paginate.nationClose + 1}" class="next">다음</a>
+                </div>
+                <div th:if="${paginate.nationClose >= paginate.totalPage}">
+                    <a href="#" onclick="return false" class="next">다음</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 페이징 처리 끝 -->
+</body>
+</html>
