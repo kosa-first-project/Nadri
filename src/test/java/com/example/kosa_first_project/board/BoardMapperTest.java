@@ -1,7 +1,7 @@
-/*
 package com.example.kosa_first_project.board;
 
 import com.example.kosa_first_project.domain.board.BoardDTO;
+import com.example.kosa_first_project.domain.board.FileDTO;
 import mybatis.dao.board.BoardMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,32 +16,52 @@ public class BoardMapperTest {
     @Autowired
     BoardMapper boardMapper;
 
+    // 각 테스트 수행하기 전에 출력
     @BeforeEach
     void printLine() {
         System.out.println("=".repeat(80));
-    } // 각 테스트 수행하기 전에 출력
+    }
 
     @Test
     @Transactional
-    void userSave() {
+    void userSave() { // 회원 저장
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setUser_id("테스터1");
         System.out.println(boardDTO.getUser_id());
     }
 
     @Test
-    @Transactional // 삽입이 됐는지 확인 후 rollback
-    void boardSave() {
+    @Transactional  // 게시글 저장
+    void insertBoard() {
         BoardDTO boardDTO = new BoardDTO();
-        //boardDTO.setUser_id(userSave()); //성준이 형 오류나요.
-        boardDTO.setTitle("제목");
-        boardDTO.setContext("내용");
-        boardDTO.setImage("첫번째 이미지");
+        boardDTO.setUser_id("dohun");
+        boardDTO.setTitle("테스트1");
+        boardDTO.setContent("게시판 테스트1");
+        boardDTO.setImage("게시판 이미지 테스트1");
         boardDTO.setRating(5);
-        boardMapper.boardSave(boardDTO);
+    }
 
-        List<BoardDTO> findAll = boardMapper.findAll(); // 전체 게시글 출력
+    @Test
+    @Transactional
+    void getBoardAll() { // 전체 게시글 출력
+        BoardDTO boardDTO = new BoardDTO();
+        List<BoardDTO> findAll = boardMapper.getBoardAll(boardDTO);
         System.out.println(findAll.size());
     }
+
+    @Test
+    @Transactional
+    void getBoardOne(){ // 게시글 상세
+        BoardDTO boardDTO = new BoardDTO();
+        BoardDTO fineOne = boardMapper.getBoardOne(boardDTO.getId());
+        System.out.println(fineOne);
+    }
+
+    @Test
+    @Transactional
+    void insertFile(){ // 파일 저장
+        FileDTO fileDTO = new FileDTO();
+    }
+    
+
 }
-*/
