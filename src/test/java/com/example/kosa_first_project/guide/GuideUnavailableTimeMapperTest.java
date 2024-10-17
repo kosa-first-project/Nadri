@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class GuideUnavailableTimeMapperTest {
     @Test
     public void testInsertGuideUnavailableTime() {
         GuideUnavailableTimeDTO unavailableTime = new GuideUnavailableTimeDTO();
-        unavailableTime.setGuideInfoId("guide1");
+        unavailableTime.setGuideInfoId(1);
         unavailableTime.setUserId("user1");
-        unavailableTime.setUnavailableStartDate(LocalDateTime.now().plusDays(1));
-        unavailableTime.setUnavailableEndDate(LocalDateTime.now().plusDays(2));
+        unavailableTime.setUnavailableStartDate(LocalDate.now().plusDays(1));
+        unavailableTime.setUnavailableEndDate(LocalDate.now().plusDays(2));
 
         guideUnavailableTimeMapper.insertGuideUnavailableTime(unavailableTime);
 
@@ -71,7 +72,7 @@ public class GuideUnavailableTimeMapperTest {
     @Test
     public void testUpdateGuideUnavailableTime() {
         GuideUnavailableTimeDTO unavailableTime = guideUnavailableTimeMapper.getGuideUnavailableTimeById(1); // ID가 1인 경우
-        unavailableTime.setUnavailableEndDate(LocalDateTime.now().plusDays(3));
+        unavailableTime.setUnavailableEndDate(LocalDate.now().plusDays(3));
         guideUnavailableTimeMapper.updateGuideUnavailableTime(unavailableTime);
 
         GuideUnavailableTimeDTO updatedTime = guideUnavailableTimeMapper.getGuideUnavailableTimeById(1);
