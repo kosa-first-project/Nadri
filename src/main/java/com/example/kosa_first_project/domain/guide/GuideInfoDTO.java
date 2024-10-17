@@ -1,6 +1,8 @@
 package com.example.kosa_first_project.domain.guide;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class GuideInfoDTO {
 
@@ -21,5 +23,8 @@ public class GuideInfoDTO {
     private int likeCount;
     private String guideInfoState;
 
+
+    // 불가능 기간 리스트를 포함
+    private List<GuideUnavailableTimeDTO> unavailableDates;
 
 }
