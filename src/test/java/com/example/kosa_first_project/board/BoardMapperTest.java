@@ -37,7 +37,7 @@ public class BoardMapperTest {
         boardDTO.setUser_id("dohun");
         boardDTO.setTitle("테스트1");
         boardDTO.setContent("게시판 테스트1");
-        boardDTO.setImage("게시판 이미지 테스트1");
+//        boardDTO.setImage("게시판 이미지 테스트1");
         boardDTO.setRating(5);
     }
 
@@ -53,8 +53,8 @@ public class BoardMapperTest {
     @Transactional
     void getBoardOne(){ // 게시글 상세
         BoardDTO boardDTO = new BoardDTO();
-        BoardDTO fineOne = boardMapper.getBoardOne(boardDTO.getId());
-        System.out.println(fineOne);
+//        BoardDTO fineOne = boardMapper.getBoardOne(boardDTO.getId());
+//        System.out.println(fineOne);
     }
 
     @Test

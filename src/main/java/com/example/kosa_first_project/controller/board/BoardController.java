@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class BoardController {
     private BoardService boardService; // 서비스 연결
 
     // 메인화면(전체 게시글 출력)
-    @GetMapping() // 매핑 주소
+    @RequestMapping // 매핑 주소
     public String boardMain(BoardDTO boardDTO, Model model, @RequestParam(defaultValue = "1") int page) { // 페이지 기본값 1로 세팅
 
         // 게시글 총 개수
@@ -35,49 +36,52 @@ public class BoardController {
         model.addAttribute("cntBoard", total); // 전체 개수를 모델에 저장
 
         // 페이징
-        PaginationDTO pagination = new PaginationDTO(5, 3); // 페이지 당 게시글 수,
+        PaginationDTO pagination = new PaginationDTO(5,3); // 페이지 당 게시글 수,
         pagination.setPageNo(page); // 페이지 번호 저장
         pagination.setTotalSize(total); // 전체 페이지 저장
 
-        boardDTO.setPageNo(page); // 게시판에 페이지 번호 저장
-        boardDTO.setPageSize(pagination.getTotalSize()); // 전체 페이지 수
+        boardDTO.setPageNo(page); // 게시판에 페이지 번호
+        boardDTO.setPageSize(pagination.getPageSize()); // 페이지 크기 저장
         boardDTO.setPageOffset(pagination.getPageOffset()); // 페이지 시작 위치
 
         model.addAttribute("paginate", pagination);
         model.addAttribute("boardList", boardService.getBoardAll(boardDTO));
-
         return "board/main"; // 리턴할 뷰
     }
 
     // 게시글 상세화면
     @GetMapping("/{id}") // URL에서 : /board/{id}
-    public String boardDetail(@PathVariable long id, Model model, BoardDTO boardDTO){
+    public String boardDetail(@PathVariable Integer id, Model model, BoardDTO boardDTO){
         BoardDTO boardDetail = boardService.getBoardOne(id); // 게시글 번호 저장
         List<FileDTO> file = boardService.getFile(boardDTO); // 게시글 번호에 따른 파일 가져오기.
+        boardDTO.setHit(boardService.hit(id));
+        System.out.println(boardDTO.getHit());
+
         model.addAttribute("board", boardDetail);
         model.addAttribute("getFile", file);
         return "board/write";
     }
 
     // 게시글 작성
-    @GetMapping("/write")
-    public String showWriteForm(BoardDTO boardDTO, Model model) {
-        model.addAttribute("getBoard", boardDTO);
+    @RequestMapping("/write")
+    public String write(BoardDTO boardDTO, Model model) {
+        model.addAttribute("board", boardDTO);
         model.addAttribute("getFile", boardService.getFile(boardDTO));
+        log.info("boardService.getFile(boardDTO): {}", boardService.getFile(boardDTO));
         return "board/write";
     }
 
     //게시글 삽입
-    @PostMapping("/insertBoard")
-    public String insertBoard(@CookieValue(name="user_id", required = false) String user_id, @ModelAttribute BoardDTO boardDTO, Model model){
-        boardDTO.setUser_id(user_id);
+    @RequestMapping("/insertBoard")
+    public String insertBoard(@ModelAttribute BoardDTO boardDTO){
+        log.info("BoardDTO: {}", boardDTO);
         boardService.insertBoard(boardDTO);
-        return "redirect:/main";
+        return "redirect:/board";
     }
 
     //게시글 삭제
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteBoard(@PathVariable long id){ // ResponseEntity : 응답
+    public ResponseEntity<String> deleteBoard(@PathVariable Integer id){ // ResponseEntity : 응답
         boolean deleted = boardService.deleteBoard(id);
         if(deleted){
             return ResponseEntity.ok("게시물이 성공적으로 삭제되었습니다.");

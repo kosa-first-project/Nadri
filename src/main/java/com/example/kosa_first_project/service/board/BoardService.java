@@ -26,7 +26,7 @@ import java.util.List;
 public class BoardService{
 
     @Autowired
-    private BoardMapper boardMapper; // 매퍼 객체 생성
+    private BoardMapper boardMapper; // 매퍼 연결
 
     // 게시판 전체 리스트 조회
     public List<BoardDTO> getBoardAll(BoardDTO dto) {
@@ -34,12 +34,12 @@ public class BoardService{
     }
 
     //게시판 개별 조회
-    public BoardDTO getBoardOne(long id){
+    public BoardDTO getBoardOne(Integer id){
         return boardMapper.getBoardOne(id);
     }
 
     // 게시글 삭제
-    public boolean deleteBoard(long id) {
+    public boolean deleteBoard(Integer id) {
         return boardMapper.deleteBoard(id);
     }
 
@@ -53,7 +53,6 @@ public class BoardService{
         } else {
             boardMapper.insertBoard(dto); // 게시글 번호가 없으면(NULL) 게시글 삽입
         }
-
         // 파일 고유 이름 생성
         List<FileDTO> list = new ArrayList<>();
         String[] uuids = dto.getUuids();
@@ -102,5 +101,10 @@ public class BoardService{
         Resource resource = new InputStreamResource(Files.newInputStream(path));
 
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    }
+
+    //조회 수 증가
+    public int hit(Integer id) {
+        return boardMapper.updateHit(id);
     }
 }

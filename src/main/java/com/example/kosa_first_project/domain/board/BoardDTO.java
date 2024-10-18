@@ -11,9 +11,9 @@
         private String user_id; // 회원 아이디(외래키)
         private String title; // 제목
         private String content; // 내용
-        private String image; // 이미지
         private double rating; // 평점
-        private int viewCnt; // 조회수
+        private int hit; // 조회수
+        private boolean deleteYn;
         private LocalDateTime write_date; // 생성 일시
         private LocalDateTime modify_date; // 최종 수정 일시
 

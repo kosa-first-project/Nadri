@@ -7,14 +7,14 @@
 <body>
 <h1>게시글 상세보기</h1>
 
-<form id="boardForm" method="post" action="/insertBoard">
+<form id="boardForm" method="post" action="/board/insertBoard">
     <table width="90%">
-        <tr width="90%">
-            <td width="10%" align="center">작성자</td>
+<!--        <tr width="90%">
+            <td align="center">작성자</td>
             <td width="50%" th:if="${board.user_id}" th:text="${board.user_id}">작성자</td>
-            <!-- <td width="50%">${user.username}</td> -->
-            <td width="50%" th:text="${board.user_id}">사용자</td>
-        </tr>
+            &lt;!&ndash; <td width="50%">${user.username}</td> &ndash;&gt;
+&lt;!&ndash;            <td width="50%" th:text="${board.user_id}">사용자</td>&ndash;&gt;
+        </tr>-->
         <tr>
             <td align="center">제목</td>
             <td><input type="text" name="title" style="width: 95%;" th:value="${board.title}"></td>
@@ -26,7 +26,7 @@
                 <tr>
                     <td align="center">이미지 등록</td>
                     <td>
-                        <input type="file" name="images" id="images" multiple="multiple" onchange="uploadFile(this)">
+                        <input type="file" name="files" id="files" multiple="multiple" onchange="uploadFile(this)">
                         <div id="uploadDiv">
                             <div th:each="file, status : ${getFile}" class="uploadResult">
                                 <span th:text="${status.index + 1} + '. '">1. </span>
@@ -86,15 +86,16 @@
             data: formData,
             processData: false,
             contentType: false,
+            cache: false,  // 캐시 방지
             success: function (data) {
                 console.log(data);
                 let result = "";
                 let cnt = $('.uploadResult').length;
                 for (let i = 0; i < data.length; i++) {
                     result += '<div class="uploadResult">';
-                    result += '<span>' + (cnt + i + 1) + '. </span><a href="/downloadFile?uuid=' + data[i].uuid + '&fileName=' + data[i].fileName + '" download>' + data[i].fileName + '</a>';
+                    result += '<span>' + (cnt + i + 1) + '. </span><a href="/downloadFile?uuid=' + data[i].uuid + '&fileName=' + data[i].fileNames + '" download>' + data[i].fileNames + '</a>';
                     result += '<input type="hidden" name="uuids" value="' + data[i].uuid + '">';
-                    result += '<input type="hidden" name="fileNames" value="' + data[i].fileName + '">';
+                    result += '<input type="hidden" name="fileNames" value="' + data[i].fileNames + '">';
                     result += '<input type="hidden" name="contentTypes" value="' + data[i].contentType + '">';
                     result += '<label type="button" class="delBtn"> ◀ 삭제</label>';
                     result += '</div>';
@@ -109,13 +110,14 @@
     function deleteBoard() {
         const id = document.getElementsByName("id")[0].value;
         if (confirm("정말 삭제하시겠습니까?")) {
-            fetch(`/delete/${id}`, {
+            fetch(`/board/delete/${id}`, {
                 method: 'DELETE'
             })
                 .then(response => {
+                    console.log(response); // 서버 응답 확인
                     if (response.ok) {
                         alert("삭제되었습니다.");
-                        location.href = "/main";
+                        location.href = "/board";
                     } else {
                         alert("삭제에 실패하였습니다.");
                     }
