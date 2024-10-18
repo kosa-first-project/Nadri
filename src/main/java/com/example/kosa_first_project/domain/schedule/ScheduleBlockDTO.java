@@ -13,13 +13,9 @@ public class ScheduleBlockDTO {
     private String destination;
     private Date startDateTime;
     private Date endDateTime;
-    private String description = "";
-
-    public ScheduleBlockDTO(String destination, Date startDateTime, Date endDateTime) {
-        this.destination = destination;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-    }
+    private String comment;
+    private String user_id;
+    private String title;
 
     @Override
     public String toString(){

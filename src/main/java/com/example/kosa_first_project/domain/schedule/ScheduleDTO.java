@@ -13,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ScheduleDTO {
     private String title;
+    private String user_id;
     private List<ScheduleBlockDTO> scheduleList;
 }

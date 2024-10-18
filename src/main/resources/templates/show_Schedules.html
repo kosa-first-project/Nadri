@@ -1,0 +1,166 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Martine</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/gijgo.min.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<header class="main_menu">
+    <div class="main_menu_iner">
+        <div class="container">
+            <div class="row align-items-center ">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
+                        <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
+
+                        <div class="collapse navbar-collapse main-menu-item justify-content-center"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.html">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="about.html">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="packages.html">Packages</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        Blog
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="blog.html">Blog</a>
+                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        Pages
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                        <a class="dropdown-item" href="top_place.html">Top place</a>
+                                        <a class="dropdown-item" href="tour_details.html">Tour details</a>
+                                        <a class="dropdown-item" href="elements.html">Elements</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        여행 계획
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+<!--                                        <a class="dropdown-item" href="#" onclick="document.getElementById('editScheduleForm').submit();">여행 계획 수정하기</a>-->
+                                        <a class="dropdown-item" href="#" onclick="document.getElementById('showScheduleForm').submit();">내 여행 계획 리스트 보기</a>
+<!--                                        <form id="editScheduleForm" action="/edit_Schedule.html" method="get" style="display: none;">-->
+<!--                                        </form>-->
+                                        <form id="showScheduleForm" action="/show_Schedules.html" method="get" style="display: none;">
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="create_Schedule.html" class="btn_1 d-none d-lg-block" onclick="createNewSchedule()">새 여행 계획 만들기</a>
+                        <script>
+                            function createNewSchedule() {
+                                let title;
+
+                                // Continuously ask for a title until a valid input or the user cancels
+                                while (true) {
+                                    title = prompt("여행 계획 제목을 입력하세요.");
+
+                                    // If the user cancels or leaves the prompt empty, break the loop
+                                    if (!title) {
+                                        alert("여행 계획 생성이 취소되었습니다.");
+                                        break;
+                                    }
+
+                                    // Confirm with the user if they want to proceed with the provided title
+                                    const check = confirm(`"${title}" 제목의 일정을 생성하시겠습니까?`);
+
+                                    // If the user confirms, handle the creation of the new schedule
+                                    if (check) {
+                                        const scheduleTitle = sessionStorage.setItem("scheduleTitle", title);
+                                        alert(`"${title}" 제목의 일정이 생성되었습니다.`);
+                                        console.log(scheduleTitle + "asdf");
+                                        break;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            }
+                        </script>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item text-center">
+                        <h2>내 여행 계획 리스트 보기</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="schedule-titles-section">
+    <form action="/schedule/show" method="get">
+        <div class="container">
+            <h2>내 여행 계획 선택하기</h2>
+            <div class="form-group">
+                <label for="titleSelect">Select a Schedule Title</label>
+                <select id="titleSelect" name = "title" class="form-control">
+                    <th:block th:each="title : ${scheduleTitles}">
+                        <option th:name="title" th:value="${title}" th:text="${title}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">스케쥴 선택</button>
+        </div>
+    </form>
+</section>
+
+
+<script src="js/jquery-1.12.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.magnific-popup.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/gijgo.min.js"></script>
+<script src="js/jquery.ajaxchimp.min.js"></script>
+<script src="js/jquery.form.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/mail-script.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/custom.js"></script>
+</body>
+
+</html>
