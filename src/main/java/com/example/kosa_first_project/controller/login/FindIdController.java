@@ -21,13 +21,13 @@ public class FindIdController {
     }
 
     @PostMapping("/findID")
-    public String findId(@RequestParam String name,
+    public String findId(@RequestParam String username,
                          @RequestParam String password,
                          @RequestParam String email,
                          Model model) {
-        String userId = findIdMapper.resultId(name, email, password);
+        String userId = findIdMapper.resultId(username, email, password);
 
-        if(!userId.equals("")) {
+        if(userId != null && !userId.equals("")) {
             model.addAttribute("userId",userId);
         } else {
             model.addAttribute("errorMessage", "아이디를 찾을 수 없습니다.");
