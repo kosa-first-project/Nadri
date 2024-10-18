@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -42,15 +42,17 @@
   </style>
 </head>
 <body>
+<form action="@{/findID}" method="post">
 <div class="findID">
   <h2>아이디 찾기</h2>
   <div>이름</div>
-  <input type="text" name="findIdName" placeholder="이름을 입력하세요." required>
+  <input type="text" name="username" placeholder="이름을 입력하세요." required>
   <div>이메일</div>
-  <input type="text" name="findIdEmail" placeholder="이메일을 입력하세요." required>
-  <div>아이디</div>
-  <input type="text" name="findIdID" placeholder="아이디를 입력하세요." required>
-  <input type="submit" value="로그인">
+  <input type="text" name="email" placeholder="이메일을 입력하세요." required>
+  <div>비밀번호</div>
+  <input type="password" name="password" placeholder="비밀번호를 입력하세요." required>
+  <input type="submit" value="아이디 찾기">
+</form>
 </div>
 </body>
 </html>

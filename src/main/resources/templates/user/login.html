@@ -39,10 +39,30 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+
+        .login-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .login-buttons a {
+            width: 30px;
+            text-decoration: none;
+            background-color: #ccc;
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+        }
+
+        .login-buttons a:hover {
+            background-color: #007bff;
+        }
     </style>
 </head>
 <body>
-<form action="/login-controller" method="post" >
+<form th:action="@{/login}" method="post">
 <div class="login">
     <h2>로그인</h2>
     <div>아이디</div>
@@ -50,9 +70,12 @@
     <div>비밀번호</div>
     <input type="password" name="loginPass" placeholder="비밀번호를 입력하세요." required>
     <input type="submit" value="로그인">
-    <button type="button" onClick="location.href='findID.html'">아이디 찾기</button>
-    <button type="button" onClick="location.href='findPass.html'">비밀번호 찾기</button>
-    <button type="button" onClick="location.href='join.html'">회원가입</button>
+    <div>
+        <a th:href="@{/user/findID}" class="btn">아이디 찾기</a>
+        <a th:href="@{/user/findPass}" class="btn">비밀번호 찾기</a>
+        <a th:href="@{/user/join}" class="btn">회원가입</a>
+    </div>
+    <div th:if="${failMessage != null}">[[${failMessage}]]</div>
 </div>
 </form>
 </body>

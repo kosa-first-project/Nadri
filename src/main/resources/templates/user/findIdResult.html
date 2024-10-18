@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기 결과</title>
+</head>
+<body>
+<form th:action="@{/findID}" method="post">
+<div th:if="${userId != null}">
+  [[${userIf}]]
+</div>
+<div th:if="${userId == null}">
+  [[${errorMessage}]]
+</div>
+</form>
+</body>
+</html>

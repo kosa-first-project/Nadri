@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>비밀번호 찾기</title>
@@ -42,7 +42,8 @@
   </style>
 </head>
 <body>
-<div class="findID">
+<div class="findPass">
+  <form action="@{/user/findPass}" method="post">
   <h2>비밀번호 찾기</h2>
   <div>이름</div>
   <input type="text" id="findIdName" placeholder="이름을 입력해주세요." required>
@@ -51,7 +52,7 @@
   <div>비밀번호</div>
   <input type="password" id="findIdPass" placeholder="비밀번호를 입력해주세요." required>
   <input type="submit" value="로그인">
+  </form>
 </div>
-
 </body>
 </html>
