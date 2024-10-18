@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 활동 정보</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        input[type="text"], select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 48%;
+            font-size: 14px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            width: 300px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .nickname {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .card-info {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            margin: 0 2px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>가이드 활동 정보</h1>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="제목 및 상세내역 검색">
+        <select id="citySelect">
+            <option value="all">모든 지역</option>
+            <option value="seoul">서울</option>
+            <option value="busan">부산</option>
+            <option value="jeju">제주</option>
+        </select>
+        <button class="button" onclick="performSearch()">검색</button>
+    </div>
+
+    <div class="card-container" id="cardContainer">
+        <!-- 자바스크립트로 카드가 동적으로 추가됩니다. -->
+    </div>
+
+    <div class="pagination">
+        <button class="button" onclick="goToFirstPage()">맨 앞</button>
+        <button class="button" onclick="previousPage()">이전</button>
+        <span id="pageButtons"></span>
+        <button class="button" onclick="nextPage()">다음</button>
+        <button class="button" onclick="goToLastPage()">맨 뒤</button>
+    </div>
+</div>
+
+<script>
+    let totalItems = 0;
+    const itemsPerPage = 12;
+    let currentPage = 1;
+
+    async function fetchGuideData() {
+        try {
+            const response = await fetch('/api/guides');
+            const data = await response.json();
+            totalItems = data.length;
+            renderCards(data);
+        } catch (error) {
+            console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        }
+    }
+
+    async function performSearch() {
+        const searchTerm = document.getElementById('searchInput').value;
+        const selectedCity = document.getElementById('citySelect').value;
+
+        try {
+            const response = await fetch(`/api/guides?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+            const data = await response.json();
+            renderCards(data);
+        } catch (error) {
+            console.error('검색 중 오류 발생:', error);
+        }
+    }
+
+    function renderCards(guideInfos) {
+        const cardContainer = document.getElementById("cardContainer");
+        cardContainer.innerHTML = "";
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        for (let i = start; i < end && i < guideInfos.length; i++) {
+            const guide = guideInfos[i];
+            const card = `<div class="card" onclick="location.href='/api/guides/${guide.guideInfoId}'">///////////////////////////
+                            <div class="card-content">
+                                <div class="card-title">${guide.title}</div>
+                                <div class="card-info">지역: ${guide.city}</div>
+                                <div class="card-info">경력: ${guide.career}년</div>
+                                <div class="card-info">금액: ${guide.weekdayPrice}원</div>
+                                <div class="card-info">수용인원: ${guide.capacity}명</div>
+                                <div class="profile" style="display: flex; justify-content: flex-end; align-items: center;">
+                                    <div class="nickname">${guide.nickname}</div>
+                                    <img src="${guide.profileImageUrl}" alt="프로필 사진" class="profile-img">
+                                </div>
+                            </div>
+                        </div>`;
+
+
+        // <img src="${guide.thumbnailUrl}" alt="썸네일 이미지" class="card-image"> //후에 썸네일 쓸때 사용
+            cardContainer.innerHTML += card;
+        }
+
+        renderPagination(guideInfos.length);
+    }
+
+    function renderPagination(totalGuideInfos) {
+        const totalPages = Math.ceil(totalGuideInfos / itemsPerPage);
+        const pageButtons = document.getElementById("pageButtons");
+        pageButtons.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = `<button class="button" onclick="goToPage(${i})">${i}</button>`;
+            pageButtons.innerHTML += button;
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        fetchGuideData();
+    }
+
+    function nextPage() {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchGuideData();
+        }
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchGuideData();
+        }
+    }
+
+    function goToFirstPage() {
+        currentPage = 1;
+        fetchGuideData();
+    }
+
+    function goToLastPage() {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        currentPage = totalPages;
+        fetchGuideData();
+    }
+
+    fetchGuideData();
+</script>
+
+</body>
+</html>
