@@ -132,17 +132,16 @@
     </div>
 
     <div class="search-bar">
-        <input type="text" placeholder="신청자 이름 또는 연락처 검색">
-        <select>
+        <input type="text" id="searchInput" placeholder="신청자 이름 또는 연락처 검색">
+        <select id="statusSelect">
             <option value="all">모든 상태</option>
-            <option value="received">접수</option>
-            <option value="accepted">수락</option>
-            <option value="rejected">거절</option>
-            <option value="completed">완료</option>
-            <option value="canceled">접수 취소</option>
+            <option value="activate">활성화</option>
+            <option value="deactivate">비활성화</option>
+            <option value="delete">삭제</option>
         </select>
-        <button class="button">검색</button>
+        <button class="button" onclick="performSearch()">검색</button>
     </div>
+
 
     <table>
         <thead>
@@ -183,6 +182,21 @@
             renderTable(data);
         } catch (error) {
             console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        }
+    }
+
+
+    async function performSearch() {
+        const searchTerm = document.getElementById('searchInput').value; // 검색어 가져오기
+        const selectedStatus = document.getElementById('statusSelect').value; // 선택된 상태 가져오기
+
+        // API 호출 예시
+        try {
+            const response = await fetch(`/api/guides?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
+            const data = await response.json();
+            renderTable(data); // 검색 결과를 테이블에 렌더링
+        } catch (error) {
+            console.error('검색 중 오류 발생:', error);
         }
     }
 
