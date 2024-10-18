@@ -171,6 +171,7 @@
 </div>
 
 <script>
+    let totalItems = 0; // 전체 항목 수
     const itemsPerPage = 10;  // 페이지당 항목 수
     let currentPage = 1;
 
@@ -178,6 +179,7 @@
         try {
             const response = await fetch('/api/guides'); // API 엔드포인트 예시
             const data = await response.json();
+            totalItems = data.length; // 전체 아이템 수 업데이트 (변경된 부분)
             renderTable(data);
         } catch (error) {
             console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
@@ -194,28 +196,28 @@
             const guide = guideInfos[i];
             const row = `<tr>
                             <td>${guide.title}</td>
-                            <td>${guide.region}</td>
-                            <td>${guide.experience}년</td>
-                            <td>${guide.amount}만원</td>
+                            <td>${guide.city}</td>
+                            <td>${guide.career}년</td>
+                            <td>${guide.weekdayPrice}원</td>
                             <td>${guide.capacity}명</td>
                             <td class="toggle">
-                                <input type="checkbox" id="toggle${guide.id}" ${guide.state === 'on' ? 'checked' : ''}>
-                                <label class="toggle-label" for="toggle${guide.id}"></label>
-                                <span class="toggle-status">${guide.state}</span>
+                                <input type="checkbox" id="toggle${guide.guideInfoId}" ${guide.guideInfoState === 'activate' ? 'checked' : ''}>
+                                <label class="toggle-label" for="toggle${guide.guideInfoId}"></label>
+                                <span class="toggle-status">${guide.guideInfoState}</span>
                             </td>
                             <td>
-                                <button class="button" onclick="viewDetails(${guide.id})">상세보기</button>
+                                <button class="button" onclick="viewDetails(${guide.guideInfoId})">상세보기</button>
                             </td>
                         </tr>`;
             tableBody.innerHTML += row;
         }
 
-        renderPagination(guideInfos.length);
+        renderPagination(guideInfos.length); // 변경된 부분: 전체 데이터 수가 아니라 현재 페이지의 데이터 수를 전달
         attachToggleListeners();
     }
 
-    function renderPagination(totalItems) {
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
+    function renderPagination(totalGuideInfos) {
+        const totalPages = Math.ceil(totalGuideInfos / itemsPerPage);
         const pageButtons = document.getElementById("pageButtons");
         pageButtons.innerHTML = ""; // 페이지 버튼 초기화
 
@@ -231,13 +233,18 @@
     }
 
     function nextPage() {
-        currentPage++;
-        fetchGuideData(); // 새 페이지 데이터 가져오기
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (currentPage < totalPages) { // 현재 페이지가 마지막 페이지보다 작을 경우에만 증가
+            currentPage++;
+            fetchGuideData(); // 새 페이지 데이터 가져오기
+        }
     }
 
     function previousPage() {
-        currentPage--;
-        fetchGuideData(); // 새 페이지 데이터 가져오기
+        if (currentPage > 1) { // 현재 페이지가 첫 페이지보다 클 경우에만 감소
+            currentPage--;
+            fetchGuideData(); // 새 페이지 데이터 가져오기
+        }
     }
 
     function goToFirstPage() {
@@ -246,7 +253,8 @@
     }
 
     function goToLastPage() {
-        // 마지막 페이지로 이동하는 로직 필요 (totalPages를 별도로 가져와야 함)
+        const totalPages = Math.ceil(totalItems / itemsPerPage); // 총 페이지 수 계산
+        currentPage = totalPages; // 현재 페이지를 마지막 페이지로 설정
         fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
@@ -259,7 +267,7 @@
         document.querySelectorAll('.toggle input[type="checkbox"]').forEach(toggle => {
             toggle.addEventListener('change', function() {
                 const statusLabel = this.nextElementSibling.nextElementSibling; // 상태 표시
-                statusLabel.textContent = this.checked ? 'on' : 'off'; // 상태 업데이트
+                statusLabel.textContent = this.checked ? 'activate' : 'deactivate'; // 상태 업데이트
             });
         });
     }
