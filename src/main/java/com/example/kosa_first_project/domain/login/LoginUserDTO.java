@@ -8,9 +8,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginUserDTO {
-
         private String id;
-
         private String password;
-
 }

@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface LoginMapper {
-    @Select("select * from user where id = #{id} AND password = #{password}")
-    public LoginUserDTO login(String id, String password);
+    @Select("select id, password from user where id = #{id}")
+    public LoginUserDTO login(String id);
 }
