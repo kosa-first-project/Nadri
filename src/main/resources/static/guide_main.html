@@ -28,11 +28,13 @@
     <link rel="stylesheet" href="css/slick.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
 <!--::header part start::-->
-<header th:fragment="header"></header>
+<header th:insert="index :: header"></header>
 <!-- Header part end-->
 
 <!-- breadcrumb start-->
@@ -42,8 +44,8 @@
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
                     <div class="breadcrumb_iner_item text-center">
-                        <h2>Packages</h2>
-                        <p>home . Packages</p>
+                        <h2>가이드 구하기</h2>
+                        <p>지역별 가이드를 만나보세요!</p>
                     </div>
                 </div>
             </div>
@@ -52,120 +54,13 @@
 </section>
 <!-- breadcrumb start-->
 
-<!-- about us css start-->
-<section class="hotel_list section_padding single_page_hotel_list">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-6">
-                <div class="section_tittle text-center">
-                    <h2>Top Hotel &amp; Restaurants</h2>
-                    <p>Waters make fish every without firmament saw had. Morning air subdue. Our. Air very one. Whales grass is fish whales winged.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-sm-6">
-                <div class="single_ihotel_list">
-                    <img src="img/ind/industries_1.png" alt="">
-                    <div class="hover_text">
-                        <div class="hotel_social_icon">
-                            <ul>
-                                <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                <li><a href="#"><i class="ti-linkedin"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="share_icon">
-                            <i class="ti-share"></i>
-                        </div>
-                    </div>
-                    <div class="hotel_text_iner">
-                        <h3> <a href="#"> Hotel Polonia</a></h3>
-                        <div class="place_review">
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <span>(210 review)</span>
-                        </div>
-                        <p>London, United Kingdom</p>
-                        <p>Date: 23 Aug 2019</p>
-                        <p>Duration: 5 days</p>
-                        <h5>From <span>$500</span></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="single_ihotel_list">
-                    <img src="img/ind/industries_2.png" alt="">
-                    <div class="hover_text">
-                        <div class="hotel_social_icon">
-                            <ul>
-                                <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                <li><a href="#"><i class="ti-linkedin"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="share_icon">
-                            <i class="ti-share"></i>
-                        </div>
-                    </div>
-                    <div class="hotel_text_iner">
-                        <h3> <a href="#"> Hotel Polonia</a></h3>
-                        <div class="place_review">
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <span>(210 review)</span>
-                        </div>
-                        <p>London, United Kingdom</p>
-                        <p>Date: 23 Aug 2019</p>
-                        <p>Duration: 5 days</p>
-                        <h5>From <span>$500</span></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <div class="single_ihotel_list">
-                    <img src="img/ind/industries_3.png" alt="">
-                    <div class="hover_text">
-                        <div class="hover_text">
-                            <div class="hotel_social_icon">
-                                <ul>
-                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                    <li><a href="#"><i class="ti-linkedin"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="share_icon">
-                                <i class="ti-share"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hotel_text_iner">
-                        <h3> <a href="#"> Hotel Polonia</a></h3>
-                        <div class="place_review">
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <a href="#"><i class="fas fa-star"></i></a>
-                            <span>(210 review)</span>
-                        </div>
-                        <p>London, United Kingdom</p>
-                        <p>Date: 23 Aug 2019</p>
-                        <p>Duration: 5 days</p>
-                        <h5>From <span>$500</span></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- about us css end-->
+<div id="guide"></div> <!-- 카드가 로드될 위치 -->
+
+<script>
+    $(document).ready(function() {
+        $("#guide").load("/guide"); // AJAX로 guide_card.html 로드
+    });
+</script>
 
 <!-- footer part start-->
 <footer class="footer-area">
@@ -243,6 +138,7 @@
     </div>
 </footer>
 <!-- footer part end-->
+
 
 <!-- jquery plugins here-->
 <script src="js/jquery-1.12.1.min.js"></script>
