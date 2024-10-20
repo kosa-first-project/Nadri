@@ -104,6 +104,45 @@
 </div>
 
 <script>
+    async function fetchGuideDetails(id) {
+        try {
+            const response = await fetch(`/api/guides/${id}`); // 가이드 ID로 상세 정보 요청
+            if (!response.ok) {
+                throw new Error('가이드를 가져오는 데 실패했습니다.');
+            }
+            const data = await response.json();
+            populateDetails(data); // 가져온 데이터로 내용 채우기
+        } catch (error) {
+            console.error(error);
+            alert('가이드 정보를 가져오는 데 문제가 발생했습니다.');
+        }
+    }
+
+    // 데이터 삽입 함수
+    function populateDetails(data) {
+        document.getElementById('detailTitle').innerText = `제목: ${data.title}`;
+        document.getElementById('detailRegion').innerText = `지역: ${data.region}`;
+        document.getElementById('detailCapacity').innerText = `수용 인원: ${data.capacity}`;
+        document.getElementById('detailPrice').innerText = `금액: ${data.price}`;
+        document.getElementById('detailRating').innerText = `평점: ${data.rating}`;
+        document.getElementById('detailNickname').innerText = `닉네임: ${data.nickname}`;
+        document.getElementById('detailImage').src = data.image;
+        document.getElementById('detailDescription').innerText = data.description;
+    }
+
+    // 페이지 로드 시 가이드 ID 추출 및 정보 요청
+    window.onload = () => {
+        const pathParts = window.location.pathname.split('/');
+        const guideId = pathParts[pathParts.length - 1]; // URL에서 가이드 ID 추출
+        fetchGuideDetails(guideId); // 상세 정보 요청
+    };
+</script>
+
+
+
+<!--
+
+<script>
     // 예시 데이터 (실제 데이터로 교체)
     const detailData = {
         title: "아름다운 숙소",
@@ -133,6 +172,7 @@
         populateDetails(detailData);
     };
 </script>
+-->
 
 </body>
 </html>
