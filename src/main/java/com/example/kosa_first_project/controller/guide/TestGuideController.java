@@ -4,10 +4,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+//guide 의 각 기능을 테스트 하기위한 호출 Controller //수정해서 사용
 @Controller
 public class TestGuideController {
+/*
+    @GetMapping("/guide")
+    public String guideCard(Model model) {
 
-    //guide 의 각 기능을 테스트 하기위한 호출 Controller //수정해서 사용
+        return "guide/guide_card";
+    }*/
+
+    @GetMapping("/guide/form")
+    public String guideForm(Model model) {
+        return "guide/guide_form";
+    }
+
     @GetMapping("/mypage")
     public String myPage(Model model) {
         // 필요한 데이터 모델에 추가
@@ -18,4 +29,5 @@ public class TestGuideController {
 
         return "guide/mypage_guide_list";
     }
+
 }

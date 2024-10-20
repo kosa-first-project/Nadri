@@ -145,7 +145,7 @@
 
     async function fetchGuideData() {
         try {
-            const response = await fetch('/guides/list');
+            const response = await fetch('/guides');
             const data = await response.json();
             totalItems = data.length;
             renderCards(data);
@@ -159,7 +159,7 @@
         const selectedCity = document.getElementById('citySelect').value;
 
         try {
-            const response = await fetch(`/guides/list?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+            const response = await fetch(`/guides?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
             const data = await response.json();
             renderCards(data);
         } catch (error) {

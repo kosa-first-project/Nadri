@@ -176,7 +176,7 @@
 
     async function fetchGuideData() {
         try {
-            const response = await fetch('/guides/list'); // API 엔드포인트 예시
+            const response = await fetch('/guides'); // API 엔드포인트 예시
             const data = await response.json();
             totalItems = data.length; // 전체 아이템 수 업데이트 (변경된 부분)
             renderTable(data);
@@ -192,7 +192,7 @@
 
         // API 호출 예시
         try {
-            const response = await fetch(`/guides/list?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
+            const response = await fetch(`/guides?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
             const data = await response.json();
             renderTable(data); // 검색 결과를 테이블에 렌더링
         } catch (error) {
