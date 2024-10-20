@@ -30,8 +30,8 @@ public class GuideFormController {
 
         //페이지 전환보다는 알림으로만 하고 닫기를 따로 하게 하는게 나을 듯.
 
-        return "redirect:/guide/mypage_guide_list.html"; // 리다이렉트 : 파일이 static 아래에 있어야함
-        //return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
+        //return "redirect:/guide/mypage_guide_list.html"; // 리다이렉트 : 파일이 static 아래에 있어야함
+        return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
     }
 }
 
