@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- Required meta tags -->
@@ -32,7 +32,7 @@
 
 <body>
    <!--::header part start::-->
-   <header class="main_menu">
+   <header class="main_menu" th:fragment="header">
         <div class="sub_menu">
             <div class="container">
                 <div class="row">
@@ -114,6 +114,22 @@
                                             <a class="dropdown-item" href="show_Schedules.html">내 여행 계획 리스트 보기</a>
                                         </div>
                                     </li>
+
+
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle"
+                                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            가이드
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                            <a class="dropdown-item" href="/guide">가이드 구하기</a>
+                                            <a class="dropdown-item" href="/mypage">가이드 등록하기</a>
+                                        </div>
+                                    </li>
+
+
+
                                 </ul>
                             </div>
                             <a href="create_Schedule.html" class="btn_1 d-none d-lg-block" onclick="createNewSchedule()">새 여행 계획 만들기</a>
