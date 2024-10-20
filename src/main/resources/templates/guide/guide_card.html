@@ -175,7 +175,7 @@
 
         for (let i = start; i < end && i < guideInfos.length; i++) {
             const guide = guideInfos[i];
-            const card = `<div class="card" onclick="location.href='/api/guides/${guide.guideInfoId}'">///////////////////////////
+            const card = `<div class="card" onclick="location.href='/api/guides/${guide.guideInfoId}'">
                             <div class="card-content">
                                 <div class="card-title">${guide.title}</div>
                                 <div class="card-info">지역: ${guide.city}</div>
@@ -184,13 +184,14 @@
                                 <div class="card-info">수용인원: ${guide.capacity}명</div>
                                 <div class="profile" style="display: flex; justify-content: flex-end; align-items: center;">
                                     <div class="nickname">${guide.nickname}</div>
-                                    <img src="${guide.profileImageUrl}" alt="프로필 사진" class="profile-img">
+
                                 </div>
                             </div>
                         </div>`;
 
 
-        // <img src="${guide.thumbnailUrl}" alt="썸네일 이미지" class="card-image"> //후에 썸네일 쓸때 사용
+            // <img src="${guide.thumbnailUrl}" alt="썸네일 이미지" class="card-image"> //후에 썸네일 쓸때 사용
+            // <img src="${guide.profileImageUrl}" alt="프로필 사진" class="profile-img"> //후에 프로필 이미지 쓸 때 사용
             cardContainer.innerHTML += card;
         }
 
