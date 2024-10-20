@@ -1,32 +1,23 @@
 package com.example.kosa_first_project.controller.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
-import com.example.kosa_first_project.service.guide.MyPageGuideListService;
+import com.example.kosa_first_project.service.guide.GuideListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/guides/list")
+@Controller
+@RequestMapping("/guides")
 public class GuideListController {
 
     @Autowired
-    private MyPageGuideListService guideListService;
+    private GuideListService guideListService;
 
-    @GetMapping
-    public ResponseEntity<List<GuideInfoDTO>> getAllGuides() {
-        List<GuideInfoDTO> guides = guideListService.getAllGuides();
-        return new ResponseEntity<>(guides, HttpStatus.OK);
-    }
-
-    @GetMapping("/{guideInfoId}")
-    public ResponseEntity<GuideInfoDTO> getGuideById(@PathVariable int guideInfoId) {
-        GuideInfoDTO guide = guideListService.getGuideById(guideInfoId);
-        return new ResponseEntity<>(guide, HttpStatus.OK);
-    }
 
     @PostMapping
     public ResponseEntity<Void> addGuide(@RequestBody GuideInfoDTO guideInfo) {
@@ -34,14 +25,43 @@ public class GuideListController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{guideInfoId}")
+    @GetMapping
+    public ResponseEntity<List<GuideInfoDTO>> getAllGuides() {
+        List<GuideInfoDTO> guides = guideListService.getAllGuides();
+        return new ResponseEntity<>(guides, HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public String getAllGuides(Model model) {
+        List<GuideInfoDTO> guides = guideListService.getAllGuides();
+        model.addAttribute("guides", guides);
+        return "guide/guide_list"; // HTML 템플릿 파일 경로
+    }
+
+
+
+/*    @GetMapping("/list/{guideInfoId}")
+    public ResponseEntity<GuideInfoDTO> getGuideByIdJson(@PathVariable int guideInfoId) {
+        GuideInfoDTO guide = guideListService.getGuideById(guideInfoId);
+        return new ResponseEntity<>(guide, HttpStatus.OK);
+    }*/
+
+    @GetMapping("/list/{guideInfoId}")
+    public String getGuideById(@PathVariable int guideInfoId, Model model) {
+        GuideInfoDTO guide = guideListService.getGuideById(guideInfoId);
+        model.addAttribute("guide", guide);
+        return "guide/guide_detail"; // guide_detail.html 렌더링
+    }
+
+
+    @PutMapping("/list/{guideInfoId}")
     public ResponseEntity<Void> updateGuide(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
-        guideInfo.setGuideInfoId(guideInfoId); // ID 설정
+        guideInfo.setGuideInfoId(guideInfoId);
         guideListService.updateGuide(guideInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{guideInfoId}")
+    @DeleteMapping("/list/{guideInfoId}")
     public ResponseEntity<Void> deleteGuide(@PathVariable int guideInfoId) {
         guideListService.deleteGuide(guideInfoId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
