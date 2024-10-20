@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/guides")
-public class MyPageGuideListController {
+@RequestMapping("/guides/list")
+public class GuideListController {
 
     @Autowired
     private MyPageGuideListService guideListService;

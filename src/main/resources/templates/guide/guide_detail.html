@@ -106,7 +106,7 @@
 <script>
     async function fetchGuideDetails(id) {
         try {
-            const response = await fetch(`/api/guides/${id}`); // 가이드 ID로 상세 정보 요청
+            const response = await fetch(`/guides/list/${id}`); // 가이드 ID로 상세 정보 요청
             if (!response.ok) {
                 throw new Error('가이드를 가져오는 데 실패했습니다.');
             }

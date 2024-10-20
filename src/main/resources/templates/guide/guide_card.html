@@ -145,7 +145,7 @@
 
     async function fetchGuideData() {
         try {
-            const response = await fetch('/api/guides');
+            const response = await fetch('/guides/list');
             const data = await response.json();
             totalItems = data.length;
             renderCards(data);
@@ -159,7 +159,7 @@
         const selectedCity = document.getElementById('citySelect').value;
 
         try {
-            const response = await fetch(`/api/guides?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+            const response = await fetch(`/guides/list?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
             const data = await response.json();
             renderCards(data);
         } catch (error) {
@@ -175,7 +175,7 @@
 
         for (let i = start; i < end && i < guideInfos.length; i++) {
             const guide = guideInfos[i];
-            const card = `<div class="card" onclick="location.href='/api/guides/${guide.guideInfoId}'">
+            const card = `<div class="card" onclick="location.href='/guides/list/${guide.guideInfoId}'">
                             <div class="card-content">
                                 <div class="card-title">${guide.title}</div>
                                 <div class="card-info">지역: ${guide.city}</div>
