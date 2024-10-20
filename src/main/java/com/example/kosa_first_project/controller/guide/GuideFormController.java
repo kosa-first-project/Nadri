@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class GuideFormController {
@@ -31,6 +32,8 @@ public class GuideFormController {
         //페이지 전환보다는 알림으로만 하고 닫기를 따로 하게 하는게 나을 듯.
 
         //return "redirect:/guide/mypage_guide_list.html"; // 리다이렉트 : 파일이 static 아래에 있어야함
+
+        //redirectAttributes.addFlashAttribute("message", "가이드 정보가 저장되었습니다."); // 리다이렉트 후 메시지 전달
         return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
     }
 }

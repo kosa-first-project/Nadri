@@ -1,17 +1,17 @@
 package com.example.kosa_first_project.service.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
-import com.example.kosa_first_project.repository.guide.MyPageGuideListRepository;
+import com.example.kosa_first_project.repository.guide.GuideListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MyPageGuideListService {
+public class GuideListService {
 
     @Autowired
-    private MyPageGuideListRepository guideListRepository;
+    private GuideListRepository guideListRepository;
 
     public List<GuideInfoDTO> getAllGuides() {
         return guideListRepository.getAllGuideInfo();

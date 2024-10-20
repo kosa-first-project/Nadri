@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class MyPageGuideListRepository {
+public class GuideListRepository {
 
     @Autowired
     private GuideInfoMapper guideInfoMapper;
