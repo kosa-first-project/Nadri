@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 활동 정보</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px 0; /* 위아래 패딩 추가 */
+        }
+        .card {
+            width: 300px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .card-info {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-container" id="cardContainer">
+    <!-- 자바스크립트로 카드가 동적으로 추가됩니다. -->
+</div>
+
+<script>
+    async function fetchGuideData() {
+        try {
+            const response = await fetch('/guides');
+            const data = await response.json();
+            renderCards(data);
+        } catch (error) {
+            console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        }
+    }
+
+    function renderCards(guideInfos) {
+        const cardContainer = document.getElementById("cardContainer");
+        cardContainer.innerHTML = "";
+
+        for (let i = 0; i < Math.min(6, guideInfos.length); i++) {
+            const guide = guideInfos[i];
+            const card = `<div class="card" onclick="location.href='/guides/list/${guide.guideInfoId}'">
+                            <div class="card-content">
+                                <div class="card-title">${guide.title}</div>
+                                <div class="card-info">지역: ${guide.city}</div>
+                                <div class="card-info">경력: ${guide.career}년</div>
+                                <div class="card-info">금액: ${guide.weekdayPrice}원</div>
+                                <div class="card-info">수용인원: ${guide.capacity}명</div>
+                            </div>
+                        </div>`;
+            cardContainer.innerHTML += card;
+        }
+    }
+
+    fetchGuideData();
+</script>
+
+</body>
+</html>

@@ -14,6 +14,12 @@ public class CallGuideController {
 
         return "guide/guide_card";
     }
+
+
+    @GetMapping("/guide-mini")
+    public String loadGuideCard() {
+        return "guide/guide_mini"; // guide_card.html의 내용을 반환
+    }
 /*
     @GetMapping("/guide/form")
     public String guideForm(Model model) {
