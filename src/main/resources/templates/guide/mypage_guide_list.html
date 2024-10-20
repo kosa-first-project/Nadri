@@ -272,9 +272,9 @@
         fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
-    function viewDetails(id) {
-        alert(`가이드 요청 ${id}의 상세 정보를 확인합니다.`);
-        window.location.href = '/guide/details/' + id; // 상세 정보 페이지로 이동
+    function viewDetails(guideInfoId) {
+        //alert(`가이드 요청 ${guideInfoId}의 상세 정보를 확인합니다.`);
+        window.location.href = '/guide/details/' + guideInfoId; // 상세 정보 페이지로 이동
     }
 
     function attachToggleListeners() {
