@@ -22,9 +22,9 @@ public class MyPageGuideListController {
         return new ResponseEntity<>(guides, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GuideInfoDTO> getGuideById(@PathVariable int id) {
-        GuideInfoDTO guide = guideListService.getGuideById(id);
+    @GetMapping("/{guideInfoId}")
+    public ResponseEntity<GuideInfoDTO> getGuideById(@PathVariable int guideInfoId) {
+        GuideInfoDTO guide = guideListService.getGuideById(guideInfoId);
         return new ResponseEntity<>(guide, HttpStatus.OK);
     }
 
@@ -34,16 +34,16 @@ public class MyPageGuideListController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateGuide(@PathVariable int id, @RequestBody GuideInfoDTO guideInfo) {
-        guideInfo.setGuideInfoId(id); // ID 설정
+    @PutMapping("/{guideInfoId}")
+    public ResponseEntity<Void> updateGuide(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
+        guideInfo.setGuideInfoId(guideInfoId); // ID 설정
         guideListService.updateGuide(guideInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGuide(@PathVariable int id) {
-        guideListService.deleteGuide(id);
+    @DeleteMapping("/{guideInfoId}")
+    public ResponseEntity<Void> deleteGuide(@PathVariable int guideInfoId) {
+        guideListService.deleteGuide(guideInfoId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
