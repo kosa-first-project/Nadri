@@ -11,25 +11,20 @@
             margin: 0;
             padding: 20px;
         }
-        .container {
+        .guide-container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             padding: 30px;
         }
-        h1 {
+        .guide-title {
             text-align: center;
-            color: #333;
             margin-bottom: 20px;
-            font-size: 24px;
         }
-        .button-group {
+        .guide-button-group {
             text-align: right;
             margin-bottom: 20px;
         }
-        .button-group button {
+        .guide-button {
             background-color: #007bff;
             color: white;
             padding: 12px 20px;
@@ -38,42 +33,44 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
-        .button-group button:hover {
+        .guide-button:hover {
             background-color: #0056b3;
             transform: translateY(-1px);
         }
-        table {
+        .guide-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+        .guide-table th, .guide-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            height: 50px; /* 각 셀의 높이를 일정하게 설정 */
+            vertical-align: middle; /* 수직 정렬을 중앙으로 */
         }
-        th {
+        .guide-table th {
             background-color: #f2f2f2;
             color: #333;
             font-weight: bold;
         }
-        .search-bar {
+        .guide-search-bar {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        input[type="text"], select {
+        .guide-search-input, .guide-search-select {
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 4px;
             width: 48%;
             font-size: 14px;
         }
-        .pagination {
+        .guide-pagination {
             text-align: center;
             margin-top: 20px;
         }
-        .pagination button {
+        .guide-pagination button {
             margin: 0 2px;
             padding: 8px 12px;
             background-color: #007bff;
@@ -83,67 +80,32 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .pagination button:hover {
+        .guide-pagination button:hover {
             background-color: #0056b3;
-        }
-        .toggle {
-            display: flex;
-            align-items: center;
-            height: 20px;
-        }
-        .toggle input[type="checkbox"] {
-            display: none;
-        }
-        .toggle-label {
-            width: 40px;
-            height: 20px;
-            background: #ddd;
-            border-radius: 20px;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .toggle-label:before {
-            content: "";
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: white;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.3s;
-        }
-        .toggle input[type="checkbox"]:checked + .toggle-label {
-            background: #4caf50;
-        }
-        .toggle input[type="checkbox"]:checked + .toggle-label:before {
-            transform: translateX(20px);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>가이드 활동 정보</h1>
+<div class="guide-container">
+    <h1 class="guide-title">가이드 활동 정보</h1>
 
-    <div class="button-group">
-        <button onclick="window.location.href='/guide/form'">가이드 추가하기</button>
+    <div class="guide-button-group">
+        <button class="guide-button" onclick="window.location.href='/guide/form'">가이드 추가하기</button>
     </div>
 
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="신청자 이름 또는 연락처 검색">
-        <select id="statusSelect">
+    <div class="guide-search-bar">
+        <input type="text" id="searchInput" class="guide-search-input" placeholder="신청자 이름 또는 연락처 검색">
+        <select id="statusSelect" class="guide-search-select">
             <option value="all">모든 상태</option>
             <option value="activate">활성화</option>
             <option value="deactivate">비활성화</option>
             <option value="delete">삭제</option>
         </select>
-        <button class="button" onclick="performSearch()">검색</button>
+        <button class="guide-button" onclick="performSearch()">검색</button>
     </div>
 
-
-    <table>
+    <table class="guide-table">
         <thead>
         <tr>
             <th>제목</th>
@@ -160,12 +122,12 @@
         </tbody>
     </table>
 
-    <div class="pagination">
-        <button class="button" onclick="goToFirstPage()">맨 앞</button>
-        <button class="button" onclick="previousPage()">이전</button>
+    <div class="guide-pagination">
+        <button class="guide-button" onclick="goToFirstPage()">맨 앞</button>
+        <button class="guide-button" onclick="previousPage()">이전</button>
         <span id="pageButtons"></span>
-        <button class="button" onclick="nextPage()">다음</button>
-        <button class="button" onclick="goToLastPage()">맨 뒤</button>
+        <button class="guide-button" onclick="nextPage()">다음</button>
+        <button class="guide-button" onclick="goToLastPage()">맨 뒤</button>
     </div>
 </div>
 
@@ -176,23 +138,21 @@
 
     async function fetchGuideData() {
         try {
-            const response = await fetch('/api/guides'); // API 엔드포인트 예시
+            const response = await fetch('/guides'); // API 엔드포인트 예시
             const data = await response.json();
-            totalItems = data.length; // 전체 아이템 수 업데이트 (변경된 부분)
+            totalItems = data.length; // 전체 아이템 수 업데이트
             renderTable(data);
         } catch (error) {
             console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
         }
     }
 
-
     async function performSearch() {
         const searchTerm = document.getElementById('searchInput').value; // 검색어 가져오기
         const selectedStatus = document.getElementById('statusSelect').value; // 선택된 상태 가져오기
 
-        // API 호출 예시
         try {
-            const response = await fetch(`/api/guides?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
+            const response = await fetch(`/guides?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
             const data = await response.json();
             renderTable(data); // 검색 결과를 테이블에 렌더링
         } catch (error) {
@@ -211,23 +171,22 @@
             const row = `<tr>
                             <td>${guide.title}</td>
                             <td>${guide.city}</td>
-                            <td>${guide.career}년</td>
+                            <td>${guide.career}</td>
                             <td>${guide.weekdayPrice}원</td>
                             <td>${guide.capacity}명</td>
-                            <td class="toggle">
-                                <input type="checkbox" id="toggle${guide.guideInfoId}" ${guide.guideInfoState === 'activate' ? 'checked' : ''}>
-                                <label class="toggle-label" for="toggle${guide.guideInfoId}"></label>
-                                <span class="toggle-status">${guide.guideInfoState}</span>
+                            <td>
+                                <button class="guide-button" onclick="toggleStatus(${guide.guideInfoId}, '${guide.guideInfoState}')">
+                                    ${guide.guideInfoState === 'activate' ? '활성화' : '비활성화'}
+                                </button>
                             </td>
                             <td>
-                                <button class="button" onclick="viewDetails(${guide.guideInfoId})">상세보기</button>
+                                <button class="guide-button" onclick="viewDetails(${guide.guideInfoId})">상세보기</button>
                             </td>
                         </tr>`;
             tableBody.innerHTML += row;
         }
 
-        renderPagination(guideInfos.length); // 변경된 부분: 전체 데이터 수가 아니라 현재 페이지의 데이터 수를 전달
-        attachToggleListeners();
+        renderPagination(guideInfos.length);
     }
 
     function renderPagination(totalGuideInfos) {
@@ -236,7 +195,7 @@
         pageButtons.innerHTML = ""; // 페이지 버튼 초기화
 
         for (let i = 1; i <= totalPages; i++) {
-            const button = `<button class="button" onclick="goToPage(${i})">${i}</button>`;
+            const button = `<button class="guide-button" onclick="goToPage(${i})">${i}</button>`;
             pageButtons.innerHTML += button;
         }
     }
@@ -248,14 +207,14 @@
 
     function nextPage() {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
-        if (currentPage < totalPages) { // 현재 페이지가 마지막 페이지보다 작을 경우에만 증가
+        if (currentPage < totalPages) {
             currentPage++;
             fetchGuideData(); // 새 페이지 데이터 가져오기
         }
     }
 
     function previousPage() {
-        if (currentPage > 1) { // 현재 페이지가 첫 페이지보다 클 경우에만 감소
+        if (currentPage > 1) {
             currentPage--;
             fetchGuideData(); // 새 페이지 데이터 가져오기
         }
@@ -267,23 +226,34 @@
     }
 
     function goToLastPage() {
-        const totalPages = Math.ceil(totalItems / itemsPerPage); // 총 페이지 수 계산
-        currentPage = totalPages; // 현재 페이지를 마지막 페이지로 설정
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        currentPage = totalPages;
         fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
-    function viewDetails(id) {
-        alert(`가이드 요청 ${id}의 상세 정보를 확인합니다.`);
-        window.location.href = '/guide/details/' + id; // 상세 정보 페이지로 이동
+    function viewDetails(guideInfoId) {
+        window.location.href = '/guides/list/' + guideInfoId; // 상세 정보 페이지로 이동
     }
 
-    function attachToggleListeners() {
-        document.querySelectorAll('.toggle input[type="checkbox"]').forEach(toggle => {
-            toggle.addEventListener('change', function() {
-                const statusLabel = this.nextElementSibling.nextElementSibling; // 상태 표시
-                statusLabel.textContent = this.checked ? 'activate' : 'deactivate'; // 상태 업데이트
-            });
-        });
+    function toggleStatus(guideInfoId, currentState) {
+        const newState = currentState === 'activate' ? 'deactivate' : 'activate';
+
+        // 서버에 상태 변경 요청 보내기
+        fetch(`/guides/${guideInfoId}/state`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ guideInfoState: newState }), // key 수정
+        })
+            .then(response => {
+            if (response.ok) {
+                fetchGuideData(); // 상태 업데이트 후 데이터 새로 고침
+            } else {
+                console.error('상태 변경 실패');
+            }
+        })
+            .catch(error => console.error('오류 발생:', error));
     }
 
     fetchGuideData(); // 초기 데이터 가져오기

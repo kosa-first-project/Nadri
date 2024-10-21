@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class MyPageGuideListRepository {
+public class GuideListRepository {
 
     @Autowired
     private GuideInfoMapper guideInfoMapper;
@@ -25,8 +25,19 @@ public class MyPageGuideListRepository {
         return guideInfoMapper.getAllGuideInfo();
     }
 
+
+    public List<GuideInfoDTO> searchGuides(String search, String city) {
+        return guideInfoMapper.searchGuides(search, city);
+    }
+
+
     public void updateGuideInfo(GuideInfoDTO guideInfo) {
         guideInfoMapper.updateGuideInfo(guideInfo);
+    }
+
+
+    public void updateGuideInfoState(GuideInfoDTO guideInfo) {
+        guideInfoMapper.updateGuideInfoState(guideInfo);
     }
 
     public void deleteGuideInfo(int guideInfoId) {
