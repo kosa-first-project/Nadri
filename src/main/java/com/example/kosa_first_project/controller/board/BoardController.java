@@ -1,12 +1,10 @@
 package com.example.kosa_first_project.controller.board;
 
-import com.example.kosa_first_project.WebConfig.RequestList;
-import com.example.kosa_first_project.domain.board.*;
+import com.example.kosa_first_project.domain.board.BoardDTO;
+import com.example.kosa_first_project.domain.board.BoardFileDTO;
 import com.example.kosa_first_project.service.board.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +34,7 @@ public class BoardController {
     public String boardMain(@ModelAttribute("params") Model model) {
 
         // 전체 게시글 출력
-        List <BoardDTO> boardDTOList = boardService.getBoardAll();
+        List<BoardDTO> boardDTOList = boardService.getBoardAll();
         model.addAttribute("boardList", boardDTOList);
         System.out.println("boardDTOList : " + boardDTOList);
 
@@ -65,13 +63,13 @@ public class BoardController {
 
     // 게시글 상세화면
     @GetMapping("/{id}") // URL에서 : /board/{id}
-    public String boardDetail(@PathVariable Long id, Model model){
+    public String boardDetail(@PathVariable Long id, Model model) {
         boardService.updateHit(id); // 조회 수 처리
 
         BoardDTO boardDetail = boardService.getBoardOne(id); // 상세 게시글 가져옴
         model.addAttribute("board", boardDetail);
         log.info("boardDetail: {}", boardDetail);
-        if(boardDetail.getFileAttached() == 1){ // 파일이 있으면 가져오기
+        if (boardDetail.getFileAttached() == 1) { // 파일이 있으면 가져오기
             List<BoardFileDTO> boardFileDTOList = boardService.getFile(id);
             model.addAttribute("boardFileList", boardFileDTOList);
             log.info("boardFileList {} :", boardFileDTOList);
@@ -119,7 +117,7 @@ public class BoardController {
 
     //게시글 삭제
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         boardService.deleteBoard(id);
         redirectAttributes.addFlashAttribute("message", "삭제 작업이 완료되었습니다.");
         return "redirect:/board"; // 게시글 삭제 후 메인 페이지로 이동

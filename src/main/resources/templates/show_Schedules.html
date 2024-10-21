@@ -79,35 +79,45 @@
                                 </li>
                             </ul>
                         </div>
-                        <a href="create_Schedule.html" class="btn_1 d-none d-lg-block" onclick="createNewSchedule()">새 여행 계획 만들기</a>
+
+                        <a href="create_Schedule.html" id = "setTitle" class="btn_1 d-none d-lg-block" onclick="createNewSchedule()">새 여행 계획 만들기</a>
                         <script>
                             function createNewSchedule() {
-                                let title;
-
-                                // Continuously ask for a title until a valid input or the user cancels
                                 while (true) {
+                                    let title;
+
+                                    // Continuously ask for a title until a valid input or the user cancels
                                     title = prompt("여행 계획 제목을 입력하세요.");
 
                                     // If the user cancels or leaves the prompt empty, break the loop
-                                    if (!title) {
+                                    if (!title || title === "null") {
                                         alert("여행 계획 생성이 취소되었습니다.");
+                                        window.location.href = "index.html"
                                         break;
                                     }
-
-                                    // Confirm with the user if they want to proceed with the provided title
                                     const check = confirm(`"${title}" 제목의 일정을 생성하시겠습니까?`);
-
-                                    // If the user confirms, handle the creation of the new schedule
+                                    // If the user confirms, set the title into the session and move to create_Schedule
                                     if (check) {
-                                        const scheduleTitle = sessionStorage.setItem("scheduleTitle", title);
+                                        sessionStorage.setItem("scheduleTitle", title);
                                         alert(`"${title}" 제목의 일정이 생성되었습니다.`);
-                                        console.log(scheduleTitle + "asdf");
-                                        break;
                                     } else {
                                         break;
                                     }
+                                    window.location.href = "create_Schedule.html";
+                                    break;
                                 }
                             }
+                        </script>
+                        <script>
+                            window.onload = function() {
+                                const title = sessionStorage.getItem('scheduleTitle');
+                                if (title && title !== "") {
+                                    document.getElementById('titleField').value = title;
+                                } else {
+                                    alert('제목이 설정되어 있지 않습니다.');
+                                    window.location.href = "index.html";
+                                }
+                            };
                         </script>
                     </nav>
                 </div>

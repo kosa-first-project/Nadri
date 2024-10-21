@@ -8,17 +8,13 @@ import java.util.List;
 @Mapper
 public interface ScheduleMapper {
 
-//    @Insert("INSERT INTO one_schedule (total_schedule_id, user_id, spot_name, start_date_time, end_date_time, comment, title) " +
-//            "VALUES (1, #{user_id}, #{destination}, #{startDateTime}, #{endDateTime}, #{description}, #{title})")
-//    void saveScheduleBlock(ScheduleBlockDTO scheduleBlockDTO);
-
     @Insert("INSERT INTO schedule (startDateTime, endDateTime, destination, comment, title, user_id) " +
-            "VALUES (#{startDateTime}, #{endDateTime}, #{destination}, #{comment}, #{title}, 'user1')")
+            "VALUES (#{startDateTime}, #{endDateTime}, #{destination}, #{comment}, #{title}, 'dd')")
     void saveScheduleBlock(ScheduleBlockDTO scheduleBlockDTO);
 
     // Get all schedule blocks for a logged in id
-    @Select("SELECT DISTINCT title FROM schedule WHERE user_id = #{userId}")
-    List<String> getAllDistinctTitlesForUser(@Param("userId") String userId);
+    @Select("SELECT DISTINCT title FROM schedule WHERE user_id = #{user_id}")
+    List<String> getAllDistinctTitlesForUser(@Param("user_id") String user_id);
 
     // Get a specific schedule block through unique ID number
     @Select("SELECT * FROM schedule WHERE id = #{id}")
