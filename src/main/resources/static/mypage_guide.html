@@ -34,7 +34,12 @@
 
 <body>
 <!--::header part start::-->
-<header th:insert="index :: header"></header>
+<div id="header"></div>
+<script>
+    $(document).ready(function() {
+        $("#header").load("header.html");
+    });
+</script>
 <!-- Header part end-->
 
 <!-- breadcrumb start-->
