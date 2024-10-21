@@ -132,7 +132,6 @@ public interface GuideInfoMapper {
                 "weekend_price AS weekendPrice, " +
                 "board_rating AS boardRating, " +
                 "like_count AS likeCount, " +
-                "like_count AS likeCount, " +
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
                 "WHERE 1=1 " +
@@ -145,4 +144,6 @@ public interface GuideInfoMapper {
                 "ORDER BY guide_info_id DESC" +
                 "</script>")
         List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);
+
+
 }

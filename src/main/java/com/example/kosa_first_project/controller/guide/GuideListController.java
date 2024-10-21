@@ -38,7 +38,6 @@ public class GuideListController {
         return "guide/guide_list"; // HTML 템플릿 파일 경로
     }
 
-
     @GetMapping("/search")
     public ResponseEntity<List<GuideInfoDTO>> searchGuides(
             @RequestParam(required = false) String search,

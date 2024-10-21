@@ -161,7 +161,7 @@
         // 콘솔 로그 추가
         console.log('검색어:', searchTerm, '선택된 도시:', selectedCity);
 
-        // 검색어가 비어있을 경우 API 호출을 막습니다.
+/*        // 검색어가 비어있을 경우 API 호출을 막습니다.
         if (!searchTerm && selectedCity === "all") {
             alert("검색어를 입력하거나 지역을 선택해주세요.");
             return;
@@ -173,7 +173,39 @@
             renderCards(data);
         } catch (error) {
             console.error('검색 중 오류 발생:', error);
+        }*/
+
+
+        /*
+        if (!searchTerm && selectedCity !== "all") {
+            // 검색어가 비어있고 도시가 선택된 경우 해당 도시의 가이드를 검색
+            try {
+                const response = await fetch(`/guides/search?city=${encodeURIComponent(selectedCity)}`);
+                const data = await response.json();
+                renderCards(data);
+            } catch (error) {
+                console.error('검색 중 오류 발생:', error);
+            }
+        } else if (searchTerm || selectedCity !== "all") {
+            // 검색어가 있거나 선택된 도시가 있을 경우
+            try {
+                const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+                const data = await response.json();
+                renderCards(data);
+            } catch (error) {
+                console.error('검색 중 오류 발생:', error);
+            }
+        }*/
+
+        try {
+            const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+            const data = await response.json();
+            renderCards(data);
+        } catch (error) {
+            console.error('검색 중 오류 발생:', error);
         }
+
+
     }
 
     function renderCards(guideInfos) {
