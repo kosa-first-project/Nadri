@@ -1,58 +1,123 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-  <style>
-  body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
-  }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디 찾기</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('your-background-image.jpg'); /* 배경 이미지 경로 */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
 
-  input {
-  border: none;
-  border-bottom: 3px solid #ccc;
-  border-radius: 2px;
-  width: 100%;
-  padding: 10px 5px;
-  margin: 10px 0;
-  outline: none;
-  transition: border-color 0.3s;
-  }
+        /* 아이디 찾기 폼 컨테이너 */
+        .findID-container {
+            background-color: rgba(255, 255, 255, 0.8); /* 투명한 흰색 배경 */
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
 
-  input:focus {
-  border-bottom: 3px solid #007bff;
-  }
+        /* 폼 제목 */
+        h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333;
+        }
 
-  input[type="submit"] {
-  padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  }
+        /* 입력 필드 스타일 */
+        input {
+            border: none;
+            border-bottom: 2px solid #ccc;
+            background: none;
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            outline: none;
+            font-size: 16px;
+            color: #333;
+        }
 
-  input[type="submit"]:hover {
-  background-color: #0056b3;
-  }
-  </style>
+        /* 입력 필드에 포커스가 갔을 때 */
+        input:focus {
+            border-bottom: 2px solid #007bff;
+        }
+
+        /* 제출 버튼 스타일 */
+        input[type="submit"] {
+            padding: 12px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* 제출 버튼에 호버 효과 */
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* 네비게이션 버튼 */
+        .nav-buttons {
+            margin-top: 20px;
+        }
+
+        /* 네비게이션 링크 스타일 */
+        .nav-buttons a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+            padding: 10px 20px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 네비게이션 링크 호버 효과 */
+        .nav-buttons a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* 실패 메시지 스타일 */
+        .fail-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-<form th:action="@{/findID}" method="post">
-<div class="findID">
-  <h2>아이디 찾기</h2>
-  <div>이름</div>
-  <input type="text" name="username" placeholder="이름을 입력하세요." required>
-  <div>이메일</div>
-  <input type="text" name="email" placeholder="이메일을 입력하세요." required>
-  <div>비밀번호</div>
-  <input type="password" name="password" placeholder="비밀번호를 입력하세요." required>
-  <input type="submit" value="아이디 찾기">
+<div class="findID-container">
+    <h2>아이디 찾기</h2>
+    <form th:action="@{/findID}" method="post">
+        <input type="text" name="username" placeholder="이름을 입력하세요." required>
+        <input type="email" name="email" placeholder="이메일을 입력하세요." required>
+
+        <div th:if="${failMessage != null}" class="fail-message">[[${failMessage}]]</div>
+
+        <input type="submit" value="확인">
+    </form>
+    <div class="nav-buttons">
+        <a th:href="@{/user/findPass}">비밀번호 찾기</a>
+        <a th:href="@{/login}">로그인</a>
+    </div>
 </div>
-</form>
 </body>
 </html>

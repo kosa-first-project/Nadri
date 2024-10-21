@@ -1,9 +1,10 @@
 package com.example.kosa_first_project.controller.login;
 
-import com.example.kosa_first_project.domain.login.LoginUserDTO;
+import com.example.kosa_first_project.domain.login.UserDTO;
 import jakarta.servlet.http.HttpSession;
-import mybatis.dao.login.LoginMapper;
+import mybatis.dao.login.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LoginController {
    @Autowired
-   private LoginMapper loginMapper;
+   private UserMapper userMapper;
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/login")
     public String loginForm() {
@@ -21,15 +24,18 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("loginID") String id,
-                        @RequestParam("loginPass") String pass,
+    public String login(@RequestParam String id,
+                        @RequestParam String password,
                         HttpSession session,
                         RedirectAttributes redirectAttributes){
-        LoginUserDTO loginUserDTO = loginMapper.login(id);
-        System.out.println(1);
-        if(loginUserDTO != null && loginUserDTO.getPassword().equals(pass)){
+        //로그인할 유저에 담아줘
+        UserDTO UserDTO = userMapper.login(id);
+        System.out.println(UserDTO);
+
+        if(UserDTO != null && passwordEncoder.matches(password, UserDTO.getPassword())){
+            System.out.println(passwordEncoder.matches(password, UserDTO.getPassword()));
             System.out.println(2);
-            session.setAttribute("loginUser",loginUserDTO);
+            session.setAttribute("User",UserDTO);
             return "redirect:/login-success";
         }
         else{
@@ -42,13 +48,13 @@ public class LoginController {
     @GetMapping("/login-success")
     public String loginSuccess(){
         System.out.println(4);
-       return "user/complete"; //templates의 complete.html
+       return "user/complete"; //templates의 complete
     }
 
     @GetMapping("/login-fail")
     public String loginFail(){
         System.out.println(5);
-        return "user/login"; //templates의 login.html
+        return "user/login"; //templates의 login
     }
     @GetMapping("/user/findID")
     public String findIDForm() {
