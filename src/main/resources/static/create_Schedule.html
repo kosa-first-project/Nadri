@@ -91,8 +91,12 @@
                                         여행 계획
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="create_Schedule.html">여행 계획 수정하기</a>
-                                        <a class="dropdown-item" href="show_Schedules.html">내 여행 계획 리스트 보기</a>
+<!--                                        <a class="dropdown-item" href="#" onclick="document.getElementById('editScheduleForm').submit();">여행 계획 수정하기</a>-->
+                                        <a class="dropdown-item" href="#" onclick="document.getElementById('showScheduleForm').submit();">내 여행 계획 리스트 보기</a>
+<!--                                        <form id="editScheduleForm" action="/edit_Schedule.html" method="get" style="display: none;">-->
+<!--                                        </form>-->
+                                        <form id="showScheduleForm" action="/show_Schedules.html" method="get" style="display: none;">
+                                        </form>
                                     </div>
                                 </li>
                             </ul>
@@ -163,7 +167,7 @@
             </div>
 
             <div class="col-lg-6">
-                <form class="form-contact contact_form" method="post" id="scheduleForm" action="/schedule/Create" novalidate="novalidate">
+                <form class="form-contact contact_form" method="post" id="scheduleForm" action="/schedule/Create">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -198,13 +202,12 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="destination">참고 사항</label>
-                                <input class="form-control" name="comment" id="comment" style="height:105px" type="text" placeholder='ex) 경복궁에서 한복 빌리기' required>
+                                <input class="form-control" name="comment" id="comment" style="height:105px" type="text" placeholder='ex) 경복궁에서 한복 빌리기'>
                             </div>
                         </div>
                     </div>
                         <div class="form-group mt-3">
                             <button type="submit" class="button button-contactForm btn_1" >일정 생성</button>
-                            <button type="submit" class="button button-contactForm btn_1">계획서 제출</button>
                         </div>
                     <div class="form-group mt-3">
                     </div>
