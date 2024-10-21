@@ -231,10 +231,13 @@
         fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
-    function viewDetails(guideInfoId) {
-        window.location.href = '/guides/list/' + guideInfoId; // 상세 정보 페이지로 이동
+    function viewDetails(guideInfoId, guideInfoState) {
+        /*if (guideInfoState === 'delete') {
+            window.location.href = '/guides/list/' + guideInfoId; // 삭제 상태면 이 URL로 이동
+        } else {*/
+            window.location.href = '/guides/form/' + guideInfoId; // 그렇지 않으면 이 URL로 이동
+        /*}*/
     }
-
     function toggleStatus(guideInfoId, currentState) {
         const newState = currentState === 'activate' ? 'deactivate' : 'activate';
 
