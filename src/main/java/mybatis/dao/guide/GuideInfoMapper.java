@@ -32,8 +32,6 @@ public interface GuideInfoMapper {
         void insertGuideInfo(GuideInfoDTO guideInfo);
 
 
-
-
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
                 "user_id AS userId, " +
@@ -55,7 +53,6 @@ public interface GuideInfoMapper {
         GuideInfoDTO getGuideInfoById(int guideInfoId);
 
 
-
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
                 "user_id AS userId, " +
@@ -73,7 +70,8 @@ public interface GuideInfoMapper {
                 "like_count AS likeCount, " +
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
-                "ORDER BY guide_info_id DESC")  // guide_info_id 역순으로 정렬
+                "ORDER BY guide_info_id DESC")
+                // guide_info_id 역순으로 정렬
         List<GuideInfoDTO> getAllGuideInfo();
 
         /*
@@ -117,4 +115,34 @@ public interface GuideInfoMapper {
 
         @Delete("DELETE FROM guide_info WHERE guide_info_id = #{guideInfoId}")
         void deleteGuideInfo(int guideInfoId);
+
+        @Select("<script>" +
+                "SELECT " +
+                "guide_info_id AS guideInfoId, " +
+                "user_id AS userId, " +
+                "city, " +
+                "town, " +
+                "village, " +
+                "name, " +
+                "title, " +
+                "career, " +
+                "capacity, " +
+                "text, " +
+                "weekday_price AS weekdayPrice, " +
+                "weekend_price AS weekendPrice, " +
+                "board_rating AS boardRating, " +
+                "like_count AS likeCount, " +
+                "like_count AS likeCount, " +
+                "guide_info_state AS guideInfoState " +
+                "FROM guide_info " +
+                "WHERE 1=1 " +
+                "<if test='city != null and city != \"all\"'> " +
+                "AND city = #{city} " +
+                "</if> " +
+                "<if test='search != null and search != \"\"'> " +
+                "AND (title LIKE CONCAT('%', #{search}, '%') OR text LIKE CONCAT('%', #{search}, '%')) " +
+                "</if> " +
+                "ORDER BY guide_info_id DESC" +
+                "</script>")
+        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);
 }

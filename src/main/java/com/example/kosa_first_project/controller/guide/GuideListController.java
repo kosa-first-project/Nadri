@@ -39,6 +39,13 @@ public class GuideListController {
     }
 
 
+    @GetMapping("/search")
+    public ResponseEntity<List<GuideInfoDTO>> searchGuides(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String city) {
+        List<GuideInfoDTO> guides = guideListService.searchGuides(search, city);
+        return new ResponseEntity<>(guides, HttpStatus.OK);
+    }
 
 /*    @GetMapping("/list/{guideInfoId}")
     public ResponseEntity<GuideInfoDTO> getGuideByIdJson(@PathVariable int guideInfoId) {

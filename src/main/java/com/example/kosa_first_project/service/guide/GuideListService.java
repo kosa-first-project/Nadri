@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GuideListService {
@@ -15,6 +16,13 @@ public class GuideListService {
 
     public List<GuideInfoDTO> getAllGuides() {
         return guideListRepository.getAllGuideInfo();
+    }
+
+    public List<GuideInfoDTO> searchGuides(String search, String city) {
+        if (search == null || search.isEmpty()) {
+            return guideListRepository.getAllGuideInfo(); // 검색어가 없으면 모든 가이드를 반환
+        }
+        return guideListRepository.searchGuides(search, city);
     }
 
     public GuideInfoDTO getGuideById(int guideInfoId) {
