@@ -115,7 +115,7 @@ public interface GuideInfoMapper {
 
         @Delete("DELETE FROM guide_info WHERE guide_info_id = #{guideInfoId}")
         void deleteGuideInfo(int guideInfoId);
-
+/*
         @Select("<script>" +
                 "SELECT " +
                 "guide_info_id AS guideInfoId, " +
@@ -143,7 +143,40 @@ public interface GuideInfoMapper {
                 "</if> " +
                 "ORDER BY guide_info_id DESC" +
                 "</script>")
-        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);
+        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);*/
+
+        @Select("<script>" +
+                "SELECT " +
+                "guide_info_id AS guideInfoId, " +
+                "user_id AS userId, " +
+                "city, " +
+                "town, " +
+                "village, " +
+                "name, " +
+                "title, " +
+                "career, " +
+                "capacity, " +
+                "text, " +
+                "weekday_price AS weekdayPrice, " +
+                "weekend_price AS weekendPrice, " +
+                "board_rating AS boardRating, " +
+                "like_count AS likeCount, " +
+                "guide_info_state AS guideInfoState " +
+                "FROM guide_info " +
+                "WHERE 1=1 " +
+                "<if test='city != null and city != \"all\"'> " +
+                "AND city = #{city} " +
+                "</if> " +
+                "<if test='search != null and search != \"\"'> " +
+                "AND (title LIKE CONCAT('%', #{search}, '%') OR text LIKE CONCAT('%', #{search}, '%')) " +
+                "</if> " +
+                "<if test='status != null and status != \"all\"'> " +
+                "AND guide_info_state = #{status} " +
+                "</if> " +
+                "ORDER BY guide_info_id DESC" +
+                "</script>")
+        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city, @Param("status") String status);
+
 
 
 }

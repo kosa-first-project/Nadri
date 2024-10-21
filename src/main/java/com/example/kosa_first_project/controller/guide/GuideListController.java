@@ -37,14 +37,25 @@ public class GuideListController {
         model.addAttribute("guides", guides);
         return "guide/guide_list"; // HTML 템플릿 파일 경로
     }
-
+/*
     @GetMapping("/search")
     public ResponseEntity<List<GuideInfoDTO>> searchGuides(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String city) {
         List<GuideInfoDTO> guides = guideListService.searchGuides(search, city);
         return new ResponseEntity<>(guides, HttpStatus.OK);
+    }*/
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<GuideInfoDTO>> searchGuides(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String status) {
+        List<GuideInfoDTO> guides = guideListService.searchGuides(search, city, status);
+        return new ResponseEntity<>(guides, HttpStatus.OK);
     }
+
 
 /*    @GetMapping("/list/{guideInfoId}")
     public ResponseEntity<GuideInfoDTO> getGuideByIdJson(@PathVariable int guideInfoId) {

@@ -25,11 +25,14 @@ public class GuideListRepository {
         return guideInfoMapper.getAllGuideInfo();
     }
 
-
+/*
     public List<GuideInfoDTO> searchGuides(String search, String city) {
         return guideInfoMapper.searchGuides(search, city);
-    }
+    }*/
 
+    public List<GuideInfoDTO> searchGuides(String search, String city, String status) {
+        return guideInfoMapper.searchGuides(search, city, status);
+    }
 
     public void updateGuideInfo(GuideInfoDTO guideInfo) {
         guideInfoMapper.updateGuideInfo(guideInfo);

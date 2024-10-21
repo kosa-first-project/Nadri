@@ -95,7 +95,7 @@
     </div>
 
     <div class="guide-search-bar">
-        <input type="text" id="searchInput" class="guide-search-input" placeholder="신청자 이름 또는 연락처 검색">
+        <input type="text" id="searchInput" class="guide-search-input" placeholder="제목 또는 상세정보 검색">
         <select id="statusSelect" class="guide-search-select">
             <option value="all">모든 상태</option>
             <option value="activate">활성화</option>
@@ -152,7 +152,7 @@
         const selectedStatus = document.getElementById('statusSelect').value; // 선택된 상태 가져오기
 
         try {
-            const response = await fetch(`/guides?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
+            const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
             const data = await response.json();
             renderTable(data); // 검색 결과를 테이블에 렌더링
         } catch (error) {
