@@ -1,9 +1,6 @@
 package com.example.kosa_first_project.domain.login;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +8,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinUserDTO {
+@ToString
+public class UserDTO {
 
     //회원ID
     private String id;
