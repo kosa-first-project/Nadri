@@ -4,12 +4,9 @@ import com.example.kosa_first_project.WebConfig.RequestList;
 import com.example.kosa_first_project.domain.board.BoardDTO;
 import com.example.kosa_first_project.domain.board.BoardFileDTO;
 import org.apache.ibatis.annotations.*;
-import org.springframework.data.domain.Pageable;
-
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Mapper
 public interface BoardMapper {
@@ -17,7 +14,7 @@ public interface BoardMapper {
     // 게시글 전체 리스트 최신순으로 조회
     @Select("select id, user_id, title, content, rating, hits, date_format(createdAt, '%Y-%m-%d') as createdAt " +
             "from board order by id desc LIMIT #{pagination.limitStart}, #{recordSize}")
-    List <BoardDTO> getBoardAll();
+    List<BoardDTO> getBoardAll();
 
     // 게시글 상세 정보 조회 (id => PK)
     @Select("select id, user_id, title, content, rating, hits, date_format(createdAt, '%Y-%m-%d %H:%i:%s') as createdAt, fileAttached " +

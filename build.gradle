@@ -38,6 +38,7 @@ repositories {
 	implementation 'commons-io:commons-io:2.11.0'    /* Apache commons-io */
 	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4' /* Apache Commons FileUpload */
 	implementation 'org.springframework.security:spring-security-core:5.8.1'/* 너-나들이 프로젝트, 시큐리티 없이 비밀번호를 해시화하기 위해서 설치*/
+		implementation 'org.springframework.data:spring-data-commons'
 }
 
 tasks.named('test') {
