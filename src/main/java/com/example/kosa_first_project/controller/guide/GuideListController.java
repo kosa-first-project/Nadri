@@ -61,6 +61,15 @@ public class GuideListController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
+    @PutMapping("/{guideInfoId}/state")
+    public ResponseEntity<Void> updateGuideInfoState(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
+        guideInfo.setGuideInfoId(guideInfoId); // ID 설정
+        guideListService.updateGuideInfoState(guideInfo);
+        return ResponseEntity.ok().build(); // 성공적으로 업데이트 후 200 OK 반환
+    }
+
+
     @DeleteMapping("/list/{guideInfoId}")
     public ResponseEntity<Void> deleteGuide(@PathVariable int guideInfoId) {
         guideListService.deleteGuide(guideInfoId);

@@ -176,7 +176,7 @@
                             <td>${guide.capacity}명</td>
                             <td>
                                 <button class="guide-button" onclick="toggleStatus(${guide.guideInfoId}, '${guide.guideInfoState}')">
-                                    ${guide.guideInfoState === 'activate' ? '비활성화' : '활성화'}
+                                    ${guide.guideInfoState === 'activate' ? '활성화' : '비활성화'}
                                 </button>
                             </td>
                             <td>
@@ -239,17 +239,16 @@
         const newState = currentState === 'activate' ? 'deactivate' : 'activate';
 
         // 서버에 상태 변경 요청 보내기
-        fetch(`/guides/${guideInfoId}/status`, {
-            method: 'POST',
+        fetch(`/guides/${guideInfoId}/state`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ state: newState }),
+            body: JSON.stringify({ guideInfoState: newState }), // key 수정
         })
             .then(response => {
             if (response.ok) {
-                // 상태 업데이트 후 페이지 새로 고침 또는 상태 재로딩
-                fetchGuideData();
+                fetchGuideData(); // 상태 업데이트 후 데이터 새로 고침
             } else {
                 console.error('상태 변경 실패');
             }

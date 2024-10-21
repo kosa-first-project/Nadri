@@ -72,7 +72,8 @@ public interface GuideInfoMapper {
                 "board_rating AS boardRating, " +
                 "like_count AS likeCount, " +
                 "guide_info_state AS guideInfoState " +
-                "FROM guide_info")
+                "FROM guide_info " +
+                "ORDER BY guide_info_id DESC")  // guide_info_id 역순으로 정렬
         List<GuideInfoDTO> getAllGuideInfo();
 
         /*
@@ -108,6 +109,11 @@ public interface GuideInfoMapper {
                 "guide_info_state = #{guideInfoState} " +
                 "WHERE guide_info_id = #{guideInfoId}")
         void updateGuideInfo(GuideInfoDTO guideInfo);
+
+        @Update("UPDATE guide_info SET " +
+                "guide_info_state = #{guideInfoState} " +
+                "WHERE guide_info_id = #{guideInfoId}")
+        void updateGuideInfoState(GuideInfoDTO guideInfo);
 
         @Delete("DELETE FROM guide_info WHERE guide_info_id = #{guideInfoId}")
         void deleteGuideInfo(int guideInfoId);

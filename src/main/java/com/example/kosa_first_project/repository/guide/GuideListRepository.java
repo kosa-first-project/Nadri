@@ -29,6 +29,11 @@ public class GuideListRepository {
         guideInfoMapper.updateGuideInfo(guideInfo);
     }
 
+
+    public void updateGuideInfoState(GuideInfoDTO guideInfo) {
+        guideInfoMapper.updateGuideInfoState(guideInfo);
+    }
+
     public void deleteGuideInfo(int guideInfoId) {
         guideInfoMapper.deleteGuideInfo(guideInfoId);
     }

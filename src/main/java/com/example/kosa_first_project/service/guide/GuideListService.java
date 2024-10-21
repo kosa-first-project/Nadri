@@ -29,6 +29,11 @@ public class GuideListService {
         guideListRepository.updateGuideInfo(guideInfo);
     }
 
+
+    public void updateGuideInfoState(GuideInfoDTO guideInfo) {
+        guideListRepository.updateGuideInfoState(guideInfo);
+    }
+
     public void deleteGuide(int guideInfoId) {
         guideListRepository.deleteGuideInfo(guideInfoId);
     }
