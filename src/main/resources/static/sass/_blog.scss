@@ -520,31 +520,61 @@
     // background: $lightGray;
 }
 
-.blog_left_sidebar {}
+.blog_left_sidebar {
+    padding-top: 30px;
+}
 
 .blog_item {
     margin-bottom: 50px;
 }
 
-.blog_details {
-    padding: 30px 0 20px 10px;
-    box-shadow: 0px 10px 20px 0px rgba(221, 221, 221, 0.3);
+.single-post-area {
+    .blog_details {
+        box-shadow: none;
+        padding: 0;
 
-    @media(min-width: 768px) {
-        padding: 60px 30px 35px 35px;
+        /* 추가된 부분 - 제목 스타일 설정 */
+        h3.custom-blog-title {
+            font-size: 3rem !important;  /* 제목 폰트 크기를 크게 변경 */
+            font-weight: bold !important; /* 폰트 굵기를 굵게 설정 */
+            text-align: center !important; /* 제목을 가운데 정렬 */
+            margin-bottom: 20px !important; /* 제목과 이미지 사이의 간격 조정 */
+            color: #ff8b23 !important; /* 제목 색상 설정 */
+        }
+    }
+}
+
+
+.blog_details {
+    padding: 30px 0 20px 10px; /* 기본 패딩 */
+    box-shadow: 0px 10px 20px 0px rgba(221, 221, 221, 0.3);
+    display: flex; /* Flexbox 적용 */
+    justify-content: space-between; /* 제목과 이름을 양 끝에 배치 */
+
+    a {
+        color: #ff8b23; /* 제목의 색상 */
+    }
+
+    .blog-info-link {
+        margin-bottom: 0; /* 기본 마진 제거 */
+    }
+
+    @media (min-width: 768px) {
+        padding: 60px 30px 35px 35px; // 반응형 패딩
     }
 
     p {
-        margin-bottom: 30px;
+        margin-bottom: 30px; // 문단 아래 여백
     }
 
     a {
-        color: $heading_color2;
+        color: $heading_color2; // 링크 색상
 
         &:hover {
-            color: $btn_bg;
+            color: $btn_bg; // 링크 호버 색상
         }
     }
+}
 
     h3 {
         font-size: 18px;
@@ -556,7 +586,6 @@
             margin-bottom: 15px;
         }
     }
-}
 
 .blog-info-link {
 
@@ -665,7 +694,6 @@
             margin-top: 0px;
         }
     }
-
 
     .search_widget {
 

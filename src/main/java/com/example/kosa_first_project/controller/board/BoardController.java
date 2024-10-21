@@ -1,22 +1,22 @@
 package com.example.kosa_first_project.controller.board;
 
-import com.example.kosa_first_project.domain.board.BoardDTO;
-import com.example.kosa_first_project.domain.board.FileDTO;
-import com.example.kosa_first_project.domain.board.PaginationDTO;
+import com.example.kosa_first_project.WebConfig.RequestList;
+import com.example.kosa_first_project.domain.board.*;
 import com.example.kosa_first_project.service.board.BoardService;
-import com.example.kosa_first_project.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,82 +27,109 @@ public class BoardController {
     @Autowired
     private BoardService boardService; // 서비스 연결
 
-    // 메인화면(전체 게시글 출력)
-    @RequestMapping // 매핑 주소
-    public String boardMain(BoardDTO boardDTO, Model model, @RequestParam(defaultValue = "1") int page) { // 페이지 기본값 1로 세팅
+    @GetMapping("")
+    public ResponseEntity<?> getListBoard(BoardDTO board, @PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(boardService.getListBoard(board, pageable));
+    }
+
+    @RequestMapping // 메인 화면 매핑 주소
+    public String boardMain(@ModelAttribute("params") Model model) {
+
+        // 전체 게시글 출력
+        List <BoardDTO> boardDTOList = boardService.getBoardAll();
+        model.addAttribute("boardList", boardDTOList);
+        System.out.println("boardDTOList : " + boardDTOList);
+
+        // 각 게시글에 대한 파일 리스트를 모델에 추가
+        List<List<BoardFileDTO>> boardFileLists = new ArrayList<>();
+        for (BoardDTO board : boardDTOList) {
+            List<BoardFileDTO> boardFiles = boardService.getFile(board.getId());
+
+            // 파일 리스트가 null인 경우 빈 리스트로 초기화
+            if (boardFiles == null) {
+                boardFiles = new ArrayList<>();
+            }
+
+            boardFileLists.add(boardFiles);
+        }
+        model.addAttribute("boardFileLists", boardFileLists);
+        System.out.println("boardFileLists : " + boardFileLists);
 
         // 게시글 총 개수
         int total = boardService.cntBoard();
         model.addAttribute("cntBoard", total); // 전체 개수를 모델에 저장
 
-        // 페이징
-        PaginationDTO pagination = new PaginationDTO(5,3); // 페이지 당 게시글 수,
-        pagination.setPageNo(page); // 페이지 번호 저장
-        pagination.setTotalSize(total); // 전체 페이지 저장
-
-        boardDTO.setPageNo(page); // 게시판에 페이지 번호
-        boardDTO.setPageSize(pagination.getPageSize()); // 페이지 크기 저장
-        boardDTO.setPageOffset(pagination.getPageOffset()); // 페이지 시작 위치
-
-        model.addAttribute("paginate", pagination);
-        model.addAttribute("boardList", boardService.getBoardAll(boardDTO));
-        return "board/main"; // 리턴할 뷰
+        return "board/main";
     }
+
 
     // 게시글 상세화면
     @GetMapping("/{id}") // URL에서 : /board/{id}
-    public String boardDetail(@PathVariable Integer id, Model model, BoardDTO boardDTO){
-        BoardDTO boardDetail = boardService.getBoardOne(id); // 게시글 번호 저장
-        List<FileDTO> file = boardService.getFile(boardDTO); // 게시글 번호에 따른 파일 가져오기.
-        boardDTO.setHit(boardService.hit(id));
-        System.out.println(boardDTO.getHit());
+    public String boardDetail(@PathVariable Long id, Model model){
+        boardService.updateHit(id); // 조회 수 처리
 
+        BoardDTO boardDetail = boardService.getBoardOne(id); // 상세 게시글 가져옴
         model.addAttribute("board", boardDetail);
+        log.info("boardDetail: {}", boardDetail);
+        if(boardDetail.getFileAttached() == 1){ // 파일이 있으면 가져오기
+            List<BoardFileDTO> boardFileDTOList = boardService.getFile(id);
+            model.addAttribute("boardFileList", boardFileDTOList);
+            log.info("boardFileList {} :", boardFileDTOList);
+        }
+
+        List<BoardFileDTO> file = boardService.getFile(id); // 게시글 번호에 따른 파일 가져오기.
         model.addAttribute("getFile", file);
-        return "board/write";
+        log.info("getFile: {}", file);
+
+        return "board/detail";
     }
 
-    // 게시글 작성
-    @RequestMapping("/write")
-    public String write(BoardDTO boardDTO, Model model) {
-        model.addAttribute("board", boardDTO);
-        model.addAttribute("getFile", boardService.getFile(boardDTO));
-        log.info("boardService.getFile(boardDTO): {}", boardService.getFile(boardDTO));
-        return "board/write";
+    // 게시글 조회(Get)
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id, Model model) {
+        BoardDTO boardOne = boardService.getBoardOne(id);
+        model.addAttribute("board", boardOne);
+//        log.info("boardOneGet: {}", boardOne);
+        return "board/update";
+    }
+
+    // 게시글 수정(Post)
+    @PostMapping("/update/{id}")
+    public String update(BoardDTO boardDTO, Model model) {
+        boardService.updateBoard(boardDTO);
+        BoardDTO boardOne = boardService.getBoardOne(boardDTO.getId());
+        model.addAttribute("board", boardOne);
+//        log.info("boardOnePost: {}", boardOne);
+        return "board/update";
+    }
+
+    //Get으로 전달될 경우 게시글 저장 페이지로 이동
+    @GetMapping("/insert")
+    public String insertBoard() {
+        return "board/insert";
     }
 
     //게시글 삽입
-    @RequestMapping("/insertBoard")
-    public String insertBoard(@ModelAttribute BoardDTO boardDTO){
-        log.info("BoardDTO: {}", boardDTO);
+    @PostMapping("/insert")
+    public String insertBoard(@ModelAttribute BoardDTO boardDTO) throws IOException {
+//        log.info("boardDTO: {}", boardDTO);
         boardService.insertBoard(boardDTO);
-        return "redirect:/board";
+        return "redirect:/board"; // 게시글 저장 후 메인 페이지로 이동
     }
 
     //게시글 삭제
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteBoard(@PathVariable Integer id){ // ResponseEntity : 응답
-        boolean deleted = boardService.deleteBoard(id);
-        if(deleted){
-            return ResponseEntity.ok("게시물이 성공적으로 삭제되었습니다.");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시물 삭제 중 오류가 발생했습니다.");
-        }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
+        boardService.deleteBoard(id);
+        redirectAttributes.addFlashAttribute("message", "삭제 작업이 완료되었습니다.");
+        return "redirect:/board"; // 게시글 삭제 후 메인 페이지로 이동
     }
 
-    // ajax로 첨부파일 처리
-    @RequestMapping("/ajaxFile")
-    @ResponseBody
-    public List<FileDTO> ajaxFile(@RequestParam("files") MultipartFile[] uploadFile){
-        List<FileDTO> fileList = FileUtil.uploadFile(uploadFile);  //파일 등록
-        return fileList;
-    }
+    @GetMapping("/search")
+    public String searchBoard(@RequestParam("keyword") String keyword, Model model) {
+        List<BoardDTO> searchResults = boardService.searchBoardByKeyword(keyword);
+        model.addAttribute("boardList", searchResults);
 
-    // 파일 다운로드
-    @RequestMapping("/downloadFile")
-    public ResponseEntity<Resource> downloadFile(@ModelAttribute FileDTO fileDTO) throws IOException {
-        return boardService.downloadFile(fileDTO);
+        return "main6";
     }
-
 }

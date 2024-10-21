@@ -1,73 +1,99 @@
 package mybatis.dao.board;
 
+import com.example.kosa_first_project.WebConfig.RequestList;
 import com.example.kosa_first_project.domain.board.BoardDTO;
-import com.example.kosa_first_project.domain.board.FileDTO;
+import com.example.kosa_first_project.domain.board.BoardFileDTO;
 import org.apache.ibatis.annotations.*;
+import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Mapper
 public interface BoardMapper {
 
-    // 게시글 전체 리스트 조회
-    @Select({
-            "SELECT b.*, ",
-            "CASE WHEN COUNT(*) > 1 ",
-            "THEN CONCAT(f.filename, '외 ', COUNT(*) - 1, '건') ",
-            "ELSE f.filename ",
-            "END AS file_name ",
-            "FROM board b ",
-            "LEFT JOIN file f ON b.id = f.board_id ",
-            "WHERE b.delete_yn != 1",
-            "GROUP BY b.id ",
-            "ORDER BY b.id DESC ",
-            "LIMIT #{pageSize} OFFSET #{pageOffset}"
-    })
-    List<BoardDTO> getBoardAll(BoardDTO dto);
+    // 게시글 전체 리스트 최신순으로 조회
+    @Select("select id, user_id, title, content, rating, hits, date_format(createdAt, '%Y-%m-%d') as createdAt " +
+            "from board order by id desc LIMIT #{pagination.limitStart}, #{recordSize}")
+    List <BoardDTO> getBoardAll();
 
     // 게시글 상세 정보 조회 (id => PK)
-    @Select("select * from board where delete_yn != 1 and id = #{id}")
-    BoardDTO getBoardOne(Integer id);
+    @Select("select id, user_id, title, content, rating, hits, date_format(createdAt, '%Y-%m-%d %H:%i:%s') as createdAt, fileAttached " +
+            "from board where id = #{id}")
+    BoardDTO getBoardOne(Long id);
+
+    // 게시글 저장
+    @Insert("insert into board(user_id, title, content, rating, fileAttached) " +
+            "values ('dohun', #{title}, #{content}, #{rating}, #{fileAttached})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertBoard(BoardDTO dto);
 
     // 게시글 수정
-    @Update("update board set title = #{title}, content = #{content}, rating = #{rating}, modify_date = #{now()}, hit = #{hit} where id = #{id}")
+    @Update("update board set title = #{title}, content = #{content}, rating = #{rating} where id=#{id}")
     void updateBoard(BoardDTO dto);
 
     // 게시글 삭제
-    @Update("update board set delete_yn = 1 where id = #{id}")
-    boolean deleteBoard(Integer id);
+    @Delete("delete from board where id=#{id}")
+    void deleteBoard(Long id);
 
-    // 게시글 저장
-    @Insert("insert into board(user_id, title, content, rating, write_date, modify_date, hit) " +
-            "values ('dohun', #{title}, #{content}, #{rating}, NOW(), Null, 0)")
-    @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = long.class)
-    void insertBoard(BoardDTO dto);
+    // 파일 저장
+    @Insert("insert into board_file(originalFileName, storedFileName, board_id) " +
+            "values( #{originalFileName}, #{storedFileName},#{board_id})")
+    void insertFile(BoardFileDTO dto);
 
-    // 첨부파일 리스트
-    @Select("select * from file where delete_yn != 1 and board_id= #{id}")
-    List<FileDTO> getFile(BoardDTO dto);
-
-    //파일 삽입
-    @Insert({
-            "<script>",
-            "INSERT INTO file (id, uuid, filename, content_type) VALUES ",
-            "<foreach collection='list' item='item' separator=','>",
-            "(#{id}, #{item.uuid}, #{item.filename}, #{item.contentType})",
-            "</foreach>",
-            "</script>"
-    })
-    void insertFile(BoardDTO dto);
-
-    //파일 삭제
-    @Update("UPDATE file set delete_yn = 1 where board.id=#{dto.id} and delete_yn = 0")
-    void deleteFile(BoardDTO dto);
+    // 파일 찾기
+    @Select("select * from board_file where board_id = #{id}")
+    List<BoardFileDTO> getFile(Long id);
 
     //게시판 수 계산
-    @Select("select count(*) from board where delete_yn != 1")
+    @Select("select count(*) from board")
     Integer cntBoard();
 
     //조회 수 계산
-    @Update("update board set hit = hit + 1 where id = #{id}")
-    int updateHit(Integer id);
+    @Update("update board set hits = hits + 1 where id = #{id}")
+    void updateHit(Long id);
+
+    //게시글 검색
+    @Select("SELECT * FROM board WHERE title LIKE CONCAT('%', #{keyword}, '%') " +
+            "OR content LIKE CONCAT('%', #{keyword}, '%')")
+    List<BoardDTO> searchBoardByKeyword(String keyword);
+
+
+    //페이지네이션
+    @Select({
+            "<script>",
+            "SELECT id, user_id, title, content, createdAt",
+            "FROM BOARD",
+            "<where>",
+            "   <if test='requestList.data.title != null and requestList.data.title != \"\"'>",
+            "       AND TITLE LIKE '%' || #{requestList.data.title} || '%'",
+            "   </if>",
+            "   <if test='requestList.data.user_id != null and requestList.data.user_id != \"\"'>",
+            "       AND user_id LIKE '%' || #{requestList.data.user_id} || '%'",
+            "   </if>",
+            "</where>",
+            "LIMIT #{requestList.pageable.pageSize} OFFSET #{requestList.pageable.offset}",
+            "</script>"
+    })
+    List<Map<String, Object>> getListBoard(@Param("requestList") RequestList<?> requestList);
+
+
+    @Select({
+            "<script>",
+            "SELECT COUNT(*) AS CNT",
+            "FROM BOARD",
+            "<where>",
+            "   <if test='title != null and title != \"\"'>",
+            "       AND title LIKE '%' || #{title} || '%'",
+            "   </if>",
+            "   <if test='user_id != null and user_id != \"\"'>",
+            "       AND user_id LIKE '%' || #{user_id} || '%'",
+            "   </if>",
+            "</where>",
+            "</script>"
+    })
+    int getListBoardCount(BoardDTO boardDTO);
+
 }

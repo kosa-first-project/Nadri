@@ -1,6 +1,7 @@
     package com.example.kosa_first_project.domain.board;
 
     import lombok.Data;
+    import org.springframework.web.multipart.MultipartFile;
 
     import java.time.LocalDateTime;
     import java.util.List;
@@ -12,18 +13,13 @@
         private String title; // 제목
         private String content; // 내용
         private double rating; // 평점
-        private int hit; // 조회수
-        private boolean deleteYn;
-        private LocalDateTime write_date; // 생성 일시
-        private LocalDateTime modify_date; // 최종 수정 일시
-
+        private int hits; // 조회수
+        private String createdAt; // 작성 일시
+        private String modifyAt; // 수정 일시
+        private int fileAttached; // 파일이 첨부됐는지 확인
+        private List<MultipartFile> boardFile; // 파일 목록
+/*
         private Integer pageNo; // 현재 페이지 번호
         private int pageSize; // 페이지 당 항목 수
-        private int pageOffset; // 현재 페이지 이전 항목 수
-
-        private List<FileDTO> list; // 파일 목록
-        private String fileName; // 파일 이름
-        private String[] uuids; // 고유번호
-        private String[] fileNames; //
-        private String[] contentTypes; // 파일 종류
+        private int pageOffset; // 현재 페이지 이전 항목 수*/
     }

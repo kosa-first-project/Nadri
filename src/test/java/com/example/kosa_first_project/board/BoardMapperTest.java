@@ -1,7 +1,7 @@
 package com.example.kosa_first_project.board;
 
 import com.example.kosa_first_project.domain.board.BoardDTO;
-import com.example.kosa_first_project.domain.board.FileDTO;
+import com.example.kosa_first_project.domain.board.BoardFileDTO;
 import mybatis.dao.board.BoardMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,17 @@ public class BoardMapperTest {
     @BeforeEach
     void printLine() {
         System.out.println("=".repeat(80));
+    }
+
+    @Test
+    void saveByForeach() {
+        for (int i = 1; i <= 1000; i++) {
+            BoardDTO params = new BoardDTO();
+            params.setTitle(i + "번 게시글 제목");
+            params.setContent(i + "번 게시글 내용");
+            params.setUser_id("dohun");
+            boardMapper.insertBoard(params);
+        }
     }
 
     @Test
@@ -45,7 +56,7 @@ public class BoardMapperTest {
     @Transactional
     void getBoardAll() { // 전체 게시글 출력
         BoardDTO boardDTO = new BoardDTO();
-        List<BoardDTO> findAll = boardMapper.getBoardAll(boardDTO);
+        List<BoardDTO> findAll = boardMapper.getBoardAll();
         System.out.println(findAll.size());
     }
 
@@ -60,7 +71,7 @@ public class BoardMapperTest {
     @Test
     @Transactional
     void insertFile(){ // 파일 저장
-        FileDTO fileDTO = new FileDTO();
+        BoardFileDTO fileDTO = new BoardFileDTO();
     }
     
 
