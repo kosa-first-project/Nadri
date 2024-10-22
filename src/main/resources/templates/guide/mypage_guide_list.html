@@ -235,14 +235,14 @@
         /*if (guideInfoState === 'delete') {
             window.location.href = '/guides/list/' + guideInfoId; // 삭제 상태면 이 URL로 이동
         } else {*/
-            window.location.href = '/guides/form/' + guideInfoId; // 그렇지 않으면 이 URL로 이동
+            window.location.href = '/guidesForm/' + guideInfoId; // 그렇지 않으면 이 URL로 이동
         /*}*/
     }
     function toggleStatus(guideInfoId, currentState) {
         const newState = currentState === 'activate' ? 'deactivate' : 'activate';
 
         // 서버에 상태 변경 요청 보내기
-        fetch(`/guides/${guideInfoId}/state`, {
+        fetch(`/guides/list/${guideInfoId}/state`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
