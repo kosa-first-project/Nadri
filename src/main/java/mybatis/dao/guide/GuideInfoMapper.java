@@ -126,8 +126,8 @@ public interface GuideInfoMapper {
                 "career = #{career}, " +
                 "capacity = #{capacity}, " +
                 "text = #{text}, " +
-                "weekday_price = #{weekdayPrice}, " +
-                //"guide_info_state = #{guideInfoState} " +
+                "weekday_price = #{weekdayPrice} " +
+                //"guide_info_state = #{guideInfoState}, " + //사용시 , 주의
                 "WHERE guide_info_id = #{guideInfoId}")
         void updateGuideInfo(GuideInfoDTO guideInfo);
 
@@ -187,6 +187,7 @@ public interface GuideInfoMapper {
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
                 "WHERE 1=1 " +
+                "AND guide_info_state != 'delete' " + //삭제상태가 아닌 것
                 "<if test='city != null and city != \"all\"'> " +
                 "AND city = #{city} " +
                 "</if> " +
