@@ -138,11 +138,12 @@
             </div>
             <button type="button" th:if="${guideInfoId != null}" onclick="deleteGuide()">삭제하기</button>
         </div>
+        <div class="container" th:attr="data-guide-info-id=${guideInfoId}">
+        </div>
     </form>
 </div>
-
 <script>
-    const guideInfoId = [[${guideInfoId}]];
+    const guideInfoId = document.querySelector('.container').getAttribute('data-guide-info-id');
     console.log('guideInfoId:', guideInfoId); // 값 확인
 
     document.getElementById('submitButton').addEventListener('click', async () => {
