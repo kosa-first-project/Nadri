@@ -187,7 +187,7 @@ public interface GuideInfoMapper {
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
                 "WHERE 1=1 " +
-                "AND guide_info_state != 'delete' " + //삭제상태가 아닌 것
+                //"AND guide_info_state != 'delete' " + //삭제상태가 아닌 것. 없어도 아래에서 해당 state만 조회가능
                 "<if test='city != null and city != \"all\"'> " +
                 "AND city = #{city} " +
                 "</if> " +
