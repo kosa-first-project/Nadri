@@ -126,13 +126,78 @@
         </div>
 
         <div class="button-group" style="margin-top: 20px;">
-            <button type="submit">저장하기</button>
+            <button type="button" id="submitButton">저장하기</button>
             <button type="button" onclick="window.history.back();">닫기</button>
         </div>
     </form>
 </div>
 
 <script>
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const guideId = urlParams.get('id'); // 쿼리 파라미터에서 ID 가져오기
+
+    if (guideId) {
+        loadGuideData(guideId); // 가이드 데이터 로드
+        document.getElementById('formTitle').textContent = '가이드 수정하기';
+    }
+
+    async function loadGuideData(guideId) {
+        try {
+            const response = await fetch(`/guideForm/${guideId}`);
+            const guide = await response.json();
+
+            // 폼에 값 채우기
+            document.getElementById('title').value = guide.title;
+            document.getElementById('city').value = guide.city;
+            document.getElementById('career').value = guide.career;
+            document.getElementById('weekdayPrice').value = guide.weekdayPrice;
+            document.getElementById('capacity').value = guide.capacity;
+            document.getElementById('text').value = guide.text;
+
+            // 불가능 기간 추가
+            /*
+            guide.unavailableDates.forEach((date, index) => {
+                if (index > 0) addUnavailableDate(); // 추가 버튼 클릭하여 폼 추가
+                document.getElementById(`unavailableStartDate${index + 1}`).value = date.startDate;
+                document.getElementById(`unavailableEndDate${index + 1}`).value = date.endDate;
+            });*/
+
+        } catch (error) {
+            console.error('가이드 데이터를 불러오는 중 오류가 발생했습니다:', error);
+        }
+    }
+
+    document.getElementById('submitButton').addEventListener('click', async () => {
+        const formData = new FormData(document.getElementById('guideForm'));
+
+        try {
+            const response = guideId
+            ? await fetch(`/guideForm/${guideId}`, {
+                method: 'PUT',
+                body: formData
+            })
+            : await fetch('/guideForm', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // 저장 성공 시 가이드 활동 목록 마이페이지로 이동
+                alert('가이드 활동 등록을 성공하였습니다.');
+                window.location.href = '/mypage';
+            } else {
+                alert('가이드 저장에 실패했습니다. 다시 시도해주세요.');
+            }
+        } catch (error) {
+            console.error('AJAX 오류:', error);
+            alert('서버와의 통신 중 오류가 발생했습니다.');
+        }
+    });
+
+
+    /*
     let unavailableCount = 1;
 
     function addUnavailableDate() {
@@ -153,40 +218,8 @@
         `;
 
         container.appendChild(dateSection);
-    }
+    }*/
 
-    async function loadGuideData(guideId) {
-        try {
-            const response = await fetch(`/guides/${guideId}`);
-            const guide = await response.json();
-
-            // 폼에 값 채우기
-            document.getElementById('title').value = guide.title;
-            document.getElementById('city').value = guide.city;
-            document.getElementById('career').value = guide.career;
-            document.getElementById('weekdayPrice').value = guide.weekdayPrice;
-            document.getElementById('capacity').value = guide.capacity;
-            document.getElementById('text').value = guide.text;
-
-            // 불가능 기간 추가
-            guide.unavailableDates.forEach((date, index) => {
-                if (index > 0) addUnavailableDate(); // 추가 버튼 클릭하여 폼 추가
-                document.getElementById(`unavailableStartDate${index + 1}`).value = date.startDate;
-                document.getElementById(`unavailableEndDate${index + 1}`).value = date.endDate;
-            });
-
-        } catch (error) {
-            console.error('가이드 데이터를 불러오는 중 오류가 발생했습니다:', error);
-        }
-    }
-
-    // 페이지가 로드될 때 가이드 ID를 확인
-    const urlParams = new URLSearchParams(window.location.search);
-    const guideId = urlParams.get('id'); // 쿼리 파라미터에서 ID 가져오기
-
-    if (guideId) {
-        loadGuideData(guideId); // 가이드 데이터 로드
-    }
 </script>
 
 </body>

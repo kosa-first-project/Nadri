@@ -2,40 +2,65 @@ package com.example.kosa_first_project.controller.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
 import com.example.kosa_first_project.service.guide.GuideFormService;
+import com.example.kosa_first_project.service.guide.GuideListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+@RestController
+@RequestMapping("/guideForm")
 public class GuideFormController {
 
     @Autowired
     private GuideFormService guideFormService;
 
-    @GetMapping("/guideForm")
-    public String showGuideForm() {
-        return "guide/guide_form"; // 뷰의 이름 반환 (HTML 페이지)
-    }
 
-    @PostMapping("/guideForm")
-    public String saveGuideForm(@ModelAttribute GuideInfoDTO guideInfoDTO) {
+    @PostMapping
+    public ResponseEntity<Void> createGuide(@ModelAttribute GuideInfoDTO guideInfoDTO) {
 
         // 나중에 세션에서 UserID 가져와야 함.
         guideInfoDTO.setUserId("user1");
         guideInfoDTO.setGuideInfoState("activate");
 
         guideFormService.saveGuideInfo(guideInfoDTO);
+        return ResponseEntity.ok().build(); // 성공적으로 처리됨
 
-        //페이지 전환보다는 알림으로만 하고 닫기를 따로 하게 하는게 나을 듯.
 
+/*
+
+        if (guideInfoDTO.getGuideInfoId() != null) {
+            // 기존 가이드 업데이트
+            guideFormService.updateGuideInfo(guideInfoDTO);
+            redirectAttributes.addFlashAttribute("message", "가이드 정보가 수정되었습니다.");
+        } else {
+            // 새 가이드 저장
+            guideFormService.saveGuideInfo(guideInfoDTO);
+            redirectAttributes.addFlashAttribute("message", "가이드 정보가 저장되었습니다.");
+        }
+*/
+        //페이지 전환할지 알림을 할지 고민
         //return "redirect:/guide/mypage_guide_list.html"; // 리다이렉트 : 파일이 static 아래에 있어야함
-
-        //redirectAttributes.addFlashAttribute("message", "가이드 정보가 저장되었습니다."); // 리다이렉트 후 메시지 전달
-        return "guide/guide_card"; //templates 아래에 있으며, url이 바뀌지 않음.
+        //return "guide/mypage_guide_list"; //templates 아래에 있으며, url이 바뀌지 않음.
     }
+
+    @PutMapping("/{guideInfoId}")
+    public ResponseEntity<Void> updateGuide(@PathVariable int guideInfoId, @ModelAttribute GuideInfoDTO guideInfoDTO) {
+        guideInfoDTO.setGuideInfoId(guideInfoId); // ID 설정
+        guideFormService.saveGuideInfo(guideInfoDTO);
+        return ResponseEntity.ok().build(); // 성공적으로 처리됨
+    }
+
+    @GetMapping("/{guideInfoId}")
+    public ResponseEntity<GuideInfoDTO> getGuide(@PathVariable int guideInfoId) {
+        GuideInfoDTO guideInfo = guideFormService.getGuideInfo(guideInfoId);
+        return ResponseEntity.ok(guideInfo);
+    }
+
+
 }
 
         /*

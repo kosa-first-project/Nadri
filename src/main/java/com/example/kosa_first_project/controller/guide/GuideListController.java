@@ -71,7 +71,7 @@ public class GuideListController {
     }
 
 
-    @PutMapping("/list/{guideInfoId}")
+    @PutMapping("/list/{guideInfoId}/all")
     public ResponseEntity<Void> updateGuide(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
         guideInfo.setGuideInfoId(guideInfoId);
         guideListService.updateGuide(guideInfo);
@@ -79,7 +79,7 @@ public class GuideListController {
     }
 
 
-    @PutMapping("/{guideInfoId}/state")
+    @PutMapping("/list/{guideInfoId}/state")
     public ResponseEntity<Void> updateGuideInfoState(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
         guideInfo.setGuideInfoId(guideInfoId); // ID 설정
         guideListService.updateGuideInfoState(guideInfo);
