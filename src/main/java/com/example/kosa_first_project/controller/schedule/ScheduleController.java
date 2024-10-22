@@ -1,5 +1,6 @@
 package com.example.kosa_first_project.controller.schedule;
 
+import com.example.kosa_first_project.domain.login.UserDTO;
 import com.example.kosa_first_project.domain.schedule.ScheduleBlockDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -39,7 +40,8 @@ public class ScheduleController {
         HttpSession session = request.getSession();
         session.setAttribute("scheduleTitle", title);
         System.out.println(session.getAttribute("scheduleTitle"));
-        String user_id = (String)session.getAttribute("user");
+        UserDTO user = (UserDTO)session.getAttribute("user");
+        String user_id = user.getId();
         //String user_id = "user1";
 
         // Create a new schedule block
@@ -66,7 +68,8 @@ public class ScheduleController {
         // DB에서 사용자 ID에 맞는 제목들을 가져오기 (여기서는 "user1"을 사용)
 
         HttpSession session = request.getSession();
-        String user_id = (String)session.getAttribute("user");
+        UserDTO user = (UserDTO)session.getAttribute("user");
+        String user_id = user.getId();
         List<String> scheduleTitles = scheduleMapper.getAllDistinctTitlesForUser(user_id);
 
         // 제목 리스트를 모델에 추가
@@ -79,8 +82,8 @@ public class ScheduleController {
     public String showSelectedSchedule(@RequestParam(value = "title", required = true) String title,
                                        Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String user_id = (String)session.getAttribute("user_id");
-        //String user_id = "dd";
+        UserDTO user = (UserDTO)session.getAttribute("user");
+        String user_id = user.getId();        //String user_id = "dd";
 
         // 제목과 사용자 ID를 기준으로 날짜순으로 정렬된 스케줄 블럭을 가져옴
         List<ScheduleBlockDTO> scheduleBlocks = scheduleMapper.showScheduleByStartDateTime(title, user_id);

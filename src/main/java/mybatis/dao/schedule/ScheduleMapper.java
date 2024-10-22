@@ -9,7 +9,7 @@ import java.util.List;
 public interface ScheduleMapper {
 
     @Insert("INSERT INTO schedule (startDateTime, endDateTime, destination, comment, title, user_id) " +
-            "VALUES (#{startDateTime}, #{endDateTime}, #{destination}, #{comment}, #{title}, 'dd')")
+            "VALUES (#{startDateTime}, #{endDateTime}, #{destination}, #{comment}, #{title}, #{user_id})")
     void saveScheduleBlock(ScheduleBlockDTO scheduleBlockDTO);
 
     // Get all schedule blocks for a logged in id
