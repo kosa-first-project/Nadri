@@ -82,9 +82,21 @@ public class GuideFormController {
     @PutMapping("/{guideInfoId}")
     public String updateGuide(@PathVariable int guideInfoId, @ModelAttribute GuideInfoDTO guideInfoDTO) {
         guideInfoDTO.setGuideInfoId(guideInfoId); // ID 설정
-        guideFormService.saveGuideInfo(guideInfoDTO);
+        guideFormService.updateGuideInfo(guideInfoDTO);
         return "guide/mypage_guide_list"; // 리다이렉트할 URL
     }
+
+
+
+    @PutMapping("/{guideInfoId}/state")
+    public String updateGuideInfoState(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfoDTO) {//@ModelAttribute GuideInfoDTO guideInfoDTO 아님
+        guideInfoDTO.setGuideInfoId(guideInfoId); // ID 설정
+        guideFormService.updateGuideInfoState(guideInfoDTO);
+        return "guide/mypage_guide_list"; // 리다이렉트할 URL
+    }
+
+
+
 
     @GetMapping("/{guideInfoId}")
     public String getGuide(@PathVariable int guideInfoId, Model model) {
@@ -97,6 +109,9 @@ public class GuideFormController {
             System.err.println("Error fetching guide info: " + e.getMessage());
             return "error"; // 오류 처리 페이지로 리다이렉트
         }
+
+
+
     }
 
 

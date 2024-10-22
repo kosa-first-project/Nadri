@@ -2,6 +2,7 @@ package com.example.kosa_first_project.service.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
 import com.example.kosa_first_project.domain.guide.GuideUnavailableTimeDTO;
+import com.example.kosa_first_project.repository.guide.GuideListRepository;
 import mybatis.dao.guide.GuideInfoMapper;
 import mybatis.dao.guide.GuideUnavailableTimeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class GuideFormService {
     private GuideInfoMapper guideInfoMapper;
     @Autowired
     private GuideUnavailableTimeMapper guideUnavailableTimeMapper;
+    @Autowired
+    private GuideListRepository guideListRepository;
 
     public void saveGuideInfo(GuideInfoDTO guideInfoDTO) {
         /*
@@ -46,5 +49,19 @@ public class GuideFormService {
     public GuideInfoDTO getGuideInfo(int guideInfoId) {
         return guideInfoMapper.getGuideInfoById(guideInfoId);
     }
+
+    public void updateGuideInfo(GuideInfoDTO guideInfo) {
+        guideListRepository.updateGuideInfo(guideInfo);
+    }
+    public void updateGuideInfoState(GuideInfoDTO guideInfo) {
+        try {
+            guideListRepository.updateGuideInfoState(guideInfo);
+        } catch (Exception e) {
+            // 에러 로깅
+            System.err.println("Error updating guide info state in the service layer: " + e.getMessage());
+            throw e; // 예외를 다시 던져서 Controller에서 처리하게 함
+        }
+    }
+
 
 }

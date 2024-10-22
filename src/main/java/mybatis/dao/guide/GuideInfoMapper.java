@@ -104,7 +104,7 @@ public interface GuideInfoMapper {
                 "capacity = #{capacity}, " +
                 "text = #{text}, " +
                 "weekday_price = #{weekdayPrice}, " +
-                "guide_info_state = #{guideInfoState} " +
+                //"guide_info_state = #{guideInfoState} " +
                 "WHERE guide_info_id = #{guideInfoId}")
         void updateGuideInfo(GuideInfoDTO guideInfo);
 
