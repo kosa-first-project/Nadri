@@ -75,6 +75,28 @@ public interface GuideInfoMapper {
                 // guide_info_id 역순으로 정렬
         List<GuideInfoDTO> getAllGuideInfo();
 
+        @Select("SELECT " +
+                "guide_info_id AS guideInfoId, " +
+                "user_id AS userId, " +
+                "city, " +
+                "town, " +
+                "village, " +
+                "name, " +
+                "title, " +
+                "career, " +
+                "capacity, " +
+                "text, " +
+                "weekday_price AS weekdayPrice, " +
+                "weekend_price AS weekendPrice, " +
+                "board_rating AS boardRating, " +
+                "like_count AS likeCount, " +
+                "guide_info_state AS guideInfoState " +
+                "FROM guide_info " +
+                "WHERE guide_info_state != 'delete' " + //삭제상태가 아닌 것
+                "AND user_id = #{userId} " + // userId가 특정 값과 일치하는 경우
+                "ORDER BY guide_info_id DESC")
+        List<GuideInfoDTO> getMyGuideInfo(@Param("userId") String userId);
+
         /*
         //전체 칼럼 Update
         @Update("UPDATE guide_info SET " +
