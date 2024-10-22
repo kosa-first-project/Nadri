@@ -159,7 +159,7 @@
             ? await fetch(`/guideForm/${guideInfoId}`, { method: 'PUT', body: formData })
             : await fetch('/guideForm', { method: 'POST', body: formData });
 
-            if (response.ok) {
+            if (response.ok) { //HTTP 응답의 상태 코드가 200~299
                 alert('가이드 활동 저장을 성공하였습니다.');
                 window.location.href = '/mypage_guide.html'; // 또는 '/index.html'
             } else {
