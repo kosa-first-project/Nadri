@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>게시글 목록</h2>
+    </div>
+    <form th:object="${titleSearch}" method="get" class="form-inline">
+        <div class="row">
+            <div class="col">
+                <input type="text" th:field="*{title}" class="form-control" placeholder="제목입력"/>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-secondary mb-2">검색</button>
+            </div>
+            <div class="col">
+            </div>
+            <div class="col">
+                <div class="col">
+                    <button class="btn btn-primary float-end"
+                            onclick="location.href='addForm.html'"
+                            th:onclick="|location.href='@{/board/save}'|"
+                            type="button">글쓰기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성시간</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board:${boardList}">
+                <td>
+                    <a th:text="${board.id}" th:href="@{|/board/${board.id}|}">1</a>
+                </td>
+                <td>
+                    <a th:text="${board.title}" th:href="@{|/board/${board.id}|}">제목</a>
+                </td>
+                <td th:text="${board.author}">작성자</td>
+                <td th:text="${board.createdDate}">0</td>
+                <td th:text="${board.viewCount}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:if="${page.pre != null and page.page > 1}" th:value="${page.pre}" id="pre">
+                    <a class="page-link" th:href="@{/board/list(page=${page.page-1})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <th:block th:each="i : ${#numbers.sequence(page.startNum, page.lastNum)}">
+                    <li class="page-item" th:class="${page.page == i} ? 'active' : ''">
+                        <a class="page-link" th:href="@{/board/list(page=${i})}" th:text="${i}"></a>
+                    </li>
+                </th:block>
+
+                <li class="page-item" th:if="${page.next != null and page.page < page.totalPage}" th:value="${page.next}" id="next">
+                    <a class="page-link" th:href="@{/board/list(page=${page.page+1})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>
