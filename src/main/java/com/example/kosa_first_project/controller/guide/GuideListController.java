@@ -37,14 +37,25 @@ public class GuideListController {
         model.addAttribute("guides", guides);
         return "guide/guide_list"; // HTML 템플릿 파일 경로
     }
-
+/*
     @GetMapping("/search")
     public ResponseEntity<List<GuideInfoDTO>> searchGuides(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String city) {
         List<GuideInfoDTO> guides = guideListService.searchGuides(search, city);
         return new ResponseEntity<>(guides, HttpStatus.OK);
+    }*/
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<GuideInfoDTO>> searchGuides(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String status) {
+        List<GuideInfoDTO> guides = guideListService.searchGuides(search, city, status);
+        return new ResponseEntity<>(guides, HttpStatus.OK);
     }
+
 
 /*    @GetMapping("/list/{guideInfoId}")
     public ResponseEntity<GuideInfoDTO> getGuideByIdJson(@PathVariable int guideInfoId) {
@@ -60,7 +71,7 @@ public class GuideListController {
     }
 
 
-    @PutMapping("/list/{guideInfoId}")
+    @PutMapping("/list/{guideInfoId}/all")
     public ResponseEntity<Void> updateGuide(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
         guideInfo.setGuideInfoId(guideInfoId);
         guideListService.updateGuide(guideInfo);
@@ -68,7 +79,7 @@ public class GuideListController {
     }
 
 
-    @PutMapping("/{guideInfoId}/state")
+    @PutMapping("/list/{guideInfoId}/state")
     public ResponseEntity<Void> updateGuideInfoState(@PathVariable int guideInfoId, @RequestBody GuideInfoDTO guideInfo) {
         guideInfo.setGuideInfoId(guideInfoId); // ID 설정
         guideListService.updateGuideInfoState(guideInfo);

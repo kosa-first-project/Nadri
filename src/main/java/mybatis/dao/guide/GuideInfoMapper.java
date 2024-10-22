@@ -70,9 +70,32 @@ public interface GuideInfoMapper {
                 "like_count AS likeCount, " +
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
+                "WHERE guide_info_state != 'delete' " + //삭제상태가 아닌 것
                 "ORDER BY guide_info_id DESC")
                 // guide_info_id 역순으로 정렬
         List<GuideInfoDTO> getAllGuideInfo();
+
+        @Select("SELECT " +
+                "guide_info_id AS guideInfoId, " +
+                "user_id AS userId, " +
+                "city, " +
+                "town, " +
+                "village, " +
+                "name, " +
+                "title, " +
+                "career, " +
+                "capacity, " +
+                "text, " +
+                "weekday_price AS weekdayPrice, " +
+                "weekend_price AS weekendPrice, " +
+                "board_rating AS boardRating, " +
+                "like_count AS likeCount, " +
+                "guide_info_state AS guideInfoState " +
+                "FROM guide_info " +
+                "WHERE guide_info_state != 'delete' " + //삭제상태가 아닌 것
+                "AND user_id = #{userId} " + // userId가 특정 값과 일치하는 경우
+                "ORDER BY guide_info_id DESC")
+        List<GuideInfoDTO> getMyGuideInfo(@Param("userId") String userId);
 
         /*
         //전체 칼럼 Update
@@ -104,7 +127,7 @@ public interface GuideInfoMapper {
                 "capacity = #{capacity}, " +
                 "text = #{text}, " +
                 "weekday_price = #{weekdayPrice}, " +
-                "guide_info_state = #{guideInfoState} " +
+                //"guide_info_state = #{guideInfoState} " +
                 "WHERE guide_info_id = #{guideInfoId}")
         void updateGuideInfo(GuideInfoDTO guideInfo);
 
@@ -115,7 +138,7 @@ public interface GuideInfoMapper {
 
         @Delete("DELETE FROM guide_info WHERE guide_info_id = #{guideInfoId}")
         void deleteGuideInfo(int guideInfoId);
-
+/*
         @Select("<script>" +
                 "SELECT " +
                 "guide_info_id AS guideInfoId, " +
@@ -143,7 +166,40 @@ public interface GuideInfoMapper {
                 "</if> " +
                 "ORDER BY guide_info_id DESC" +
                 "</script>")
-        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);
+        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);*/
+
+        @Select("<script>" +
+                "SELECT " +
+                "guide_info_id AS guideInfoId, " +
+                "user_id AS userId, " +
+                "city, " +
+                "town, " +
+                "village, " +
+                "name, " +
+                "title, " +
+                "career, " +
+                "capacity, " +
+                "text, " +
+                "weekday_price AS weekdayPrice, " +
+                "weekend_price AS weekendPrice, " +
+                "board_rating AS boardRating, " +
+                "like_count AS likeCount, " +
+                "guide_info_state AS guideInfoState " +
+                "FROM guide_info " +
+                "WHERE 1=1 " +
+                "<if test='city != null and city != \"all\"'> " +
+                "AND city = #{city} " +
+                "</if> " +
+                "<if test='search != null and search != \"\"'> " +
+                "AND (title LIKE CONCAT('%', #{search}, '%') OR text LIKE CONCAT('%', #{search}, '%')) " +
+                "</if> " +
+                "<if test='status != null and status != \"all\"'> " +
+                "AND guide_info_state = #{status} " +
+                "</if> " +
+                "ORDER BY guide_info_id DESC" +
+                "</script>")
+        List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city, @Param("status") String status);
+
 
 
 }

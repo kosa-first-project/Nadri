@@ -2,6 +2,7 @@ package com.example.kosa_first_project.service.guide;
 
 import com.example.kosa_first_project.domain.guide.GuideInfoDTO;
 import com.example.kosa_first_project.domain.guide.GuideUnavailableTimeDTO;
+import com.example.kosa_first_project.repository.guide.GuideListRepository;
 import mybatis.dao.guide.GuideInfoMapper;
 import mybatis.dao.guide.GuideUnavailableTimeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class GuideFormService {
     private GuideInfoMapper guideInfoMapper;
     @Autowired
     private GuideUnavailableTimeMapper guideUnavailableTimeMapper;
+    @Autowired
+    private GuideListRepository guideListRepository;
 
     public void saveGuideInfo(GuideInfoDTO guideInfoDTO) {
         /*
@@ -28,17 +31,37 @@ public class GuideFormService {
             //guideInfoMapper.insertUnavailableDate(guideInfoDTO.getId(), date);
         }*/
 
-
-        // GuideInfo 저장
-        guideInfoMapper.insertGuideInfo(guideInfoDTO);
+        if (guideInfoDTO.getGuideInfoId() != 0) {
+            guideInfoMapper.updateGuideInfo(guideInfoDTO);
+        } else {
+            guideInfoMapper.insertGuideInfo(guideInfoDTO);
+        }
 
         // 불가능 기간 저장 (있을 경우)
         if (guideInfoDTO.getUnavailableDates() != null) {
             guideInfoDTO.getUnavailableDates().forEach(unavailableTime -> {
-                // GuideInfo의 ID를 설정
                 unavailableTime.setGuideInfoId(guideInfoDTO.getGuideInfoId());
                 guideUnavailableTimeMapper.insertGuideUnavailableTimeNoUserId(unavailableTime);
             });
         }
     }
+
+    public GuideInfoDTO getGuideInfo(int guideInfoId) {
+        return guideInfoMapper.getGuideInfoById(guideInfoId);
+    }
+
+    public void updateGuideInfo(GuideInfoDTO guideInfo) {
+        guideListRepository.updateGuideInfo(guideInfo);
+    }
+    public void updateGuideInfoState(GuideInfoDTO guideInfo) {
+        try {
+            guideListRepository.updateGuideInfoState(guideInfo);
+        } catch (Exception e) {
+            // 에러 로깅
+            System.err.println("Error updating guide info state in the service layer: " + e.getMessage());
+            throw e; // 예외를 다시 던져서 Controller에서 처리하게 함
+        }
+    }
+
+
 }

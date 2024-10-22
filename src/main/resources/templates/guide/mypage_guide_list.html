@@ -9,7 +9,7 @@
             font-family: 'Arial', sans-serif;
             background-color: #f3f4f6;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
         .guide-container {
             max-width: 900px;
@@ -91,11 +91,11 @@
     <h1 class="guide-title">가이드 활동 정보</h1>
 
     <div class="guide-button-group">
-        <button class="guide-button" onclick="window.location.href='/guide/form'">가이드 추가하기</button>
+        <button class="guide-button" onclick="window.location.href='/guideForm'">가이드 추가하기</button>
     </div>
 
     <div class="guide-search-bar">
-        <input type="text" id="searchInput" class="guide-search-input" placeholder="신청자 이름 또는 연락처 검색">
+        <input type="text" id="searchInput" class="guide-search-input" placeholder="제목 또는 상세정보 검색">
         <select id="statusSelect" class="guide-search-select">
             <option value="all">모든 상태</option>
             <option value="activate">활성화</option>
@@ -152,7 +152,7 @@
         const selectedStatus = document.getElementById('statusSelect').value; // 선택된 상태 가져오기
 
         try {
-            const response = await fetch(`/guides?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
+            const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
             const data = await response.json();
             renderTable(data); // 검색 결과를 테이블에 렌더링
         } catch (error) {
@@ -231,15 +231,18 @@
         fetchGuideData(); // 새 페이지 데이터 가져오기
     }
 
-    function viewDetails(guideInfoId) {
-        window.location.href = '/guides/list/' + guideInfoId; // 상세 정보 페이지로 이동
+    function viewDetails(guideInfoId, guideInfoState) {
+        /*if (guideInfoState === 'delete') {
+            window.location.href = '/guides/list/' + guideInfoId; // 삭제 상태면 이 URL로 이동
+        } else {*/
+            window.location.href = '/guideForm/' + guideInfoId; // 그렇지 않으면 이 URL로 이동
+        /*}*/
     }
-
     function toggleStatus(guideInfoId, currentState) {
         const newState = currentState === 'activate' ? 'deactivate' : 'activate';
 
         // 서버에 상태 변경 요청 보내기
-        fetch(`/guides/${guideInfoId}/state`, {
+        fetch(`/guides/list/${guideInfoId}/state`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

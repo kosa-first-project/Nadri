@@ -24,6 +24,8 @@ public class GuideListService {
         }
         return guideListRepository.searchGuides(search, city);
     }*/
+
+    /*
     public List<GuideInfoDTO> searchGuides(String search, String city) {
         if (city != null && !city.equals("all")) {
             // 도시가 선택되었고 검색어가 null 또는 빈 문자열일 때 해당 도시의 가이드만 반환
@@ -32,6 +34,16 @@ public class GuideListService {
             }
         }
         return guideListRepository.searchGuides(search, city); // 일반적인 검색
+    }*/
+
+    public List<GuideInfoDTO> searchGuides(String search, String city, String status) {
+        if (city != null && !city.equals("all")) {
+            // 도시가 선택되었고 검색어가 null 또는 빈 문자열일 때 해당 도시의 가이드만 반환
+            if (search == null || search.isEmpty()) {
+                return guideListRepository.searchGuides(null, city, status); // 검색어 없이 지역과 상태로
+            }
+        }
+        return guideListRepository.searchGuides(search, city, status); // 일반적인 검색
     }
 
 
