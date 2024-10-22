@@ -6,12 +6,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    private String resourcePath = "/uploadImage/**"; // view에서 사용할 경로
-    private String savePath = "C:\\kosa_first_project\\uploadImage\\"; // 프로젝트 루트의 uploadImage 폴더
+
+    private String resourcePath = "/uploadImage/**";
+
+    private String savePath = "file:///C:/kosa_first_project/uploadImage/";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(resourcePath)
-                .addResourceLocations("file:" + savePath); // file: 프로토콜 추가
+                .addResourceLocations(savePath);
     }
 }
