@@ -70,6 +70,7 @@ public interface GuideInfoMapper {
                 "like_count AS likeCount, " +
                 "guide_info_state AS guideInfoState " +
                 "FROM guide_info " +
+                "WHERE guide_info_state != 'delete' " + //삭제상태가 아닌 것
                 "ORDER BY guide_info_id DESC")
                 // guide_info_id 역순으로 정렬
         List<GuideInfoDTO> getAllGuideInfo();
