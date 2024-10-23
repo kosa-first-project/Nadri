@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,6 +18,29 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
+
+//    @GetMapping("")
+//    public String boardList(@ModelAttribute("titleSearch") TitleSearchCond titleSearchCond,
+//                            @ModelAttribute("page") PageDTO pageDTO,
+//                            Model model) {
+//        // 게시물 목록 가져오기
+//        List<BoardDTO> boardDTOList = boardService.findBoardList(titleSearchCond, pageDTO);
+//
+//        // 각 게시물에 첨부파일을 추가
+//        for (BoardDTO boardDTO : boardDTOList) {
+//            if (boardDTO.getAttachedFile() != null && boardDTO.getAttachedFile().equals(1)) {
+//                List<BoardFileDTO> files = boardService.findFile(boardDTO.getId());
+//                boardDTO.setBoardFiles(files);  // BoardDTO에 첨부파일 목록 추가
+//                for (BoardFileDTO boardFileDTO : files) {
+//                    System.out.println(boardFileDTO);
+//                }
+//            }
+//        }
+//
+//        model.addAttribute("boardList", boardDTOList);
+//        return "/board/main"; // 뷰로 이동
+//    }
+
 
     // 게시판 목록 화면
     @GetMapping("")
@@ -30,10 +54,16 @@ public class BoardController {
         // 상세내용 처리
         BoardDTO boardDTO = boardService.findById(boardDTOList.get(0).getId());
         model.addAttribute("board", boardDTO);
+
+        List<BoardFileDTO> test = new ArrayList<>();
         // 첨부파일이 있는 게시글의 경우 첨부파일 처리
         if (boardDTO.getAttachedFile().equals(1)) {
-            List<BoardFileDTO> boardFileList = boardService.findFile(boardDTO.getId());
-            model.addAttribute("boardFileList", boardFileList);
+            for (int i = 0; i < boardDTOList.size(); i++) {
+            List<BoardFileDTO> boardFileList = boardService.findFile(boardDTOList.get(i).getId());
+//                test.add(boardService.findFiletest(boardDTOList.get(i).getId()));
+                  test.addAll(boardFileList);
+            }
+            model.addAttribute("boardFileList", test);
         }
         return "/board/main";
     }
@@ -58,12 +88,13 @@ public class BoardController {
         // 상세내용 처리
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
+
         // 첨부파일이 있는 게시글의 경우 첨부파일 처리
         if (boardDTO.getAttachedFile().equals(1)) {
             List<BoardFileDTO> boardFileList = boardService.findFile(id);
             model.addAttribute("boardFileList", boardFileList);
         }
-        return "/board/detailForm";
+        return "board/detail";
     }
 
     // 게시글 수정 화면

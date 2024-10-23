@@ -15,6 +15,7 @@ public interface BoardRepository {
     void updateViewCount(Long id);
     BoardDTO findById(Long id);
     List<BoardFileDTO> findFile(Long id);
+    BoardFileDTO findFiletest(Long id);
     void delete(Long id);
     void update(BoardDTO boardDTO);
 //    Long getTotalCount();

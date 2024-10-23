@@ -36,8 +36,12 @@
         </div>
         <div>
             <label for="content">내용</label>
-            <textarea type="text" id="content" name="content" th:text="${board.content}"class="form-control"></textarea>
+            <textarea type="text" id="content" name="content" th:text="${board.content}"class="form-control" style="height: 500px;"></textarea>
         </div>
+<!--        <div>
+            <label for="boardFile">파일첨부</label>
+            <input type="file" id="boardFile" name="boardFile" class="form-control" multiple>
+        </div>-->
 
         <hr class="my-4">
 
@@ -47,8 +51,7 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='listForm.html'"
-                        th:onclick="|location.href='@{/board/list}'|"
+                        th:onclick="|location.href='@{/board/{id}(id=${board.id})'|"
                         type="button">취소</button>
             </div>
         </div>

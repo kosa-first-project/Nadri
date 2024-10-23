@@ -60,6 +60,13 @@
         where boardId = #{id}
     </select>
 
+    <!-- 게시글 첨부파일 가져오기 SQL -->
+    <select id="findFiletest" parameterType="Long" resultType="BoardFileDTO">
+        select *
+        from file
+        where boardId = #{id}
+    </select>
+
     <!-- 게시글 삭제 SQL -->
     <delete id="delete" parameterType="Long">
         delete from board where id = #{id}

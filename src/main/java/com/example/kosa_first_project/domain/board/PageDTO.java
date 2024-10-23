@@ -18,9 +18,10 @@ public class PageDTO {
 
     public PageDTO() {
         this.page=1L;
-        this.perPage=2L;
-        this.perBlock=2L;
+        this.perPage=5L;  // 페이지당 게시물 수를 5로 설정
+        this.perBlock=5L; // 한 블록당 페이지 수 (필요에 따라 변경 가능)
     }
+
 
     public void setRow() {
         //한페이지에 10개씩 출력 기준

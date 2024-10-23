@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -33,7 +32,7 @@
         </div>
         <div>
             <label for="content">내용</label>
-            <textarea id="content" name="content" class="form-control"></textarea>
+            <textarea id="content" name="content" class="form-control" style="height: 500px;"></textarea>
         </div>
         <div>
             <label for="boardFile">파일첨부</label>
@@ -48,9 +47,10 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='listForm.html'"
-                        th:onclick="|location.href='@{/board/list}'|"
-                        type="button">취소</button>
+                        onclick="location.href='main.html'"
+                        th:onclick="|location.href='@{/board}'|"
+                        type="button">취소
+                </button>
             </div>
         </div>
 

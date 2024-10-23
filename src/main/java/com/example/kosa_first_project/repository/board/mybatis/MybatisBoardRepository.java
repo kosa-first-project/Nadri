@@ -41,6 +41,10 @@ public class MybatisBoardRepository implements BoardRepository {
         return boardMapper.findFile(id);
     }
     @Override
+    public BoardFileDTO findFiletest(Long id) {
+        return boardMapper.findFiletest(id);
+    }
+    @Override
     public void delete(Long id) {
         boardMapper.delete(id);
     }
