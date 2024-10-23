@@ -92,7 +92,7 @@
     <p id="detailCapacity" th:text="'수용 인원: ' + ${guide.capacity}"></p>
     <p id="detailPrice" th:text="'금액: ' + ${guide.weekdayPrice} + ' 원'"></p>
     <p id="detailRating" th:text="'평점: ' + ${guide.boardRating}"></p>
-    <p id="detailNickname" th:text="'닉네임: ' + ${guide.name}"></p>
+    <p id="detailNickname" th:text="'닉네임: ' + ${guide.nickname}"></p>
     <div class="details">
         <h4>상세 내역</h4>
         <p id="detailDescription" th:text="${guide.text}"></p>
@@ -140,7 +140,7 @@ function populateDetails(data) {
         document.getElementById('detailCapacity').innerText = `수용 인원: ${data.capacity}`;
         document.getElementById('detailPrice').innerText = `금액: ${data.weekdayPrice} 원`;
         document.getElementById('detailRating').innerText = `평점: ${data.boardRating}`;
-        document.getElementById('detailNickname').innerText = `닉네임: ${data.name}`;
+        document.getElementById('detailNickname').innerText = `닉네임: ${data.nickname}`;
         //document.getElementById('detailImage').src = data.image;
         document.getElementById('detailDescription').innerText = data.text;
     }
