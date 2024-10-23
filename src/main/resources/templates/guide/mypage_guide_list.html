@@ -96,6 +96,13 @@
 
     <div class="guide-search-bar">
         <input type="text" id="searchInput" class="guide-search-input" placeholder="제목 또는 상세정보 검색">
+        <!--<select id="citySelect" class="guide-search-select">
+            <option value="">선택하세요</option>
+            <option value="Seoul">서울</option>
+            <option value="Busan">부산</option>
+            <option value="Incheon">인천</option>
+            &lt;!&ndash; 다른 도시 옵션 추가 &ndash;&gt;
+        </select>-->
         <select id="statusSelect" class="guide-search-select">
             <option value="all">모든 상태</option>
             <option value="activate">활성화</option>
@@ -138,7 +145,7 @@
 
     async function fetchGuideData() {
         try {
-            const response = await fetch('/guides'); // API 엔드포인트 예시
+            const response = await fetch('/guides/my'); // API 엔드포인트 예시
             const data = await response.json();
             totalItems = data.length; // 전체 아이템 수 업데이트
             renderTable(data);
@@ -146,20 +153,20 @@
             console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
         }
     }
-
     async function performSearch() {
-        const searchTerm = document.getElementById('searchInput').value; // 검색어 가져오기
-        const selectedStatus = document.getElementById('statusSelect').value; // 선택된 상태 가져오기
+        const searchTerm = document.getElementById('searchInput').value;
+        const selectedStatus = document.getElementById('statusSelect').value;
+        const citySelectElement = document.getElementById('citySelect');
+        const selectedCity = citySelectElement ? citySelectElement.value : 'all'; // citySelect가 null이 아닐 경우에만 값 가져오기
 
         try {
-            const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&status=${encodeURIComponent(selectedStatus)}`);
+            const response = await fetch(`/guides/my/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}&status=${encodeURIComponent(selectedStatus)}`);
             const data = await response.json();
-            renderTable(data); // 검색 결과를 테이블에 렌더링
+            renderTable(data);
         } catch (error) {
             console.error('검색 중 오류 발생:', error);
         }
     }
-
     function renderTable(guideInfos) {
         const tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = ""; // 테이블 초기화
