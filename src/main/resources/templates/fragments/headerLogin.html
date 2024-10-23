@@ -51,7 +51,7 @@
     </div>
     <!-- 세션에 사용자가 있을 때 -->
     <div th:if="${session.user != null}">
-        <a href="create_Schedule.html" class="btn_1 btn btn-outline-success" onclick="createNewSchedule()">새 여행 계획 만들기</a>
+        <button class="btn_1 btn btn-outline-success" onclick="createNewSchedule()">새 여행 계획 만들기</button>
         <a href="/logout" class="btn_1 btn btn-outline-danger">Logout</a>
     </div>
 </div>
