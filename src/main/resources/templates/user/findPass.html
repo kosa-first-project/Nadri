@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +17,24 @@
       justify-content: center;
       align-items: center;
       color: #fff;
+      position: relative; /* 네비게이션 바 위치 조정을 위해 */
+    }
+
+    /* 네비게이션 바 스타일 */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand img {
+      height: 40px;
     }
 
     /* 비밀번호 찾기 폼 컨테이너 */
@@ -93,15 +111,31 @@
       background-color: #007bff;
       color: white;
     }
+
+    /* 실패 메시지 스타일 */
+    .fail-message {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
+<div class="navbar">
+  <a class="navbar-brand" href="/main">
+    <img th:src="@{/img/logo.png}" alt="logo">
+  </a>
+</div>
+
 <div class="findPass-container">
   <h2>비밀번호 찾기</h2>
   <form th:action="@{/findPass}" method="post">
     <input type="text" name="username" placeholder="이름을 입력해주세요." required>
     <input type="email" name="email" placeholder="이메일을 입력해주세요." required>
     <input type="text" name="id" placeholder="아이디를 입력해주세요." required>
+
+    <div th:if="${failMessage != null}" class="fail-message">[[${failMessage}]]</div>
+
     <input type="submit" value="확인">
   </form>
   <div class="nav-buttons">

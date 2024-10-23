@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> <!--/* 모델객체를 JS에서 사용하기 위해 */-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가이드 활동 정보 추가</title>
@@ -139,22 +140,26 @@
             <button type="button" th:if="${guideInfoId != null}" onclick="deleteGuide()">삭제하기</button>
         </div>
     </form>
+
+    <input type="hidden" name="modelInJS" th:value="${guideInfoId}">
 </div>
 
 <script>
-    const guideInfoId = [[${guideInfoId}]];
-    console.log('guideInfoId:', guideInfoId); // 값 확인
+
+
+    var guideInfoId = $('input[name=modelInJS]').val();
 
     document.getElementById('submitButton').addEventListener('click', async () => {
 
         console.log('guideInfoId:', guideInfoId); // 값 확인
+
         const formData = new FormData(document.getElementById('guideForm'));
         try {
             const response = guideInfoId
             ? await fetch(`/guideForm/${guideInfoId}`, { method: 'PUT', body: formData })
             : await fetch('/guideForm', { method: 'POST', body: formData });
 
-            if (response.ok) {
+            if (response.ok) { //HTTP 응답의 상태 코드가 200~299
                 alert('가이드 활동 저장을 성공하였습니다.');
                 window.location.href = '/mypage_guide.html'; // 또는 '/index.html'
             } else {

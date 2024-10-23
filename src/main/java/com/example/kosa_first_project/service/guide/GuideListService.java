@@ -17,6 +17,9 @@ public class GuideListService {
     public List<GuideInfoDTO> getAllGuides() {
         return guideListRepository.getAllGuideInfo();
     }
+    public List<GuideInfoDTO> getMyGuides(String userId) {
+        return guideListRepository.getMyGuidesInfo(userId);
+    }
 /*
     public List<GuideInfoDTO> searchGuides(String search, String city) {
         if (search == null || search.isEmpty()) {
@@ -45,7 +48,14 @@ public class GuideListService {
         }
         return guideListRepository.searchGuides(search, city, status); // 일반적인 검색
     }
-
+    public List<GuideInfoDTO> searchMyGuides(String search, String city, String status, String userId) {
+        if (city != null && !city.equals("all")) {
+            if (search == null || search.isEmpty()) {
+                return guideListRepository.searchMyGuides(null, city, status, userId); // 검색어 없이 지역, 상태, 사용자 ID로
+            }
+        }
+        return guideListRepository.searchMyGuides(search, city, status, userId); // 일반적인 검색
+    }
 
     public GuideInfoDTO getGuideById(int guideInfoId) {
         return guideListRepository.getGuideInfoById(guideInfoId);

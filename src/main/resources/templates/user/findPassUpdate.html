@@ -64,6 +64,11 @@
     </style>
 </head>
 <body>
+<div class="navbar">
+    <a class="navbar-brand" href="/main">
+        <img th:src="@{/img/logo.png}" alt="logo">
+    </a>
+</div>
 <form th:action="@{/updatePassword}" method="post" id="passwordForm">
     <div class="password-reset-container">
         <h2>비밀번호 변경</h2>

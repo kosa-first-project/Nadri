@@ -27,4 +27,7 @@ public class GuideInfoDTO {
     // 불가능 기간 리스트를 포함
     private List<GuideUnavailableTimeDTO> unavailableDates;
 
+    //user 테이블과 조인해서 닉네임 받기
+    private String nickname;
+
 }

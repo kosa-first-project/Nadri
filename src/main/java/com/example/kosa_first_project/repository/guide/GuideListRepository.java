@@ -24,6 +24,9 @@ public class GuideListRepository {
     public List<GuideInfoDTO> getAllGuideInfo() {
         return guideInfoMapper.getAllGuideInfo();
     }
+    public List<GuideInfoDTO> getMyGuidesInfo(String userId) {
+        return guideInfoMapper.getMyGuideInfo(userId);
+    }
 
 /*
     public List<GuideInfoDTO> searchGuides(String search, String city) {
@@ -32,6 +35,10 @@ public class GuideListRepository {
 
     public List<GuideInfoDTO> searchGuides(String search, String city, String status) {
         return guideInfoMapper.searchGuides(search, city, status);
+    }
+
+    public List<GuideInfoDTO> searchMyGuides(String search, String city, String status, String userId) {
+        return guideInfoMapper.searchMyGuides(search, city, status, userId);
     }
 
     public void updateGuideInfo(GuideInfoDTO guideInfo) {
