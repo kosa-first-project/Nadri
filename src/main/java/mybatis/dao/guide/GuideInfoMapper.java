@@ -117,7 +117,7 @@ GuideInfoDTO getGuideInfoById(int guideInfoId);
                 "gi.guide_info_state AS guideInfoState " +
                 "FROM guide_info gi " +
                 "JOIN user u ON gi.user_id = u.id " + // user 테이블과 조인
-                "WHERE gi.guide_info_state != 'delete' " + // 삭제상태가 아닌 것
+                "WHERE gi.guide_info_state = 'activate' " + // 활성화 상태인 것
                 "ORDER BY gi.guide_info_id DESC")
         List<GuideInfoDTO> getAllGuideInfo();
 
