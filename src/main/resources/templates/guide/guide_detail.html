@@ -87,7 +87,7 @@
 
 <div class="container" id="detailCard">
     <!--/*<img id="detailImage" th:src="@{${guide.image}}" alt="상세 이미지">*/-->
-    <h2 id="detailTitle" th:text="'제목: ' + ${guide.title}"></h2>
+    <h2 id="detailTitle" th:text="'' + ${guide.title}"></h2>
     <p id="detailCity" th:text="'지역: ' + ${guide.city}"></p>
     <p id="detailCapacity" th:text="'수용 인원: ' + ${guide.capacity}"></p>
     <p id="detailPrice" th:text="'금액: ' + ${guide.weekdayPrice} + ' 원'"></p>
