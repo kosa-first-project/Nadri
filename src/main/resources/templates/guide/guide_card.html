@@ -54,11 +54,6 @@
         .card-content {
             padding: 20px;
         }
-        #profileWrapper {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
         #profileImg {
             width: 40px;
             height: 40px;
@@ -69,6 +64,7 @@
         #nicknameUnique {
             font-size: 16px;
             font-weight: bold;
+            text-align: right;
         }
         #cardTitle {
             font-size: 18px;
@@ -224,8 +220,7 @@
                                 <div id="cardInfo">경력: ${guide.career}</div>
                                 <div id="cardInfo">금액: ${guide.weekdayPrice}원</div>
                                 <div id="cardInfo">수용인원: ${guide.capacity}명</div>
-                                <div id="profileWrapper" style="display: flex; justify-content: flex-end; align-items: center;">
-                                    <div id="nicknameUnique">${guide.nickname}</div>
+                                <div id="nicknameUnique">${guide.nickname}</div>
                                 </div>
                             </div>
                         </div>`;
