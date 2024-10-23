@@ -117,7 +117,7 @@ GuideInfoDTO getGuideInfoById(int guideInfoId);
                 "gi.guide_info_state AS guideInfoState " +
                 "FROM guide_info gi " +
                 "JOIN user u ON gi.user_id = u.id " + // user 테이블과 조인
-                "WHERE gi.guide_info_state != 'delete' " + // 삭제상태가 아닌 것
+                "WHERE gi.guide_info_state = 'activate' " + // 활성화 상태인 것
                 "ORDER BY gi.guide_info_id DESC")
         List<GuideInfoDTO> getAllGuideInfo();
 
@@ -213,6 +213,7 @@ GuideInfoDTO getGuideInfoById(int guideInfoId);
                 "ORDER BY guide_info_id DESC" +
                 "</script>")
         List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city);*/
+/*
 
         @Select("<script>" +
                 "SELECT " +
@@ -246,6 +247,40 @@ GuideInfoDTO getGuideInfoById(int guideInfoId);
                 "ORDER BY guide_info_id DESC" +
                 "</script>")
         List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city, @Param("status") String status);
+*/
+@Select("<script>" +
+        "SELECT " +
+        "gi.guide_info_id AS guideInfoId, " +
+        "gi.user_id AS userId, " +
+        "u.nickname AS nickname, " + // 닉네임 추가
+        "gi.city, " +
+        "gi.town, " +
+        "gi.village, " +
+        "gi.name, " +
+        "gi.title, " +
+        "gi.career, " +
+        "gi.capacity, " +
+        "gi.text, " +
+        "gi.weekday_price AS weekdayPrice, " +
+        "gi.weekend_price AS weekendPrice, " +
+        "gi.board_rating AS boardRating, " +
+        "gi.like_count AS likeCount, " +
+        "gi.guide_info_state AS guideInfoState " +
+        "FROM guide_info gi " +
+        "JOIN user u ON gi.user_id = u.id " + // user 테이블과 조인
+        "WHERE 1=1 " +
+        "<if test='city != null and city != \"all\"'> " +
+        "AND gi.city = #{city} " +
+        "</if> " +
+        "<if test='search != null and search != \"\"'> " +
+        "AND (gi.title LIKE CONCAT('%', #{search}, '%') OR gi.text LIKE CONCAT('%', #{search}, '%')) " +
+        "</if> " +
+        "<if test='status != null and status != \"all\"'> " +
+        "AND gi.guide_info_state = #{status} " +
+        "</if> " +
+        "ORDER BY gi.guide_info_id DESC" +
+        "</script>")
+List<GuideInfoDTO> searchGuides(@Param("search") String search, @Param("city") String city, @Param("status") String status);
 
 
         @Select("<script>" +
