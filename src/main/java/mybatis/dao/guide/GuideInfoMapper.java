@@ -32,6 +32,7 @@ public interface GuideInfoMapper {
         void insertGuideInfo(GuideInfoDTO guideInfo);
 
 
+/*
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
                 "user_id AS userId, " +
@@ -74,7 +75,51 @@ public interface GuideInfoMapper {
                 "ORDER BY guide_info_id DESC")
                 // guide_info_id 역순으로 정렬
         List<GuideInfoDTO> getAllGuideInfo();
+*/
+        @Select("SELECT " +
+        "gi.guide_info_id AS guideInfoId, " +
+        "gi.user_id AS userId, " +
+        "u.nickname AS nickname, " + // 닉네임 추가
+        "gi.city, " +
+        "gi.town, " +
+        "gi.village, " +
+        "gi.name, " +
+        "gi.title, " +
+        "gi.career, " +
+        "gi.capacity, " +
+        "gi.text, " +
+        "gi.weekday_price AS weekdayPrice, " +
+        "gi.weekend_price AS weekendPrice, " +
+        "gi.board_rating AS boardRating, " +
+        "gi.like_count AS likeCount, " +
+        "gi.guide_info_state AS guideInfoState " +
+        "FROM guide_info gi " +
+        "JOIN user u ON gi.user_id = u.id " + // user 테이블과 조인
+        "WHERE gi.guide_info_id = #{guideInfoId}")
+GuideInfoDTO getGuideInfoById(int guideInfoId);
 
+        @Select("SELECT " +
+                "gi.guide_info_id AS guideInfoId, " +
+                "gi.user_id AS userId, " +
+                "u.nickname AS nickname, " + // 닉네임 추가
+                "gi.city, " +
+                "gi.town, " +
+                "gi.village, " +
+                "gi.name, " +
+                "gi.title, " +
+                "gi.career, " +
+                "gi.capacity, " +
+                "gi.text, " +
+                "gi.weekday_price AS weekdayPrice, " +
+                "gi.weekend_price AS weekendPrice, " +
+                "gi.board_rating AS boardRating, " +
+                "gi.like_count AS likeCount, " +
+                "gi.guide_info_state AS guideInfoState " +
+                "FROM guide_info gi " +
+                "JOIN user u ON gi.user_id = u.id " + // user 테이블과 조인
+                "WHERE gi.guide_info_state != 'delete' " + // 삭제상태가 아닌 것
+                "ORDER BY gi.guide_info_id DESC")
+        List<GuideInfoDTO> getAllGuideInfo();
 
         @Select("SELECT " +
                 "guide_info_id AS guideInfoId, " +
