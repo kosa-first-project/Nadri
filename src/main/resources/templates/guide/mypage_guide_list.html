@@ -248,23 +248,27 @@
     function toggleStatus(guideInfoId, currentState) {
         const newState = currentState === 'activate' ? 'deactivate' : 'activate';
 
-        // 서버에 상태 변경 요청 보내기
         fetch(`/guides/list/${guideInfoId}/state`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ guideInfoState: newState }), // key 수정
+            body: JSON.stringify({ guideInfoState: newState }),
         })
             .then(response => {
             if (response.ok) {
-                fetchGuideData(); // 상태 업데이트 후 데이터 새로 고침
+                fetchGuideData();
+                alert(`가이드 상태가 ${newState === 'activate' ? '활성화' : '비활성화'}되었습니다.`);
             } else {
-                console.error('상태 변경 실패');
+                alert('상태 변경 실패. 다시 시도해 주세요.');
             }
         })
-            .catch(error => console.error('오류 발생:', error));
+            .catch(error => {
+            console.error('오류 발생:', error);
+            alert('오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+        });
     }
+
 
     fetchGuideData(); // 초기 데이터 가져오기
 </script>
