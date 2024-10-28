@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세 페이지</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        .container img {
+            width: 100%;
+            border-radius: 15px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .container h2 {
+            margin: 10px 0;
+            font-size: 28px;
+            color: #007bff;
+        }
+        .container p {
+            margin: 5px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .details {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            flex: 1;
+            margin: 0 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .button.cancel {
+            background-color: #f44336;
+        }
+        .button.cancel:hover {
+            background-color: #d32f2f;
+        }
+        @media (max-width: 600px) {
+            .button-container {
+                flex-direction: column;
+            }
+            .button {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="detailCard">
+    <!--/*<img id="detailImage" th:src="@{${guide.image}}" alt="상세 이미지">*/-->
+    <h2 id="detailTitle" th:text="'' + ${guide.title}"></h2>
+    <p id="detailCity" th:text="'지역: ' + ${guide.city}"></p>
+    <p id="detailCapacity" th:text="'수용 인원: ' + ${guide.capacity}"></p>
+    <p id="detailPrice" th:text="'금액: ' + ${guide.weekdayPrice} + ' 원'"></p>
+    <p id="detailRating" th:text="'평점: ' + ${guide.boardRating}"></p>
+    <p id="detailNickname" th:text="'닉네임: ' + ${guide.nickname}"></p>
+    <div class="details">
+        <h4>상세 내역</h4>
+        <p id="detailDescription" th:text="${guide.text}"></p>
+    </div>
+    <div class="button-container">
+        <button class="button">신청하기</button>
+        <button class="button cancel" onclick="window.history.back();">취소</button>
+    </div>
+</div>
+
+<script>
+/*
+    async function fetchGuideDetails(id) {
+        try {
+            console.log(`Fetching guide details for ID: ${id}`);
+            //const response = await fetch(`/guides/list/${id}`);
+
+            //Accept 헤더를 설정함으로써 요청한 콘텐츠 유형을 명시적으로 지정
+            const response = await fetch(`/guides/list/${id}`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            //Unexpected token '<', "<!DOCTYPE "... is not valid JSON 에러
+            //클라이언트가 서버로부터 JSON 형식의 데이터를 기대하고 있지만, 실제로는 HTML 문서(일반적으로 오류 페이지)가 반환
+            //브라우저가 JSON을 파싱하려고 시도 HTML 형식의 응답을 반환
+
+
+            if (!response.ok) {
+                console.error(`Error: ${response.status} ${response.statusText}`);
+                throw new Error('가이드를 가져오는 데 실패했습니다.');
+            }
+            const data = await response.json();
+            console.log('Guide data fetched:', data);
+            populateDetails(data);
+        } catch (error) {
+            console.error(error);
+            alert('가이드 정보를 가져오는 데 문제가 발생했습니다.');
+        }
+    }
+
+function populateDetails(data) {
+        document.getElementById('detailTitle').innerText = `제목: ${data.title}`;
+        document.getElementById('detailCity').innerText = `지역: ${data.city}`;
+        document.getElementById('detailCapacity').innerText = `수용 인원: ${data.capacity}`;
+        document.getElementById('detailPrice').innerText = `금액: ${data.weekdayPrice} 원`;
+        document.getElementById('detailRating').innerText = `평점: ${data.boardRating}`;
+        document.getElementById('detailNickname').innerText = `닉네임: ${data.nickname}`;
+        //document.getElementById('detailImage').src = data.image;
+        document.getElementById('detailDescription').innerText = data.text;
+    }
+
+    window.onload = () => {
+        const pathParts = window.location.pathname.split('/');
+        const guideId = pathParts[pathParts.length - 1];
+        fetchGuideDetails(guideId);
+    };*/
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 찾기 결과</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .password-reset-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            border: none;
+            border-bottom: 3px solid #ccc;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-bottom: 3px solid #007bff;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* 비밀번호 확인 메시지 */
+        #chkEqualsPass {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <a class="navbar-brand" href="/main">
+        <img th:src="@{/img/logo.png}" alt="logo">
+    </a>
+</div>
+<form th:action="@{/updatePassword}" method="post" id="passwordForm">
+    <div class="password-reset-container">
+        <h2>비밀번호 변경</h2>
+        <!-- 비밀번호 입력창 -->
+        <div>비밀번호</div>
+        <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요." required>
+
+        <!-- 비밀번호 확인 -->
+        <div>비밀번호 확인</div>
+        <input type="password" name="passwordCheck" id="passwordCheck" placeholder="비밀번호를 다시 한 번 입력하세요." required>
+
+        <!-- 비밀번호 수정 완료 버튼 -->
+        <p id="chkEqualsPass"></p>
+        <input type="submit" value="비밀번호 수정" id="submitBtn">
+    </div>
+</form>
+
+<script>
+    function checkPasswordMatch() {
+        const password = document.getElementById("password").value;
+        const passwordCheck = document.getElementById("passwordCheck").value;
+        const messageElement = document.getElementById("chkEqualsPass");
+
+        if (password !== passwordCheck) {
+            messageElement.textContent = "비밀번호가 일치하지 않습니다.";
+            messageElement.style.color = "red";
+        } else {
+            messageElement.textContent = "비밀번호가 같습니다.";
+            messageElement.style.color = "green";
+        }
+    }
+
+    document.getElementById("password").addEventListener("input", checkPasswordMatch);
+    document.getElementById("passwordCheck").addEventListener("input", checkPasswordMatch);
+
+
+</script>
+</body>
+</html>

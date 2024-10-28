@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Martine</title>
+    <link rel="icon" href="/img/favicon.png">
+    <!-- CSS 파일들 -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/gijgo.min.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!--/* header 추가*/-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<!--::header part start::-->
+<div th:replace="fragments/header_thymeleaf"></div>
+<!-- Header part end-->
+
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item text-center">
+                        <h2>후기 게시판</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb end-->
+
+<!-- 검색 폼 -->
+<div class="container-fluid">
+    <div class="container">
+        <form th:object="${titleSearch}" method="get" class="" style="margin-top: 40px;">
+            <div class="row">
+                <div class="col-lg-12 mb-0 mb-lg-0">
+                    <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요."/>
+                    <button type="submit" class="btn btn-secondary">검색</button>
+                    <button class="btn btn-primary"
+                            onclick="location.href='addForm.html'"
+                            th:onclick="|location.href='@{/board/save}'|"
+                            type="button">글쓰기
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Blog Area -->
+<section class="blog_area section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 mb-lg-0">
+                <div>
+                    <article class="blog_item" th:each="board : ${boardList}">
+                        <div class="blog_item_img" th:each="boardFile : ${boardFileList}">
+                            <div th:if="${board.id == boardFile.boardId}">
+                                <img class="card-img rounded-0"
+                                     th:src="@{|/uploadImage/${boardFile.getStoredFilename()}|}"
+                                     alt="blog image">
+                                <a href="" class="blog_item_date">
+                                    <p th:text="${board.createdDate}">2024-10-19</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog_details">
+                            <a class="d-inline-block" th:href="@{/board/{id}(id=${board.id})}">
+                                <h2 th:text="${board.title}">제목</h2>
+                            </a>
+                            <p th:text="${board.content}">내용</p>
+
+                            <ul class="blog-info-link" style="float: right;">
+                                <li>
+                                    <i class="far fa-user"></i> <span
+                                        th:text="${board.author}">작성자</span>
+                                </li>
+                                <li>
+                                    <i class="far fa-eye"></i> <span
+                                        th:text="${board.viewCount}">0</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 페이지 네비게이션 -->
+<nav class="blog-pagination justify-content-center d-flex">
+    <ul class="pagination">
+        <!-- 이전 페이지로 이동 -->
+        <li class="page-item" th:if="${page.pre != null and page.page > 1}">
+            <a class="page-link" th:href="@{/board(page=${page.page - 1})}" aria-label="Previous">
+                <i class="ti-angle-left"></i>
+            </a>
+        </li>
+
+        <!-- 페이지 번호 링크 -->
+        <li th:each="i : ${#numbers.sequence(page.startNum, page.lastNum)}"
+            class="page-item" th:classappend="${page.page == i} ? ' active' : ''">
+            <a class="page-link" th:href="@{/board(page=${i})}" th:text="${i}"></a>
+        </li>
+
+        <!-- 다음 페이지로 이동 -->
+        <li class="page-item" th:if="${page.next != null and page.page < page.totalPage}">
+            <a class="page-link" th:href="@{/board(page=${page.page + 1})}" aria-label="Next">
+                <i class="ti-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- footer part start-->
+<div th:replace="~{fragments/footer_thymeleaf}"></div>
+<!-- footer part end-->
+
+<!-- jquery plugins here-->
+<script th:src="@{/js/jquery-1.12.1.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery.magnific-popup.js}"></script>
+<script th:src="@{/js/owl.carousel.min.js}"></script>
+<script th:src="@{/js/masonry.pkgd.js}"></script>
+<script th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script th:src="@{/js/gijgo.min.js}"></script>
+<script th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script th:src="@{/js/jquery.form.js}"></script>
+<script th:src="@{/js/jquery.validate.min.js}"></script>
+<script th:src="@{/js/mail-script.js}"></script>
+<script th:src="@{/js/contact.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<!--<script>
+    // 페이지 이동
+    function movePage(page) {
+        const form = document.getElementById('searchForm');
+
+        const queryParams = {
+            page: (page) ? page : 1,
+            recordSize: 10,
+            pageSize: 10,
+            searchType: form.searchType ? form.searchType.value : '',
+            keyword: form.keyword ? form.keyword.value : ''
+        }
+
+        location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
+    }
+</script>-->
+</body>
+</html>

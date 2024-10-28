@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> <!--/* 모델객체를 JS에서 사용하기 위해 */-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 활동 정보 추가</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .unavailable-dates {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 th:text="${guideInfoId != null} ? '가이드 수정하기' : '가이드 등록하기'"></h1>
+    <form id="guideForm" action="/guideForm" method="POST">
+        <div id="guidesContainer">
+            <h3>가이드 정보 작성</h3>
+            <div class="form-group">
+                <label for="title">가이드 홍보 제목:</label>
+                <input type="text" id="title" name="title" th:value="${guideInfo.title}" required>
+            </div>
+            <div class="form-group">
+                <label for="city">지역:</label>
+                <select id="city" name="city" required>
+                    <option th:value="'서울'" th:selected="${guideInfo.city == '서울'}">서울</option>
+                    <option th:value="'부산'" th:selected="${guideInfo.city == '부산'}">부산</option>
+                    <option th:value="'대구'" th:selected="${guideInfo.city == '대구'}">대구</option>
+                    <option th:value="'인천'" th:selected="${guideInfo.city == '인천'}">인천</option>
+                    <option th:value="'광주'" th:selected="${guideInfo.city == '광주'}">광주</option>
+                    <option th:value="'대전'" th:selected="${guideInfo.city == '대전'}">대전</option>
+                    <option th:value="'울산'" th:selected="${guideInfo.city == '울산'}">울산</option>
+                    <option th:value="'세종'" th:selected="${guideInfo.city == '세종'}">세종</option>
+                    <option th:value="'경기도'" th:selected="${guideInfo.city == '경기도'}">경기도</option>
+                    <option th:value="'강원도'" th:selected="${guideInfo.city == '강원도'}">강원도</option>
+                    <option th:value="'충청도'" th:selected="${guideInfo.city == '충청도'}">충청도</option>
+                    <option th:value="'전라도'" th:selected="${guideInfo.city == '전라도'}">전라도</option>
+                    <option th:value="'경상도'" th:selected="${guideInfo.city == '경상도'}">경상도</option>
+                    <option th:value="'제주도'" th:selected="${guideInfo.city == '제주도'}">제주도</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="career">경력:</label>
+                <input type="text" id="career" name="career" th:value="${guideInfo.career}" required>
+            </div>
+            <div class="form-group">
+                <label for="weekdayPrice">금액 (일별):</label>
+                <input type="number" id="weekdayPrice" name="weekdayPrice" th:value="${guideInfo.weekdayPrice}" required>
+            </div>
+            <div class="form-group">
+                <label for="capacity">수용인원:</label>
+                <input type="number" id="capacity" name="capacity" th:value="${guideInfo.capacity}" required>
+            </div>
+
+            <div class="unavailable-dates" id="unavailableDatesContainer">
+                <h4>불가능 기간</h4>
+                <div class="form-group">
+                    <label for="unavailableStartDate0">시작일:</label>
+                    <input type="date" id="unavailableStartDate0" name="unavailableStartDate[]">
+                </div>
+                <div class="form-group">
+                    <label for="unavailableEndDate0">종료일:</label>
+                    <input type="date" id="unavailableEndDate0" name="unavailableEndDate[]">
+                </div>
+            </div>
+            <button type="button" onclick="addUnavailableDate()">+ 추가하기</button>
+            <br><br>
+            <div class="form-group">
+                <label for="text">홍보글 작성:</label>
+                <textarea id="text" name="text" rows="5" th:text="${guideInfo.text}"></textarea>
+            </div>
+        </div>
+        <div class="button-group">
+            <div>
+                <button type="button" id="submitButton">
+                    <span th:text="${guideInfoId != null} ? '저장하기' : '생성하기'"></span>
+                </button>
+                <button type="button" onclick="window.history.back();">닫기</button>
+            </div>
+            <button type="button" th:if="${guideInfoId != null}" onclick="deleteGuide()">삭제하기</button>
+        </div>
+    </form>
+
+    <input type="hidden" name="modelInJS" th:value="${guideInfoId}">
+</div>
+
+<script>
+
+
+    var guideInfoId = $('input[name=modelInJS]').val();
+
+    document.getElementById('submitButton').addEventListener('click', async () => {
+
+        console.log('guideInfoId:', guideInfoId); // 값 확인
+
+        const formData = new FormData(document.getElementById('guideForm'));
+        try {
+            const response = guideInfoId
+            ? await fetch(`/guideForm/${guideInfoId}`, { method: 'PUT', body: formData })
+            : await fetch('/guideForm', { method: 'POST', body: formData });
+
+            if (response.ok) { //HTTP 응답의 상태 코드가 200~299
+                alert('가이드 활동 저장을 성공하였습니다.');
+                window.location.href = '/mypage_guide.html'; // 또는 '/index.html'
+            } else {
+                alert('가이드 저장에 실패했습니다. 다시 시도해주세요.');
+            }
+        } catch (error) {
+            console.error('AJAX 오류:', error);
+            alert('서버와의 통신 중 오류가 발생했습니다.');
+        }
+    });
+
+    let unavailableCount = 1; // 기본적으로 하나의 폼을 표시하므로 1부터 시작
+
+    function addUnavailableDate() {
+        unavailableCount++;
+        const container = document.getElementById('unavailableDatesContainer');
+
+        const dateSection = document.createElement('div');
+        dateSection.innerHTML = `
+            <h4>불가능 기간 ${unavailableCount}</h4>
+            <div class="form-group">
+                <label for="unavailableStartDate${unavailableCount}">시작일:</label>
+                <input type="date" id="unavailableStartDate${unavailableCount}" name="unavailableStartDate[]">
+            </div>
+            <div class="form-group">
+                <label for="unavailableEndDate${unavailableCount}">종료일:</label>
+                <input type="date" id="unavailableEndDate${unavailableCount}" name="unavailableEndDate[]">
+            </div>
+        `;
+
+        container.appendChild(dateSection);
+    }
+/*
+    function deleteGuide() {
+        if (confirm('정말로 이 가이드를 삭제하시겠습니까?')) {
+            fetch(`/guideForm/${guideInfoId}`, { method: 'DELETE' })
+                .then(response => {
+                if (response.ok) {
+                    alert('가이드가 삭제되었습니다.');
+                    window.location.href = '/mypage_guide.html';
+                } else {
+                    alert('삭제에 실패했습니다. 다시 시도해주세요.');
+                }
+            })
+                .catch(error => {
+                console.error('삭제 오류:', error);
+                alert('서버와의 통신 중 오류가 발생했습니다.');
+            });
+        }
+    }*/
+
+    function deleteGuide() {
+        console.log('삭제할 guideInfoId:', guideInfoId); // 값 확인
+        if (!guideInfoId) {
+            alert('삭제할 가이드 정보가 없습니다.'); // 가이드 정보가 없을 때 경고
+            return;
+        }
+
+        if (confirm('정말로 이 가이드를 삭제하시겠습니까?')) {
+            fetch(`/guideForm/${guideInfoId}/state`, {
+                method: 'PUT', // PUT 요청으로 상태 업데이트
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ guideInfoState: 'delete' }) // 상태를 JSON 형식으로 전송
+            })
+                .then(response => {
+                if (response.ok) {
+                    alert('가이드가 삭제되었습니다.');
+                    window.location.href = '/mypage_guide.html';
+                } else {
+                    alert('삭제에 실패했습니다. 다시 시도해주세요.');
+                }
+            })
+                .catch(error => {
+                console.error('삭제 오류:', error);
+                alert('서버와의 통신 중 오류가 발생했습니다.');
+            });
+        }
+    }
+
+
+</script>
+</body>
+</html>

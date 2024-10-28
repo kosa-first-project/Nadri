@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Styled Login Section</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 커스텀 스타일 */
+        .auth-buttons {
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 10px; /* 위쪽 여백을 줄여서 버튼 위치를 위로 */
+            flex-direction: column; /* 세로로 정렬 */
+        }
+
+        .auth-buttons .btn_1 {
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 8px 0; /* 버튼 간 간격 조절 */
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%; /* 버튼 크기를 동일하게 */
+            max-width: 300px; /* 버튼의 최대 너비 설정 */
+        }
+
+        .auth-buttons .btn_1:hover {
+            background-color: #007bff;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* 미디어 쿼리 적용 */
+        @media (min-width: 768px) {
+            .auth-buttons {
+                flex-direction: row; /* 데스크톱 환경에서는 가로 정렬 */
+                justify-content: flex-end;
+                margin-top: 0; /* 데스크톱 환경에서는 위쪽 여백을 줄임 */
+            }
+
+            .auth-buttons .btn_1 {
+                width: auto; /* 데스크톱에서는 버튼이 자동 너비 */
+                margin: 0 10px; /* 버튼 간 가로 간격 */
+                background-color: transparent;
+                color: inherit;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex auth-buttons">
+    <!-- 세션에 사용자가 없을 때 -->
+    <div th:if="${session.user == null}">
+        <a href="/login" class="btn_1 btn btn-outline-primary">Login</a>
+    </div>
+    <!-- 세션에 사용자가 있을 때 -->
+    <div th:if="${session.user != null}">
+        <button class="btn_1 btn btn-outline-success" onclick="createNewSchedule()">새 여행 계획 만들기</button>
+        <a href="/logout" class="btn_1 btn btn-outline-danger">Logout</a>
+    </div>
+</div>
+</body>
+</html>

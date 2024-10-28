@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 활동 정보</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        #containerUnique {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #headerTitle {
+            text-align: center;
+            margin: 40px 0 20px; /* 상단에 여백을 추가했습니다 */
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        input[type="text"], select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 48%;
+            font-size: 14px;
+        }
+        #cardContainerUnique {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            width: 300px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-content {
+            padding: 20px;
+        }
+        #profileImg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        #nicknameUnique {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+        }
+        #cardTitle {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #cardInfo {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        #paginationWrapper {
+            text-align: center;
+            margin: 30px 0 40px; /* 버튼 밑에 여백을 추가했습니다 */
+        }
+        .pagination-button {
+            margin: 0 2px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div id="containerUnique">
+    <h1 id="headerTitle">가이드 활동 정보</h1>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="제목 및 상세내역 검색" name="searchField">
+        <select id="citySelect" name="citySelectField">
+            <option value="all">모든 지역</option>
+            <option value="서울">서울</option>
+            <option value="부산">부산</option>
+            <option value="대구">대구</option>
+            <option value="인천">인천</option>
+            <option value="광주">광주</option>
+            <option value="대전">대전</option>
+            <option value="울산">울산</option>
+            <option value="세종">세종</option>
+            <option value="경기도">경기도</option>
+            <option value="강원도">강원도</option>
+            <option value="충청도">충청도</option>
+            <option value="전라도">전라도</option>
+            <option value="경상도">경상도</option>
+            <option value="제주도">제주도</option>
+        </select>
+        <button class="pagination-button" onclick="performSearch()">검색</button>
+    </div>
+
+    <div id="cardContainerUnique">
+        <!-- 자바스크립트로 카드가 동적으로 추가됩니다. -->
+    </div>
+
+    <div id="paginationWrapper">
+        <button class="pagination-button" onclick="goToFirstPage()">맨 앞</button>
+        <button class="pagination-button" onclick="previousPage()">이전</button>
+        <span id="pageButtons"></span>
+        <button class="pagination-button" onclick="nextPage()">다음</button>
+        <button class="pagination-button" onclick="goToLastPage()">맨 뒤</button>
+    </div>
+</div>
+
+<script>
+    let totalItems = 0;
+    const itemsPerPage = 12;
+    let currentPage = 1;
+
+    async function fetchGuideData() {
+        try {
+            const response = await fetch('/guides');
+            const data = await response.json();
+            totalItems = data.length;
+            renderCards(data);
+        } catch (error) {
+            console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        }
+    }
+    async function performSearch() {
+        const searchTerm = document.getElementById('searchInput').value;
+        const selectedCity = document.getElementById('citySelect').value;
+
+        // 콘솔 로그 추가
+        console.log('검색어:', searchTerm, '선택된 도시:', selectedCity);
+
+/*        // 검색어가 비어있을 경우 API 호출을 막습니다.
+        if (!searchTerm && selectedCity === "all") {
+            alert("검색어를 입력하거나 지역을 선택해주세요.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+            const data = await response.json();
+            renderCards(data);
+        } catch (error) {
+            console.error('검색 중 오류 발생:', error);
+        }*/
+
+
+        /*
+        if (!searchTerm && selectedCity !== "all") {
+            // 검색어가 비어있고 도시가 선택된 경우 해당 도시의 가이드를 검색
+            try {
+                const response = await fetch(`/guides/search?city=${encodeURIComponent(selectedCity)}`);
+                const data = await response.json();
+                renderCards(data);
+            } catch (error) {
+                console.error('검색 중 오류 발생:', error);
+            }
+        } else if (searchTerm || selectedCity !== "all") {
+            // 검색어가 있거나 선택된 도시가 있을 경우
+            try {
+                const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+                const data = await response.json();
+                renderCards(data);
+            } catch (error) {
+                console.error('검색 중 오류 발생:', error);
+            }
+        }*/
+
+        try {
+            const response = await fetch(`/guides/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+            const data = await response.json();
+            renderCards(data);
+        } catch (error) {
+            console.error('검색 중 오류 발생:', error);
+        }
+
+
+    }
+
+    function renderCards(guideInfos) {
+        const cardContainer = document.getElementById("cardContainerUnique");
+        cardContainer.innerHTML = "";
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        for (let i = start; i < end && i < guideInfos.length; i++) {
+            const guide = guideInfos[i];
+            const card = `<div class="card" onclick="location.href='/guides/list/${guide.guideInfoId}'">
+                            <div class="card-content">
+                                <div id="cardTitle">${guide.title}</div>
+                                <div id="cardInfo">지역: ${guide.city}</div>
+                                <div id="cardInfo">경력: ${guide.career}</div>
+                                <div id="cardInfo">금액: ${guide.weekdayPrice}원</div>
+                                <div id="cardInfo">수용인원: ${guide.capacity}명</div>
+                                <div id="nicknameUnique">${guide.nickname}</div>
+                                </div>
+                            </div>
+                        </div>`;
+
+            cardContainer.innerHTML += card;
+        }
+
+        renderPagination(guideInfos.length);
+    }
+
+    function renderPagination(totalGuideInfos) {
+        const totalPages = Math.ceil(totalGuideInfos / itemsPerPage);
+        const pageButtons = document.getElementById("pageButtons");
+        pageButtons.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = `<button class="pagination-button" onclick="goToPage(${i})">${i}</button>`;
+            pageButtons.innerHTML += button;
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        fetchGuideData();
+    }
+
+    function nextPage() {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchGuideData();
+        }
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchGuideData();
+        }
+    }
+
+    function goToFirstPage() {
+        currentPage = 1;
+        fetchGuideData();
+    }
+
+    function goToLastPage() {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        currentPage = totalPages;
+        fetchGuideData();
+    }
+
+    fetchGuideData();
+</script>
+
+</body>
+</html>

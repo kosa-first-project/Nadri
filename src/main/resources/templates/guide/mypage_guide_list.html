@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 활동 정보</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        .guide-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        .guide-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .guide-button-group {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .guide-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .guide-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+        .guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .guide-table th, .guide-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            height: 50px; /* 각 셀의 높이를 일정하게 설정 */
+            vertical-align: middle; /* 수직 정렬을 중앙으로 */
+        }
+        .guide-table th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        .guide-search-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .guide-search-input, .guide-search-select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 48%;
+            font-size: 14px;
+        }
+        .guide-pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .guide-pagination button {
+            margin: 0 2px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .guide-pagination button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="guide-container">
+    <h1 class="guide-title">가이드 활동 정보</h1>
+
+    <div class="guide-button-group">
+        <button class="guide-button" onclick="window.location.href='/guideForm'">가이드 추가하기</button>
+    </div>
+
+    <div class="guide-search-bar">
+        <input type="text" id="searchInput" class="guide-search-input" placeholder="제목 또는 상세정보 검색">
+        <!--<select id="citySelect" class="guide-search-select">
+            <option value="">선택하세요</option>
+            <option value="Seoul">서울</option>
+            <option value="Busan">부산</option>
+            <option value="Incheon">인천</option>
+            &lt;!&ndash; 다른 도시 옵션 추가 &ndash;&gt;
+        </select>-->
+        <select id="statusSelect" class="guide-search-select">
+            <option value="all">모든 상태</option>
+            <option value="activate">활성화</option>
+            <option value="deactivate">비활성화</option>
+            <!--<option value="delete">삭제</option>-->
+        </select>
+        <button class="guide-button" onclick="performSearch()">검색</button>
+    </div>
+
+    <table class="guide-table">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>지역</th>
+            <th>경력</th>
+            <th>금액</th>
+            <th>수용인원</th>
+            <th>상태</th>
+            <th>상세보기</th>
+        </tr>
+        </thead>
+        <tbody id="tableBody">
+        <!-- 자바스크립트로 데이터가 동적으로 추가됩니다. -->
+        </tbody>
+    </table>
+
+    <div class="guide-pagination">
+        <button class="guide-button" onclick="goToFirstPage()">맨 앞</button>
+        <button class="guide-button" onclick="previousPage()">이전</button>
+        <span id="pageButtons"></span>
+        <button class="guide-button" onclick="nextPage()">다음</button>
+        <button class="guide-button" onclick="goToLastPage()">맨 뒤</button>
+    </div>
+</div>
+
+<script>
+    let totalItems = 0; // 전체 항목 수
+    const itemsPerPage = 10;  // 페이지당 항목 수
+    let currentPage = 1;
+
+    async function fetchGuideData() {
+        try {
+            const response = await fetch('/guides/my'); // API 엔드포인트 예시
+            const data = await response.json();
+            totalItems = data.length; // 전체 아이템 수 업데이트
+            renderTable(data);
+        } catch (error) {
+            console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        }
+    }
+    async function performSearch() {
+        const searchTerm = document.getElementById('searchInput').value;
+        const selectedStatus = document.getElementById('statusSelect').value;
+        const citySelectElement = document.getElementById('citySelect');
+        const selectedCity = citySelectElement ? citySelectElement.value : 'all'; // citySelect가 null이 아닐 경우에만 값 가져오기
+
+        try {
+            const response = await fetch(`/guides/my/search?search=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}&status=${encodeURIComponent(selectedStatus)}`);
+            const data = await response.json();
+            renderTable(data);
+        } catch (error) {
+            console.error('검색 중 오류 발생:', error);
+        }
+    }
+    function renderTable(guideInfos) {
+        const tableBody = document.getElementById("tableBody");
+        tableBody.innerHTML = ""; // 테이블 초기화
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        for (let i = start; i < end && i < guideInfos.length; i++) {
+            const guide = guideInfos[i];
+            const row = `<tr>
+                            <td>${guide.title}</td>
+                            <td>${guide.city}</td>
+                            <td>${guide.career}</td>
+                            <td>${guide.weekdayPrice}원</td>
+                            <td>${guide.capacity}명</td>
+                            <td>
+                                <button class="guide-button" onclick="toggleStatus(${guide.guideInfoId}, '${guide.guideInfoState}')">
+                                    ${guide.guideInfoState === 'activate' ? '활성화' : '비활성화'}
+                                </button>
+                            </td>
+                            <td>
+                                <button class="guide-button" onclick="viewDetails(${guide.guideInfoId})">상세보기</button>
+                            </td>
+                        </tr>`;
+            tableBody.innerHTML += row;
+        }
+
+        renderPagination(guideInfos.length);
+    }
+
+    function renderPagination(totalGuideInfos) {
+        const totalPages = Math.ceil(totalGuideInfos / itemsPerPage);
+        const pageButtons = document.getElementById("pageButtons");
+        pageButtons.innerHTML = ""; // 페이지 버튼 초기화
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = `<button class="guide-button" onclick="goToPage(${i})">${i}</button>`;
+            pageButtons.innerHTML += button;
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        fetchGuideData(); // 새 페이지 데이터 가져오기
+    }
+
+    function nextPage() {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchGuideData(); // 새 페이지 데이터 가져오기
+        }
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchGuideData(); // 새 페이지 데이터 가져오기
+        }
+    }
+
+    function goToFirstPage() {
+        currentPage = 1;
+        fetchGuideData(); // 새 페이지 데이터 가져오기
+    }
+
+    function goToLastPage() {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        currentPage = totalPages;
+        fetchGuideData(); // 새 페이지 데이터 가져오기
+    }
+
+    function viewDetails(guideInfoId, guideInfoState) {
+        /*if (guideInfoState === 'delete') {
+            window.location.href = '/guides/list/' + guideInfoId; // 삭제 상태면 이 URL로 이동
+        } else {*/
+            window.location.href = '/guideForm/' + guideInfoId; // 그렇지 않으면 이 URL로 이동
+        /*}*/
+    }
+    function toggleStatus(guideInfoId, currentState) {
+        const newState = currentState === 'activate' ? 'deactivate' : 'activate';
+
+        fetch(`/guides/list/${guideInfoId}/state`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ guideInfoState: newState }),
+        })
+            .then(response => {
+            if (response.ok) {
+                fetchGuideData();
+                alert(`가이드 상태가 ${newState === 'activate' ? '활성화' : '비활성화'}되었습니다.`);
+            } else {
+                alert('상태 변경 실패. 다시 시도해 주세요.');
+            }
+        })
+            .catch(error => {
+            console.error('오류 발생:', error);
+            alert('오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+        });
+    }
+
+
+    fetchGuideData(); // 초기 데이터 가져오기
+</script>
+
+</body>
+</html>

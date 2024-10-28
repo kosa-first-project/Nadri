@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Martine</title>
+    <link rel="icon" href="/img/favicon.png">
+    <!-- CSS 파일들 -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/gijgo.min.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/css/slick.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!--/* header 추가*/-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<!--::header part start::-->
+<div th:replace="fragments/header_thymeleaf"></div>
+<!-- Header part end-->
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item text-center">
+                        <h2>게시판 상세</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<!--================Blog Area =================-->
+<section class="blog_area single-post-area section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 posts-list">
+                <div class="single-post">
+                    <!-- 첨부 파일이 있는 경우에만 이미지 렌더링 -->
+                    <div class="feature-img" th:if="${board.attachedFile == 1}">
+                        <div th:each="boardFile : ${boardFileList}">
+                            <img class="img-fluid" th:src="@{|/uploadImage/${boardFile.getStoredFilename()}|}" alt="사진">
+                        </div>
+                    </div>
+                    <div class="blog_details">
+                        <h2 th:text="${board.title}">제목</h2>
+                        <p class="excert" th:text="${board.content}">내용</p>
+                    </div>
+                    <div style="margin-top: 30px">
+                        <button class="button rounded-10 primary-bg text-white w-5 btn_1" onclick="listReq()">목록
+                        </button>
+                        <button class="button rounded-10 primary-bg text-white w-5 btn_1" onclick="updateReq()">수정
+                        </button>
+                        <button class="button rounded-10 primary-bg text-white w-5 btn_1" onclick="deleteReq()">삭제
+                        </button>
+                    </div>
+                </div>
+
+
+                <!--   <div class="navigation-top">
+                       <div class="navigation-area">
+                           <div class="row">
+                               <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                                   <div class="thumb">
+                                       <a href="#">
+                                           <img class="img-fluid" src="img/post/preview.png" alt="">
+                                       </a>
+                                   </div>
+                                   <div class="arrow">
+                                       <a href="#">
+                                           <span class="lnr text-white ti-arrow-left"></span>
+                                       </a>
+                                   </div>
+                                   <div class="detials">
+                                       <p>Prev Post</p>
+                                       <a href="#">
+                                           <h4>Space The Final Frontier</h4>
+                                       </a>
+                                       &lt;!&ndash; 이전 페이지로 이동 &ndash;&gt;
+                                       <li class="page-item" th:if="${page.hasPrevious()}" th:classappend="${page.hasPrevious()} ? '' : ' disabled'">
+                                           <a class="page-link" th:href="@{/board(page=${page.number - 1}, keyword=${keyword})}" aria-label="Previous">
+                                               <i class="ti-angle-left"></i>
+                                           </a>
+                                       </li>
+                                   </div>
+                               </div>
+                               <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                                   <div class="detials">
+                                       <p>Next Post</p>
+                                       <a href="#">
+                                           <h4>Telescopes 101</h4>
+                                       </a>
+                                   </div>
+                                   <div class="arrow">
+                                       <a href="#">
+                                           <span class="lnr text-white ti-arrow-right"></span>
+                                       </a>
+                                   </div>
+                                   <div class="thumb">
+                                       <a href="#">
+                                           <img class="img-fluid" src="img/post/next.png" alt="">
+                                       </a>
+                                   </div>
+                                   &lt;!&ndash; 다음 페이지로 이동 &ndash;&gt;
+                                   <li class="page-item" th:if="${page.hasNext()}" th:classappend="${page.hasNext()} ? '' : ' disabled'">
+                                       <a class="page-link" th:href="@{/board(page=${page.number + 1}, keyword=${keyword})}" aria-label="Next">
+                                           <i class="ti-angle-right"></i>
+                                       </a>
+                                   </li>
+                               </div>
+                           </div>
+                       </div>
+                   </div>-->
+            </div>
+        </div>
+    </div>
+</section>
+<!--================ Blog Area end =================-->
+
+<!-- footer part start-->
+<div th:replace="~{fragments/footer_thymeleaf}"></div>
+<!-- footer part end-->
+<script th:inline="javascript">
+    /* JavaScript 내부에서 board 변수를 사용할 수 있도록 정의 */
+    /* JavaScript로 사용할 수 있도록 board.id 값을 미리 변환 */
+    const boardId = [[${board.id}]];
+
+    const listReq = () => {
+        location.href = "/board";
+    }
+
+    const updateReq = () => {
+        location.href = `/board/edit/${boardId}`;
+    }
+
+    const deleteReq = () => {
+        location.href = `/board/delete/${boardId}`;
+    }
+</script>
+<!-- jquery plugins here-->
+<script src="/js/jquery-1.12.1.min.js"></script>
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+<!-- bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- magnific js -->
+<script src="/js/jquery.magnific-popup.js"></script>
+<!-- swiper js -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- masonry js -->
+<script src="/js/masonry.pkgd.js"></script>
+<!-- masonry js -->
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/gijgo.min.js"></script>
+<!-- contact js -->
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/contact.js"></script>
+<!-- custom js -->
+<script src="/js/custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--  <link rel="stylesheet" href="<https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css>">-->
+  <style>
+    nav, section {
+      margin: 10px;
+    }
+  </style>
+  <title>관광지 AJAX 테스트</title>
+</head>
+<body>
+<header class="jumbotron text-center">
+  <h1>관광지 AJAX 테스트 - XML</h1>
+  <p>관광지(12) 관광정보 전체조회 (한페이지에 10개씩, 첫페이지며, 리스트를 제목순으로 조회) + 지역이 대구 동구</p>
+</header><!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    img {
+      width: 100px;
+    }
+  </style>
+  <title>관광지 AJAX 테스트</title>
+</head>
+<body>
+<section>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">contentid</th>
+      <th scope="col">title</th>
+      <th scope="col">firstimage</th>
+      <th scope="col">addr1</th>
+      <th scope="col">addr2</th>
+      <th scope="col">X Component</th>
+      <th scope="col">Y Component</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</section>
+
+<script>
+  function displayTouristAttraction() {
+    const url = "http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=EVZODVeL4nv2H4t0yT9PZ3SXgrLMPiN1ZBdsdLJTpm1QFbHOtJXb5fZtbFVQ%2FDZfD9wrcMMVoHuGVXhDyNsIdQ%3D%3D&pageNo=1&numOfRows=10&MobileApp=AppTest&MobileOS=ETC&arrange=A&contentTypeId=12&areaCode=4&sigunguCode=4";
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const xml = xhr.responseXML;
+        const items = xml.getElementsByTagName('item');
+        const dom = document.getElementsByTagName('tbody')[0];
+        let content = "";
+
+        for (let i = 0; i < items.length; i++) {
+          const contentid = items[i].getElementsByTagName('contentid')[0].textContent;
+          const title = items[i].getElementsByTagName('title')[0].textContent;
+          const firstimage = items[i].getElementsByTagName('firstimage')[0].textContent;
+          const addr1 = items[i].getElementsByTagName('addr1')[0].textContent;
+          const addr2 = items[i].getElementsByTagName('addr2')[0].textContent;
+          const mapx = items[i].getElementsByTagName('mapx')[0].textContent;
+          const mapy = items[i].getElementsByTagName('mapy')[0].textContent;
+
+          content += `
+                            <tr>
+                                <td>${contentid}</td>
+                                <td>${title}</td>
+                                <td><img src="${firstimage}" alt="${title}"></td>
+                                <td>${addr1}</td>
+                                <td>${addr2}</td>
+                                <td>${mapx}</td>
+                                <td>${mapy}</td>
+                            </tr>`;
+        }
+        dom.innerHTML = content;
+      } else {
+        console.error("Error fetching data");
+      }
+    };
+    xhr.send();
+  }
+
+  window.onload = displayTouristAttraction;
+</script>
+</body>
+</html>

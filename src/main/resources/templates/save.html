@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/save" method="post">
+    제목: <input type="text" name="boardTitle"><br> <!--DTO의 있는 필드명과 반드시 일치해야함-->
+    작성자: <input type="text" name="boardWriter"><br> <!--필드명과 DTO의 이름이 같고 set이 있으면 스프링이 값을 알아서 담아준다.-->
+    비밀번호: <input type="text" name="boardPass"><br>
+    내용: <textarea name="boardContents" cols="30" rows="10"></textarea>
+    <input type="submit" value="작성">
+</form>
+</body>
+</html>

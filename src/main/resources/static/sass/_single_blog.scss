@@ -1,0 +1,36 @@
+/* 블로그 영역 스타일 정의 */
+.single_blog_post {
+    /* 링크 스타일 정의 */
+    .desc a {
+        font-size: 16px;
+        color: #232b2b !important;
+    }
+
+    /* 블로그 제목 및 이미지 스타일 정의 */
+    .single-post .blog_details h3.custom-blog-title {
+        margin-bottom: 20px !important; /* 제목과 이미지 사이의 간격 조정 */
+        font-size: 2rem !important;     /* 제목 폰트 크기 */
+        font-weight: bold !important;   /* 제목 폰트 굵기 */
+        color: #ff8b23;                 /* 제목 폰트 색상 */
+        text-align: center;             /* 제목 가운데 정렬 */
+    }
+
+
+        .feature-img {
+            margin-bottom: 30px; /* 이미지 하단 여백 설정 */
+        }
+    }
+
+/* 반응형 스타일 - 작은 모바일 */
+@media (max-width: 576px) {
+    .single-post .blog_details h3.custom-blog-title {
+        font-size: 1.5rem; /* 작은 화면에서 글자 크기 줄이기 */
+    }
+}
+
+/* 반응형 스타일 - 큰 모바일 */
+@media (max-width: 768px) {
+    .single-post .blog_details h3.custom-blog-title {
+        font-size: 1.75rem; /* 중간 크기의 화면에서 글자 크기 조절 */
+    }
+}
