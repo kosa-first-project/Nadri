@@ -1,39 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-    <title>Martine</title>
-    <link rel="icon" href="img/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <!-- themify CSS -->
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="css/flaticon.css">
-    <!-- fontawesome CSS -->
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
-    <!-- magnific CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/gijgo.min.css">
-    <!-- niceselect CSS -->
-    <link rel="stylesheet" href="css/nice-select.css">
-    <!-- slick CSS -->
-    <link rel="stylesheet" href="css/slick.css">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <!--/*header 추가*/-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가이드 활동 정보</title>
     <style>
 
@@ -126,31 +95,9 @@
             background-color: #0056b3;
         }
     </style>
-
 </head>
 <body>
 
-
-
-<!--::header part start::-->
-<div th:replace="fragments/header_thymeleaf"></div>
-<!-- Header part end-->
-
-
-<section class="breadcrumb breadcrumb_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb_iner">
-                    <div class="breadcrumb_iner_item text-center">
-                        <h2>가이드 구하기</h2>
-                        <p>지역별 가이드를 만나보세요!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <div id="containerUnique">
     <h1 id="headerTitle">가이드 활동 정보</h1>
 
@@ -327,41 +274,7 @@
     }
 
     fetchGuideData();
-
-
-
-
 </script>
-<!-- jquery plugins here-->
-<script src="js/jquery-1.12.1.min.js"></script>
-<!-- popper js -->
-<script src="js/popper.min.js"></script>
-<!-- bootstrap js -->
-<script src="js/bootstrap.min.js"></script>
-<!-- magnific js -->
-<script src="js/jquery.magnific-popup.js"></script>
-<!-- swiper js -->
-<script src="js/owl.carousel.min.js"></script>
-<!-- masonry js -->
-<script src="js/masonry.pkgd.js"></script>
-<!-- masonry js -->
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/gijgo.min.js"></script>
-<!-- contact js -->
-<script src="js/jquery.ajaxchimp.min.js"></script>
-<script src="js/jquery.form.js"></script>
-<script src="js/jquery.validate.min.js"></script>
-<script src="js/mail-script.js"></script>
-<script src="js/contact.js"></script>
-<!-- custom js -->
-<script src="js/custom.js"></script>
-
-
-
-<!-- footer part start-->
-<div th:replace="~{fragments/footer_thymeleaf}"></div>
-<!-- footer part end-->
-
 
 </body>
 </html>
