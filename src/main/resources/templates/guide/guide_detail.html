@@ -97,12 +97,21 @@
         <h4>상세 내역</h4>
         <p id="detailDescription" th:text="${guide.text}"></p>
     </div>
+
+    <input type="hidden" id="guideInfoId" th:value="${guide.guideInfoId}" />
+
     <div class="button-container">
-        <button class="button">신청하기</button>
-        <button class="button cancel" onclick="window.history.back();">취소</button>
+        <button type="button" class="button" onclick="applyForTravel()">신청하기</button>
+        <button type="button" class="button cancel" onclick="window.history.back();">취소</button>
     </div>
 </div>
 
+<script>
+    function applyForTravel() {
+        const guideInfoId = document.getElementById('guideInfoId').value; // 히든 필드에서 ID 값을 가져옴
+        window.location.href = `/travelerForm?guide=${guideInfoId}`; // URL로 이동
+    }
+</script>
 <script>
 /*
     async function fetchGuideDetails(id) {

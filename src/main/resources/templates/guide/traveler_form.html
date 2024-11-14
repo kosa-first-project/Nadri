@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,6 +73,9 @@
     <h1>여행 신청 폼</h1>
 
     <form id="travelRequestForm">
+        <input type="hidden" id="guideInfoId" name="guideInfoId" value="${guideInfoId}">
+
+
         <div class="form-group">
             <label for="startDate">여행 시작일:</label>
             <input type="date" id="startDate" name="startDate" required>
